@@ -1,0 +1,169 @@
+\begin{Uebung}{(Normal Logic Programs)}
+Determine the stable models of the following normal logic programs.
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{sprinkler} & \naf{\mathit{rain}}
+\\
+\mathit{rain}      & \naf{\mathit{sprinkler}}
+\\
+\mathit{wet}       & \mathit{rain}
+\\
+\mathit{wet}       & \mathit{sprinkler}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{diet}   & \naf{\mathit{sugar}}
+\\
+\mathit{coffee} & \naf{\mathit{tea}}
+\\
+\mathit{lemon}  & \mathit{tea}
+\\
+\mathit{sugar}  & \mathit{coffee}
+\\
+\mathit{milk}   & \mathit{coffee}, \mathit{sugar}
+\\
+\mathit{tea}    & \mathit{lemon}
+\\
+\mathit{tea}    & \mathit{diet}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{dress}    & \naf{\mathit{shirt}}
+\\
+\mathit{shirt}    & \naf{\mathit{dress}}
+\\
+\mathit{sandals}  & \naf{\mathit{sneakers}}
+\\
+\mathit{sneakers} & \naf{\mathit{sandals}}
+\\
+\mathit{pants}    & \mathit{sneakers}
+\\
+\mathit{skirt}    & \mathit{shirt}, \mathit{sandals}
+\\
+\mathit{sandals}  & \mathit{dress}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{asparagus} & \naf{\mathit{cabbage}}
+\\
+\mathit{cabbage}   & \naf{\mathit{asparagus}}
+\\
+\mathit{red}       & \naf{\mathit{white}}
+\\
+\mathit{meat}      & \mathit{cabbage}
+\\
+\mathit{meat}      & \mathit{red}
+\\
+\mathit{fish}      & \mathit{asparagus}
+\\
+\mathit{asparagus} & \mathit{fish}, \mathit{white}
+\\
+\mathit{white}     & \mathit{fish} % \mathit{asparagus}, \mathit{fish}
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}\textnormal{%
+\begin{UList}
+\item
+% Models:
+% \begin{itemize}
+% \item $\{\mathit{rain},\mathit{wet}\}$
+% \item $\{\mathit{sprinkler},\mathit{wet}\}$
+% \item $\{\mathit{rain},\mathit{sprinkler},\mathit{wet}\}$
+% \end{itemize}
+Stable Models:
+\begin{itemize}
+\item $\{\mathit{rain},\mathit{wet}\}$
+\item $\{\mathit{sprinkler},\mathit{wet}\}$
+\end{itemize}
+%
+\item
+% Models:
+% \begin{itemize}
+% \item $\{\mathit{coffee},\mathit{sugar},\mathit{milk}\}$
+% \item $\{\mathit{coffee},\mathit{sugar},\mathit{milk},\mathit{tea},\mathit{lemon}\}$
+% \item $\{\mathit{coffee},\mathit{sugar},\mathit{milk},\mathit{tea},\mathit{lemon},\mathit{diet}\}$
+% \item $\{\mathit{tea},\mathit{lemon},\mathit{diet}\}$
+% \item $\{\mathit{tea},\mathit{lemon},\mathit{diet},\mathit{sugar}\}$
+% \item $\{\mathit{tea},\mathit{lemon},\mathit{diet},\mathit{milk}\}$
+% \item $\{\mathit{tea},\mathit{lemon},\mathit{diet},\mathit{sugar},\mathit{milk}\}$
+% \item $\{\mathit{tea},\mathit{lemon},\mathit{sugar}\}$
+% \item $\{\mathit{tea},\mathit{lemon},\mathit{sugar},\mathit{milk}\}$
+% \end{itemize}
+Stable Models:
+\begin{itemize}
+\item $\{\mathit{coffee},\mathit{sugar},\mathit{milk}\}$
+\item $\{\mathit{tea},\mathit{lemon},\mathit{diet}\}$
+\end{itemize}
+%
+\item
+% Models:
+% \begin{itemize}
+% \item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants}\}$
+% \item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants},\mathit{skirt}\}$
+% \item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants},\mathit{skirt},\mathit{sandals}\}$
+% \item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants},\mathit{skirt},\mathit{sandals},\mathit{dress}\}$
+% \item $\{\mathit{shirt},\mathit{sandals},\mathit{skirt}\}$
+% \item $\{\mathit{shirt},\mathit{sandals},\mathit{skirt},\mathit{pants}\}$
+% \item $\{\mathit{shirt},\mathit{sandals},\mathit{skirt},\mathit{dress}\}$
+% \item $\{\mathit{shirt},\mathit{sandals},\mathit{skirt},\mathit{pants},\mathit{dress}\}$
+% \item $\{\mathit{dress},\mathit{sandals}\}$
+% \item $\{\mathit{dress},\mathit{sandals},\mathit{pants}\}$
+% \item $\{\mathit{dress},\mathit{sandals},\mathit{skirt}\}$
+% \item $\{\mathit{dress},\mathit{sandals},\mathit{pants},\mathit{skirt}\}$
+% \item $\{\mathit{dress},\mathit{sandals},\mathit{sneakers},\mathit{pants}\}$
+% \item $\{\mathit{dress},\mathit{sandals},\mathit{sneakers},\mathit{pants},\mathit{skirt}\}$
+% \end{itemize}
+Stable Models:
+\begin{itemize}
+\item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants}\}$
+\item $\{\mathit{shirt},\mathit{sandals},\mathit{skirt}\}$
+\item $\{\mathit{dress},\mathit{sandals}\}$
+\end{itemize}
+%
+\item
+% Models:
+% \begin{itemize}
+% \item $\{\mathit{red},\mathit{meat},\mathit{cabbage}\}$
+% \item $\{\mathit{red},\mathit{meat},\mathit{cabbage},\mathit{white}\}$
+% \item $\{\mathit{red},\mathit{meat},\mathit{cabbage},\mathit{white},\mathit{fish},\mathit{asparagus}\}$
+% \item $\{\mathit{red},\mathit{meat},\mathit{fish},\mathit{asparagus},\mathit{white}\}$
+% \item $\{\mathit{white},\mathit{meat},\mathit{cabbage}\}$
+% \item $\{\mathit{white},\mathit{meat},\mathit{cabbage},\mathit{fish},\mathit{asparagus}\}$
+% \item $\{\mathit{white},\mathit{meat},\mathit{fish},\mathit{asparagus}\}$
+% \item $\{\mathit{white},\mathit{fish},\mathit{asparagus}\}$
+% \end{itemize}
+Stable Models:
+\begin{itemize}
+\item $\{\mathit{red},\mathit{meat},\mathit{cabbage}\}$
+\item $\{\mathit{white},\mathit{fish},\mathit{asparagus}\}$
+\end{itemize}
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise03"
+%%% End: 

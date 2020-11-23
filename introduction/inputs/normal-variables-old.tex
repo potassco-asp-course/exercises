@@ -1,0 +1,122 @@
+\begin{Uebung}{(Normal Logic Programs with Variables)}%
+Determine the stable models of the following normal logic programs with variables.
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{sparrow}(\mathit{jack})        \\
+    \mathit{penguin}(\mathit{tweety})      \\
+    \mathit{bird}(X)  & \mathit{sparrow}(X) \\
+    \mathit{bird}(X)  & \mathit{penguin}(X) \\
+    \mathit{flies}(X) & \mathit{bird}(X), \naf{\mathit{penguin}(X)}
+\end{array}
+\right\}
+\)
+\item 
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,0) \\
+    \mathit{even}(X) & \naf{\mathit{odd}(X)} \\
+    \mathit{odd}(Y)  & \mathit{next}(X,Y), \mathit{even}(X)
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,2) \\
+    \mathit{next}(2,0) \\
+    \mathit{select}(X)   & \mathit{next}(X,Y), \naf{\mathit{select}(Y)}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{friend}(\mathit{alice},\mathit{bob})  \\
+    \mathit{friend}(\mathit{bob},\mathit{alice})  \\
+    \mathit{friend}(\mathit{eve},\mathit{alice})  \\
+    \mathit{refuse}(X) & \naf{\mathit{invite}(X)} \\
+    \mathit{invite}(X) & \naf{\mathit{refuse}(X)} \\
+    \mathit{invite}(Y) & \mathit{invite}(X), \mathit{friend}(X,Y)
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\textnormal{%
+\begin{UList}
+\item
+Stable Models:
+\begin{itemize}
+\item $\{\mathit{sparrow}(\mathit{jack}),
+         \mathit{penguin}(\mathit{tweety}),
+         \mathit{bird}(\mathit{jack}),
+         \mathit{bird}(\mathit{tweety}),
+         \mathit{flies}(\mathit{jack})\}$
+\end{itemize}
+\item
+Stable Models:
+\begin{itemize}
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1)\}$
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(1),\mathit{odd}(0)\}$
+\end{itemize}
+\item
+Stable Models: None
+\newpage
+\item
+Stable Models:
+\begin{itemize}
+\item $\left\{
+       \begin{array}{@{}l@{}}
+         \mathit{friend}(\mathit{alice},\mathit{bob}),
+         \mathit{friend}(\mathit{bob},\mathit{alice}),
+         \mathit{friend}(\mathit{eve},\mathit{alice}),
+       {} \\
+         \mathit{refuse}(\mathit{alice}),
+         \mathit{refuse}(\mathit{bob}),
+         \mathit{refuse}(\mathit{eve})
+       \end{array}
+       \right\}$
+\item $\left\{
+       \begin{array}{@{}l@{}}
+         \mathit{friend}(\mathit{alice},\mathit{bob}),
+         \mathit{friend}(\mathit{bob},\mathit{alice}),
+         \mathit{friend}(\mathit{eve},\mathit{alice}),
+       {} \\
+         \mathit{invite}(\mathit{alice}),
+         \mathit{invite}(\mathit{bob}),
+         \mathit{refuse}(\mathit{eve})
+       \end{array}
+       \right\}$
+\item $\left\{
+       \begin{array}{@{}l@{}}
+         \mathit{friend}(\mathit{alice},\mathit{bob}),
+         \mathit{friend}(\mathit{bob},\mathit{alice}),
+         \mathit{friend}(\mathit{eve},\mathit{alice}),
+       {} \\
+         \mathit{invite}(\mathit{alice}),
+         \mathit{invite}(\mathit{bob}),
+         \mathit{invite}(\mathit{eve})
+       \end{array}
+       \right\}$
+\end{itemize}
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise03"
+%%% End: 

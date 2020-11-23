@@ -1,0 +1,276 @@
+\begin{Uebung}{(Positive Logic Programs with Variables)}%
+Determine the Herbrand universe $\mathcal{T}$,
+the Herbrand base $\mathcal{A}$,
+the ground instantiation,
+and the stable models of the following
+positive logic programs with variables.
+
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{fish}(\mathit{blinky})        \\
+    \mathit{bird}(\mathit{tweety})      \\
+%     \mathit{bird}(X)  & \mathit{sparrow}(X) \\
+%     \mathit{bird}(X)  & \mathit{penguin}(X) \\
+%     \mathit{bird}(X)  & \mathit{vulture}(X) \\
+    \mathit{flies}(X) & \mathit{bird}(X) % , \naf{\mathit{penguin}(X)}
+\end{array}
+\right\}
+\)
+\item 
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,0) \\
+    \mathit{even}(0)  \\
+    \mathit{even}(Y) & \mathit{next}(X,Y), \mathit{odd}(X)  \\
+    \mathit{odd}(Y)  & \mathit{next}(X,Y), \mathit{even}(X)
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{friend}(\mathit{alice},\mathit{bob})  \\
+    \mathit{friend}(\mathit{bob},\mathit{alice})  \\
+    \mathit{friend}(\mathit{eve},\mathit{alice})  \\
+    \mathit{invite}(\mathit{alice})  \\
+%     \mathit{invite}(X) & \naf{\mathit{refuse}(X)} \\
+%     \mathit{refuse}(X) & \naf{\mathit{invite}(X)} \\
+    \mathit{invite}(Y) & \mathit{invite}(X), \mathit{friend}(X,Y)
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,2) \\
+    \mathit{before}(X)   & \mathit{next}(X,Y) \\
+    \mathit{between}(Y)  & \mathit{next}(X,Y), \mathit{before}(Y)
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}\textnormal{%
+\begin{UList}
+\item
+Herbrand Universe $\mathcal{T}$ = $\{blinky, tweety\}$
+\\
+Herbrand Base:
+\begin{itemize}\item[]
+\(
+\mathcal{A} 
+= \left\{
+\begin{array}{l}
+\mathit{fish}(\mathit{blinky}), \mathit{fish}(\mathit{tweety}), \\
+\mathit{bird}(\mathit{blinky}), \mathit{bird}(\mathit{tweety}), \\
+\mathit{flies}(\mathit{blinky}), \mathit{flies}(\mathit{tweety})
+\end{array}
+\right\}
+\)
+\end{itemize}
+Ground instantiation:
+\begin{itemize}\item[]
+\(
+ground(P) =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{fish}(\mathit{blinky})        \\
+    \mathit{bird}(\mathit{tweety})      \\
+%     \mathit{bird}(X)  & \mathit{sparrow}(X) \\
+%     \mathit{bird}(X)  & \mathit{penguin}(X) \\
+%     \mathit{bird}(X)  & \mathit{vulture}(X) \\
+    \mathit{flies}(\mathit{blinky}) & \mathit{bird}(\mathit{blinky}) \\ % , \naf{\mathit{penguin}(X)}
+    \mathit{flies}(\mathit{tweety}) & \mathit{bird}(\mathit{tweety}) \\ % , \naf{\mathit{penguin}(X)}
+\end{array}
+\right\}
+\)
+\end{itemize}
+Stable Models: 
+\begin{itemize}
+\item
+$\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety})\}$
+\end{itemize}
+%
+\item
+Herbrand Universe $\mathcal{T}$ = $\{0,1\}$
+\\
+Herbrand Base:
+\begin{itemize}\item[]
+\(
+\mathcal{A} 
+= \left\{
+\begin{array}{l}
+\mathit{next}(0,0),  \mathit{next}(0,1), \mathit{next}(1,0), \mathit{next}(1,1) \\
+\mathit{even}(0), \mathit{even}(1),  \mathit{odd}(0), \mathit{odd}(1)
+\end{array}
+\right\}
+\)
+\end{itemize}
+Ground instantiation:
+\begin{itemize}\item[]
+\(
+ground(P) =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,0) \\
+    \mathit{even}(0)  \\
+    \mathit{even}(0) & \mathit{next}(0,0), \mathit{odd}(0)  \\
+    \mathit{even}(1) & \mathit{next}(0,1), \mathit{odd}(0)  \\
+    \mathit{even}(0) & \mathit{next}(1,0), \mathit{odd}(1)  \\
+    \mathit{even}(1) & \mathit{next}(1,1), \mathit{odd}(1)  \\
+    \mathit{odd}(0)  & \mathit{next}(0,0), \mathit{even}(0) \\
+    \mathit{odd}(1)  & \mathit{next}(0,1), \mathit{even}(0) \\
+    \mathit{odd}(0)  & \mathit{next}(1,0), \mathit{even}(1) \\
+    \mathit{odd}(1)  & \mathit{next}(1,1), \mathit{even}(1) \\
+\end{array}
+\right\}
+\)
+\end{itemize}
+Stable Models: 
+\begin{itemize}
+\item
+$\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1)\}$
+\end{itemize}
+%
+\item
+Herbrand Universe $\mathcal{T}$ = $\{alive, bob, eve\}$
+\\
+Herbrand Base:
+\begin{itemize}\item[]
+\(
+\mathcal{A} 
+= \left\{
+\begin{array}{l}
+\mathit{friend}(\mathit{alice},\mathit{alice}),
+\mathit{friend}(\mathit{alice},\mathit{bob}),
+\mathit{friend}(\mathit{alice},\mathit{eve}),\\
+\mathit{friend}(\mathit{bob},\mathit{alice}),
+\mathit{friend}(\mathit{bob},\mathit{bob}),
+\mathit{friend}(\mathit{bob},\mathit{eve}),\\
+\mathit{friend}(\mathit{eve},\mathit{alice}),
+\mathit{friend}(\mathit{eve},\mathit{bob}),
+\mathit{friend}(\mathit{eve},\mathit{eve}),\\
+\mathit{invite}(\mathit{alice}),
+\mathit{invite}(\mathit{bob}),
+\mathit{invite}(\mathit{eve})
+\end{array}
+\right\}
+\)
+\end{itemize}
+Ground instantiation:
+\begin{itemize}\item[]
+\(
+ground(P) =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{friend}(\mathit{alice},\mathit{bob})  \\
+    \mathit{friend}(\mathit{bob},\mathit{alice})  \\
+    \mathit{friend}(\mathit{eve},\mathit{alice})  \\
+    \mathit{invite}(\mathit{alice})  \\
+%     \mathit{invite}(X) & \naf{\mathit{refuse}(X)} \\
+%     \mathit{refuse}(X) & \naf{\mathit{invite}(X)} \\
+    \mathit{invite}(alice) & \mathit{invite}(alice), \mathit{friend}(alice,alice) \\
+    \mathit{invite}(bob) & \mathit{invite}(alice), \mathit{friend}(alice,bob) \\
+    \mathit{invite}(eve) & \mathit{invite}(alice), \mathit{friend}(alice,eve) \\
+    \mathit{invite}(alice) & \mathit{invite}(bob), \mathit{friend}(bob,alice) \\
+    \mathit{invite}(bob) & \mathit{invite}(bob), \mathit{friend}(bob,bob) \\
+    \mathit{invite}(eve) & \mathit{invite}(bob), \mathit{friend}(bob,eve) \\
+    \mathit{invite}(alice) & \mathit{invite}(eve), \mathit{friend}(eve,alice) \\
+    \mathit{invite}(bob) & \mathit{invite}(eve), \mathit{friend}(eve,bob) \\
+    \mathit{invite}(eve) & \mathit{invite}(eve), \mathit{friend}(eve,eve) \\
+\end{array}
+\right\}
+\)
+\end{itemize}
+Stable Models: 
+\begin{itemize}
+\item
+\(\left\{\begin{array}{@{}l@{}}
+\mathit{friend}(\mathit{alice},\mathit{bob}),\mathit{friend}(\mathit{bob},\mathit{alice}),\mathit{friend}(\mathit{eve},\mathit{alice}),{}\\\mathit{invite}(\mathit{alice}),\mathit{invite}(\mathit{bob})
+\end{array}\right\}\)
+\end{itemize}
+%
+\item
+Herbrand Universe $\mathcal{T}$ = $\{0,1,2\}$
+\\
+Herbrand Base:
+\begin{itemize}\item[]
+\(
+\mathcal{A} 
+= \left\{
+\begin{array}{l}
+\mathit{next}(0,0),
+\mathit{next}(0,1),
+\mathit{next}(0,2), \\
+\mathit{next}(1,0),
+\mathit{next}(1,1),
+\mathit{next}(1,2), \\
+\mathit{next}(2,0),
+\mathit{next}(2,1),
+\mathit{next}(2,2), \\
+\mathit{before}(0), 
+\mathit{before}(1), 
+\mathit{before}(2), \\
+\mathit{between}(0), 
+\mathit{between}(1), 
+\mathit{between}(2)
+\end{array}
+\right\}
+\)
+\end{itemize}
+Ground instantiation:
+\begin{itemize}\item[]
+\(
+ground(P) =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,2) \\
+    \mathit{before}(0)   & \mathit{next}(0,0) \\
+    \mathit{before}(0)   & \mathit{next}(0,1) \\
+    \mathit{before}(0)   & \mathit{next}(0,2) \\
+    \mathit{before}(1)   & \mathit{next}(1,0) \\
+    \mathit{before}(1)   & \mathit{next}(1,1) \\
+    \mathit{before}(1)   & \mathit{next}(1,2) \\
+    \mathit{before}(2)   & \mathit{next}(2,0) \\
+    \mathit{before}(2)   & \mathit{next}(2,1) \\
+    \mathit{before}(2)   & \mathit{next}(2,2) \\
+    \mathit{between}(0)  & \mathit{next}(0,0), \mathit{before}(0) \\
+    \mathit{between}(1)  & \mathit{next}(0,1), \mathit{before}(1) \\
+    \mathit{between}(2)  & \mathit{next}(0,2), \mathit{before}(2) \\
+    \mathit{between}(0)  & \mathit{next}(1,0), \mathit{before}(0) \\
+    \mathit{between}(1)  & \mathit{next}(1,1), \mathit{before}(1) \\
+    \mathit{between}(2)  & \mathit{next}(1,2), \mathit{before}(2) \\
+    \mathit{between}(0)  & \mathit{next}(2,0), \mathit{before}(0) \\
+    \mathit{between}(1)  & \mathit{next}(2,1), \mathit{before}(1) \\
+    \mathit{between}(2)  & \mathit{next}(2,2), \mathit{before}(2) \\
+\end{array}
+\right\}
+\)
+\end{itemize}
+Stable Models: 
+\begin{itemize}
+\item
+\(\left\{\mathit{next}(0,1),\mathit{next}(1,2),\mathit{before}(0),\mathit{before}(1),\mathit{between}(1)\right\}\)
+\end{itemize}
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise01"
+%%% End: 

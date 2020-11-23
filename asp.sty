@@ -1,0 +1,43 @@
+\usepackage{ifthen}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Metaangaben
+
+\Universitaet{University of Potsdam}
+\Vorlesung{Answer Set Solving in Practice}
+\Veranstalter{Torsten Schaub, Javier Romero, Etienne Tignon}
+\Semester{Winter Semester 2020/2021}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatierung
+
+%\newcommand{\code}[1]{\texttt{#1}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Praktikumsaufgabe
+
+\newenvironment{PraktikumsAufgabe}[2]%
+ {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
+  \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
+  \setcounter{UeBlatt}{#1}
+  \markboth{Project \arabic{UeBlatt}}{\@vorlesung}
+  \noindent
+  {\setlength{\unitlength}{1mm}
+   \begin{picture}(159,17)
+    \put(0,18){\parbox[l]{\textwidth}{
+     \begin{center}
+      %{\scriptsize Project}                   \medskip\\
+      {\LARGE\bf   \@vorlesung}                             \medskip\\
+      {\scriptsize \@veranst}                                       \\
+      {\scriptsize \@universitaet\ --- \@semester}                  \\
+      {\scriptsize Project \arabic{UeBlatt} #2}     \\
+     \end{center} }}
+    \multiput(0,1)(0,0.5){2}{\line(1,0){160}}
+   \end{picture}
+  }\par
+ }%
+ { \newpage }

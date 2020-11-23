@@ -1,0 +1,123 @@
+\begin{Uebung}{(Positive Logic Programs)}
+Determine the models of the following positive logic programs
+and decide which models are stable.
+
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{rain}
+\\
+\mathit{wet} & \mathit{rain}
+\\
+\mathit{wet} & \mathit{sprinkler}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{coffee}
+\\
+\mathit{lemon} & \mathit{tea}
+\\
+\mathit{sugar} & \mathit{coffee}
+\\
+\mathit{milk}  & \mathit{coffee}, \mathit{sugar}
+\\
+\mathit{tea}   & \mathit{lemon}
+\\
+\mathit{tea}   & \mathit{diet}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{shirt}
+\\
+\mathit{sneakers}
+\\
+\mathit{pants}   & \mathit{sneakers}
+\\
+\mathit{skirt}   & \mathit{shirt}, \mathit{sandals}
+\\
+\mathit{sandals} & \mathit{dress}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{red}
+\\
+\mathit{meat}      & \mathit{cabbage}
+\\
+\mathit{meat}      & \mathit{red}
+\\
+\mathit{fish}      & \mathit{asparagus}
+\\
+\mathit{asparagus} & \mathit{fish}, \mathit{white}
+\\
+\mathit{white}     & \mathit{fish} % \mathit{asparagus}, \mathit{fish}
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}\textnormal{%
+\begin{UList}
+\item
+Models:
+\begin{itemize}
+\item $\{\mathit{rain},\mathit{wet}\}$
+\item $\{\mathit{rain},\mathit{wet},\mathit{sprinkler}\}$
+\end{itemize}
+Stable Model: $\{\mathit{rain},\mathit{wet}\}$
+%
+\item
+Models:
+\begin{itemize}
+\item $\{\mathit{coffee},\mathit{sugar},\mathit{milk}\}$
+\item $\{\mathit{coffee},\mathit{sugar},\mathit{milk},\mathit{tea},\mathit{lemon}\}$
+\item $\{\mathit{coffee},\mathit{sugar},\mathit{milk},\mathit{tea},\mathit{lemon},\mathit{diet}\}$
+\end{itemize}
+Stable Model: $\{\mathit{coffee},\mathit{sugar},\mathit{milk}\}$
+%
+\item
+Models:
+\begin{itemize}
+\item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants}\}$
+\item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants},\mathit{skirt}\}$
+\item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants},\mathit{skirt},\mathit{sandals}\}$
+\item $\{\mathit{shirt},\mathit{sneakers},\mathit{pants},\mathit{skirt},\mathit{sandals},\mathit{dress}\}$
+\end{itemize}
+Stable Model: $\{\mathit{shirt},\mathit{sneakers},\mathit{pants}\}$
+%
+\item
+Models:
+\begin{itemize}
+\item $\{\mathit{red},\mathit{meat}\}$
+\item $\{\mathit{red},\mathit{meat},\mathit{cabbage}\}$
+\item $\{\mathit{red},\mathit{meat},\mathit{white}\}$
+\item $\{\mathit{red},\mathit{meat},\mathit{white},\mathit{cabbage}\}$
+\item $\{\mathit{red},\mathit{meat},\mathit{white},\mathit{fish},\mathit{asparagus}\}$
+\item $\{\mathit{red},\mathit{meat},\mathit{white},\mathit{fish},\mathit{asparagus},\mathit{cabbage}\}$
+\end{itemize}
+Stable Model: $\{\mathit{red},\mathit{meat}\}$
+\end{UList}}\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise01"
+%%% End: 

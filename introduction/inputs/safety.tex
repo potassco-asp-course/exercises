@@ -1,0 +1,114 @@
+\begin{Uebung}{(Safety)}%
+Determine which rules of the following programs are not safe. 
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{sparrow}(\mathit{jack})        \\
+    \mathit{penguin}(\mathit{tweety})      \\
+    \mathit{bird}(X)  & \mathit{sparrow}(X) \\
+    \mathit{bird}(X)  & \mathit{penguin}(X) \\
+    \mathit{animal}(X)        \\
+    \mathit{flies}(X) & \naf{\mathit{penguin}(X)}\\
+\end{array}
+\right\}
+\)
+\item 
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,0) \\
+    \mathit{greater\_equal}(1,X) \\
+    \mathit{even}(X) & \naf{\mathit{odd}(X)} \\
+    \mathit{odd}(Y)  & \mathit{next}(X,Y), \mathit{even}(X), \naf{\mathit{odd}(X)}\\
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,2) \\
+    \mathit{next}(2,0) \\
+    \mathit{select}(X)   & \naf{\mathit{next}(X,Y)}, \naf{\mathit{select}(Y)}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{friend}(\mathit{alice},\mathit{bob})  \\
+    \mathit{friend}(\mathit{bob},\mathit{alice})  \\
+    \mathit{friend}(\mathit{eve},X)  \\
+    \mathit{refuse}(X) & \naf{\mathit{invite}(X)} \\
+    \mathit{invite}(X) & \naf{\mathit{refuse}(X)} \\
+    \mathit{invite}(Y) & \mathit{invite}(X), \naf{\mathit{friend}(X,Y)}
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\textnormal{%
+\begin{UList}
+\item
+The following rules are not safe:
+\begin{itemize}
+\item[]
+\(
+\begin{array}{r@{{}\leftarrow{}}l}
+ \mathit{animal}(X)        \\
+ \mathit{flies}(X) & \naf{\mathit{penguin}(X)}\\
+\end{array}
+\)
+\end{itemize}
+\item
+The following rules are not safe:
+\begin{itemize}
+\item[]
+\(
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{greater\_equal}(1,X) \\
+    \mathit{even}(X) & \naf{\mathit{odd}(X)} \\
+\end{array}
+\)
+\end{itemize}
+\item
+The following rule is not safe:
+\begin{itemize}
+\item[]
+\(
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{select}(X)   & \naf{\mathit{next}(X,Y)}, \naf{\mathit{select}(Y)}
+\end{array}
+\)
+\end{itemize}
+\item
+The following rules are not safe:
+\begin{itemize}
+\item[]
+\(
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{friend}(\mathit{eve},X)  \\
+    \mathit{refuse}(X) & \naf{\mathit{invite}(X)} \\
+    \mathit{invite}(X) & \naf{\mathit{refuse}(X)} \\
+    \mathit{invite}(Y) & \mathit{invite}(X), \naf{\mathit{friend}(X,Y)}
+\end{array}
+\)
+\end{itemize}
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise03"
+%%% End: 

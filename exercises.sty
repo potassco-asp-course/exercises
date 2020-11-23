@@ -1,0 +1,544 @@
+%\input{article.sty}
+%\input{fleqn.sty}
+%\input{german.sty}
+
+\def\ulfoot{}
+% Definition of 'ulheadings' page style.  
+%
+\def\ps@ulheadings{\let\@mkboth\@gobbletwo
+ \def\@oddhead{\vbox{\hbox to \textwidth{\sl\rightmark \hfil
+  \rm\thepage\hfil\sl\leftmark}\kern 1mm \hrule depth0.5pt}}%
+ \def\@evenhead{\vbox{\hbox to \textwidth{\sl\rightmark \hfil
+  \rm\thepage\hfil\sl\leftmark}\kern 1mm \hrule depth0.5pt}}%
+ \def\@oddfoot{\ulfoot}
+ \def\@evenfoot{\ulfoot}
+ \def\sectionmark##1{}
+ \def\subsectionmark##1{}}
+
+% Definition of 'firstfeet' page style.  
+%
+\def\ps@firstfeet{\let\@mkboth\@gobbletwo
+ \def\@oddhead{}        \def\@evenhead{}
+ \def\@oddfoot{\ulfoot} \def\@evenfoot{\ulfoot}
+ \def\sectionmark##1{}  \def\subsectionmark##1{}}
+
+
+% Definition of 'feet' page style.  
+%
+\def\ps@feet{\let\@mkboth\markboth
+\def\@oddfoot{\hbox to \textwidth{\sl\rightmark \hfil \rm\thepage}}%
+\def\@evenfoot{\hbox to \textwidth{\rm \thepage\hfil\sl\\leftmark}}%
+\def\@oddhead{}\def\@evenhead{}\def\sectionmark##1{}\def\subsectionmark##1{}}
+
+
+\pagestyle{ulheadings}
+
+
+%------------------------------------------------------------------------------
+\setlength{\textwidth}{160mm}    \setlength{\textheight}{240mm}
+\setlength{\parindent}{1Em}      \setlength{\parskip}{1ex}
+\setlength{\topmargin}{0mm}
+\setlength{\headheight}{5.4mm}   \setlength{\headsep}{8mm} 
+%\setlength{\footheight}{5mm}     
+\setlength{\footskip}{8mm} 
+\setlength{\evensidemargin}{0mm} \setlength{\oddsidemargin}{0mm}
+%------------------------------------------------------------------------------
+\setlength{\unitlength}{1pt}
+%------------------------------------------------------------------------------
+%\setlectlanguage{\german}
+%------------------------------------------------------------------------------
+
+\newcounter{UeBlatt}  \setcounter{UeBlatt}{0}
+\newcounter{UeNumber} \setcounter{UeNumber}{0}
+\newcounter{UeItemI}  \setcounter{UeItemI}{0}
+\newcounter{SelbstUeItemI}  \setcounter{UeItemI}{\value{UeItemI}}
+\newcounter{UeDef}    \setcounter{UeDef}{1}
+\newcounter{QNumber}      \setcounter{QNumber}{1000}     % added for numbering Quizs
+\newcounter{StoreQNumber} \setcounter{StoreQNumber}{100}
+
+\def\Universitaet#1{\def\@universitaet{#1}}
+ \def\@universitaet{University of Potsdam}
+
+\def\Vorlesung#1{\def\@vorlesung{#1}} \def\@vorlesung{}
+\def\Veranstalter#1{\def\@veranst{#1}} \def\@veranst{}
+\def\Semester#1{\def\@semester{#1}} \def\@semester{}
+
+\newenvironment{UebungsBlatt}[2]%
+ {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
+  \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
+  \setcounter{UeBlatt}{#1}
+  \markboth{Exercise \arabic{UeBlatt}}{\@vorlesung}
+  \noindent
+  {\setlength{\unitlength}{1mm}
+   \begin{picture}(159,17)
+    \put(0,18){\parbox[l]{\textwidth}{
+     \begin{center}
+      {\scriptsize Exercises}                   \medskip\\
+      {\LARGE\bf   \@vorlesung}                             \medskip\\
+      {\scriptsize \@veranst}                                       \\
+      {\scriptsize \@universitaet\ --- \@semester}                  \\
+      {\scriptsize Exercise \arabic{UeBlatt} #2}     \\
+     \end{center} }}
+    \multiput(0,1)(0,0.5){2}{\line(1,0){160}}
+   \end{picture}
+  }\par
+ }%
+ { \newpage }
+
+% allow many quizs, and number them
+\newenvironment{UebungsBlattManyQuizs}[2]%
+ {\setcounter{StoreQNumber}{1}\setcounter{QNumber}{0}
+  \begin{UebungsBlatt}{#1}{#2}}
+ {\end{UebungsBlatt}}
+
+\newenvironment{Uebung}[1]{%
+ \refstepcounter{UeNumber}
+ \bigskip\par\noindent{\large\bf Exercise \arabic{UeBlatt}.\arabic{UeNumber}}
+ {\small #1\ }\par\noindent\ignorespaces
+ }{}
+
+\newenvironment{SelbstUebung}[1]{%
+ \refstepcounter{UeNumber}
+ \bigskip\par\noindent{\large\bf Exercise \arabic{UeBlatt}.\arabic{UeNumber}$^{\displaystyle\ast}$}
+ {\small #1\ }\par\noindent\ignorespaces
+ }{}
+
+\newenvironment{SonderUebung}[1]{%
+ \bigskip\par\noindent\refstepcounter{UeNumber}%
+ {\large\bf Additional Task \arabic{UeBlatt}.\arabic{UeNumber}} #1 
+ \par\noindent\ignorespaces
+ }{}
+
+%------------------------------------------------------------------------------
+\newenvironment{LoesungsBlatt}%
+ {\newpage \setcounter{page}{1}  \setcounter{UeNumber}{0}
+  \markboth{Solution \arabic{UeBlatt}}{\@vorlesung}
+ }%
+ { \newpage }
+
+
+\newcommand{\Loesungen}{ \immediate\closeout\SolFile\input \jobname.sol}
+
+%\newenvironment{Loesung}{
+% \bigskip\par\noindent\refstepcounter{UeNumber}
+% {\large\bf L\"osung \arabic{UeBlatt}.\arabic{UeNumber}} \par\noindent
+% }{}
+
+\begingroup \catcode `|=0 \catcode `[= 1
+\catcode`]=2 \catcode `\{=12 \catcode `\}=12
+\catcode`\\=12 |gdef|@xsol[\end{Loesung}]
+|endgroup
+
+%\newcommand{\solution}[2]{
+\newcommand{\solution}[3]{
+  \setcounter{UeBlatt}{#1}  \setcounter{UeNumber}{#2}  %\setcounter{page}{1}
+  \setcounter{QNumber}{#3}  \addtocounter{QNumber}{-1} % added for numbering quizs
+  \bigskip\par\noindent\large\bf Solution% #1.#2.\arabic{QNumber} \normalsize\noindent }%
+    \ifnum \value{StoreQNumber}=\value{QNumber} {#1.#2} \else {} \fi 
+    \setcounter{StoreQNumber}{\value{QNumber}}
+  \normalsize\noindent }
+
+\newwrite\SolFile
+\immediate\openout\SolFile=\jobname.sol % file for answers to exercises
+\outer\def\Loesung{\par\medbreak\end{Loesung}
+  \immediate\write\SolFile{}
+  %\immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}}
+  \immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}{\arabic{QNumber}}}
+  \CopyLines}
+\def\CopyLines{\begingroup\setupcopy\copyans}
+\def\setupcopy{\def\do##1{\catcode`##1=12}\dospecials
+  \catcode`\|=12 \obeylines}
+{\obeylines \gdef\copyans#1
+  {\def\next{#1}%
+  \ifx\next\@xsol\let\next=\endgroup %
+  \else\immediate\write\SolFile{\next} \let\next=\copyans\fi\next}}
+
+\def\endLoesung{}
+
+
+
+%------------------------------------------------------------------------------
+\newenvironment{AnhangsBlatt}%
+ {\newpage \setcounter{page}{1}
+  \markboth{Appendix \arabic{UeBlatt}}{\@vorlesung}
+  \setcounter{UeNumber}{0}
+ }%
+ { \newpage }
+
+\newenvironment{Anhang}[1]{
+ \bigskip\par\noindent\refstepcounter{UeNumber}
+ {\large\bf Appendix \arabic{UeBlatt}.\arabic{UeNumber}}
+ {\small #1\ } \par\noindent
+ }{}
+
+\newenvironment{Definition}{
+ \bigskip\par\noindent
+ {\large\bf Definition \arabic{UeBlatt}.\arabic{UeDef}}
+ \refstepcounter{UeDef}\par\noindent
+ }{}
+
+\newtheorem{definition}{Definition}
+
+%------------------------------------------------------------------------------
+
+\newenvironment{Klausur}[2]%
+ {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
+  \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
+  \setcounter{UeBlatt}{#1}
+  \markboth{Exam}{\@vorlesung}
+  \noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,17)
+   \put(0,18){\parbox[l]{\textwidth}{
+    \begin{center}
+     {\scriptsize Exam}                \medskip\\
+     {\LARGE\bf   \@vorlesung}                             \medskip\\
+     {\scriptsize \@veranst}                                       \\
+     {\scriptsize \@universitaet\ --- \@semester}                  \\
+     {\scriptsize Date: #2}                                      \\
+    \end{center} }}
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture} }
+ }%
+ { \newpage }
+
+\newenvironment{Test}[2]%
+ {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
+  \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
+  \setcounter{UeBlatt}{#1}
+  \markboth{Test #1}{\@vorlesung}
+  \noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,17)
+   \put(0,18){\parbox[l]{\textwidth}{
+    \begin{center}
+     %{\scriptsize Kurztest #1 zur Vorlesung}                \medskip\\
+     {\scriptsize Test #1 }                \medskip\\
+     {\LARGE\bf   \@vorlesung}                             \medskip\\
+     {\scriptsize \@veranst}                                       \\
+     {\scriptsize \@universitaet\ --- \@semester}                  \\
+     {\scriptsize Date: #2}                                      \\
+    \end{center} }}
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture} }
+ }%
+ { \newpage }
+
+\newenvironment{Sammlung}[1]%
+ {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
+  \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
+  \setcounter{UeBlatt}{#1}
+  \markboth{Aufgabensammlung #1 }{Thema: \@vorlesung}
+  \noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,17)
+   \put(0,18){\parbox[l]{\textwidth}{
+    \begin{center}
+     {\scriptsize Aufgabensammlung #1 zum Thema} \medskip\\
+     {\LARGE\bf   \@vorlesung}                       \medskip\\
+     {\scriptsize \@veranst}                                 \\
+     {\scriptsize \@universitaet}
+    \end{center} }}
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture} }
+ }%
+ { \newpage }
+
+\newenvironment{Quiz}[2]%
+ {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
+  \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
+  \setcounter{UeBlatt}{#1}
+  \markboth{Quiz }{Vorlesung \@vorlesung}
+  \noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,17)
+   \put(0,18){\parbox[l]{\textwidth}{
+    \begin{center}
+     {\scriptsize Quiz zur Vorlesung}                \medskip\\
+     {\LARGE\bf   \@vorlesung}                             \medskip\\
+     {\scriptsize \@veranst}                                       \\
+     {\scriptsize \@universitaet\ --- \@semester}                  \\
+     {\scriptsize Termin: #2}                                      \\
+    \end{center} }}
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture} }
+ }%
+ { \newpage }
+
+\newenvironment{Vorspann}{\mbox{}\\\begin{scriptsize}}{\end{scriptsize}\\\noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,1)
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture} }
+  \par}
+\newcommand{\NameMatr}{\noindent
+  {\bf Name:}\hfill\hfill\hfill
+  {\bf Matrikelnummer:}\hfill\ \par\noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,1)
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture}}
+  \par}
+\newcommand{\Name}{\noindent
+  {\bf First Name:}\hfill
+  {\bf Last Name:}\hfill\ \par\noindent
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,1)
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture}}
+  \par}
+\newcommand{\PunkteNote}[1]{\noindent
+  {\bf Points:}\hfill
+  \setcounter{NMRecVar}{1} \NMRec{#1}
+  {\bf Total:}\hfill\hfill\ \par\noindent 
+  {\setlength{\unitlength}{1mm}
+  \begin{picture}(159,1)
+   \multiput(0,0)(0,0.5){2}{\line(1,0){160}}
+  \end{picture} } }
+\newcounter{NMRecVar}
+\newcommand{\NMRec}[1]{
+  {\small (\arabic{NMRecVar}) \dotfill\hfill} \stepcounter{NMRecVar}
+  \ifnum\value{NMRecVar}>#1 \else \NMRec{#1} \fi
+  }
+
+\newenvironment{Aufgabe}[1]{ 
+ \refstepcounter{UeNumber}
+ \bigskip\par\noindent{\large\bf Exercise \arabic{UeNumber}}
+ {\small #1\ }\par\noindent
+ }{}
+
+%------------------------------------------------------------------------------
+
+\newenvironment{MultipleChoice}%
+ {\begin{list}%
+  {\ }%
+  {\setlength{\leftmargin}{100pt}
+   \setlength{\labelwidth}{ 66pt}
+   \setlength{\topsep    }{  0mm}
+   \setlength{\itemsep   }{  2mm}}
+ }%
+ {\end{list}}
+
+
+\newenvironment{BoxMC}%
+ {\begin{list}%
+  {\ }%
+  {\setlength{\leftmargin}{27pt}
+   \setlength{\labelwidth}{ 17pt}
+   \setlength{\topsep    }{  0mm}
+   \setlength{\itemsep   }{  2mm}}
+ }%
+ {\end{list}}
+
+%------------------------------------------------------------------------------
+
+\newenvironment{UList}%
+ {\begin{list}%
+  {\makebox[\labelwidth][l]
+   {\arabic{UeBlatt}.\arabic{UeNumber}--\alph{UeItemI}}}%
+  {\usecounter{UeItemI}
+   \setlength{\leftmargin}{16mm}
+   \setlength{\labelwidth}{14mm}
+   \setlength{\topsep    }{ 0mm}
+   \setlength{\itemsep   }{ 0mm}}
+ }%
+ {\end{list}}
+
+\newenvironment{SelbstUList}%
+ {\begin{list}%
+  {\makebox[\labelwidth][l]
+   {\arabic{UeBlatt}.\arabic{UeNumber}--\alph{SelbstUeItemI}$^{\textstyle\ast}$}}%
+  {\usecounter{SelbstUeItemI}\setcounter{SelbstUeItemI}{\value{UeItemI}}
+   \setlength{\leftmargin}{16mm}
+   \setlength{\labelwidth}{14mm}
+   \setlength{\topsep    }{ 0mm}
+   \setlength{\itemsep   }{ 0mm}}
+ }%
+ {\end{list}}
+
+
+%------------------------------------------------------------------------------
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+\newcommand{\IFF}{\leftrightarrow}
+\newcommand{\IMPL}{\rightarrow}
+\newcommand{\IF}{\leftarrow}
+
+\newcommand{\T}{\mbox{$\top$}}
+\newcommand{\F}{\mbox{$\bot$}}
+
+\newcommand{\deduce}{\mbox{$\vdash$} }
+\newcommand{\dedMULT}{\mbox{$\,\vdash_{\mbox{\tiny MULT}}\,$}}
+\newcommand{\dedPURE}{\mbox{$\,\vdash_{\mbox{\tiny PURE}}\,$}}
+\newcommand{\dedTAUT}{\mbox{$\,\vdash_{\mbox{\tiny TAUT}}\,$}}
+\newcommand{\dedSUBS}{\mbox{$\,\vdash_{\mbox{\tiny SUBS}}\,$}}
+\newcommand{\dedUNIT}{\mbox{$\,\vdash_{\mbox{\tiny UNIT}}\,$}}
+\newcommand{\dedISOL}{\mbox{$\,\vdash_{\mbox{\tiny ISOL}}\,$}}
+
+\newcommand{\disunion}{\stackrel{.}{\cup}}
+\newcommand{\union}{\cup}
+
+\newcommand{\is}{\setminus}
+
+\newcommand{\N}{\mbox{I\hspace{-0.2em}N}}
+
+\newcommand{\Iff}{\Leftrightarrow}
+\newcommand{\GDW}{\Leftrightarrow}
+
+
+\newcommand{\Neg}[1]{\neg #1}
+\newcommand{\NEG}[1]{^1 #1}
+\newcommand{\POS}[1]{^0 #1}
+
+
+
+
+\newcommand{\mybox}{{\setlength{\unitlength}{1pt}
+ \begin{picture}(10,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \end{picture}
+}}
+\newcommand{\Mybox}{{\setlength{\unitlength}{1pt}
+ \begin{picture}(10,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(-2,-2){\line(1,1){12}}
+ \put(10,-2){\line(-1,1){12}}
+ \end{picture}
+}}
+
+\newcommand{\yesno}{{\setlength{\unitlength}{1pt}
+ \begin{picture}(74,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Yes}
+ \put(40,0){\line(1,0){8}} \put(40,8){\line(1,0){8}}
+ \put(40,0){\line(0,1){8}} \put(48,0){\line(0,1){8}}
+ \put(52,0){No}
+ \end{picture}
+}}
+\newcommand{\Yesno}{{\setlength{\unitlength}{1pt}
+ \begin{picture}(74,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Yes}
+ \put(-2,-2){\line(1,1){12}}
+ \put(10,-2){\line(-1,1){12}}
+ \put(40,0){\line(1,0){8}} \put(40,8){\line(1,0){8}}
+ \put(40,0){\line(0,1){8}} \put(48,0){\line(0,1){8}}
+ \put(52,0){No}
+ \end{picture}
+}}
+\newcommand{\yesNo}{{\setlength{\unitlength}{1pt}
+ \begin{picture}(74,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Yes}
+ \put(38,-2){\line(1,1){12}}
+ \put(50,-2){\line(-1,1){12}}
+ \put(40,0){\line(1,0){8}} \put(40,8){\line(1,0){8}}
+ \put(40,0){\line(0,1){8}} \put(48,0){\line(0,1){8}}
+ \put(52,0){No}
+ \end{picture}
+}}
+
+\newcommand{\richtigfalsch}{\vspace{-4.5mm}\newline{\setlength{\unitlength}{1pt}
+ \begin{picture}(124,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Richtig}
+ \put(90,0){\line(1,0){8}} \put(90,8){\line(1,0){8}}
+ \put(90,0){\line(0,1){8}} \put(98,0){\line(0,1){8}}
+ \put(102,0){Falsch}
+ \end{picture}
+}}
+\newcommand{\Richtigfalsch}{\vspace{-4.5mm}\newline{\setlength{\unitlength}{1pt}
+ \begin{picture}(124,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Richtig}
+ \put(-2,-2){\line(1,1){12}}
+ \put(10,-2){\line(-1,1){12}}
+ \put(90,0){\line(1,0){8}} \put(90,8){\line(1,0){8}}
+ \put(90,0){\line(0,1){8}} \put(98,0){\line(0,1){8}}
+ \put(102,0){Falsch}
+ \end{picture}
+}}
+\newcommand{\richtigFalsch}{\vspace{-4.5mm}\newline{\setlength{\unitlength}{1pt}
+ \begin{picture}(124,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Richtig}
+ \put(88,-2){\line(1,1){12}}
+ \put(100,-2){\line(-1,1){12}}
+ \put(90,0){\line(1,0){8}} \put(90,8){\line(1,0){8}}
+ \put(90,0){\line(0,1){8}} \put(98,0){\line(0,1){8}}
+ \put(102,0){Falsch}
+ \end{picture}
+}}
+
+\newcommand{\janein}{\vspace{-4.5mm}\newline{\setlength{\unitlength}{1pt}
+ \begin{picture}(124,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Ja}
+ \put(90,0){\line(1,0){8}} \put(90,8){\line(1,0){8}}
+ \put(90,0){\line(0,1){8}} \put(98,0){\line(0,1){8}}
+ \put(102,0){Nein}
+ \end{picture}
+}}
+\newcommand{\Janein}{\vspace{-4.5mm}\newline{\setlength{\unitlength}{1pt}
+ \begin{picture}(124,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Ja}
+ \put(-2,-2){\line(1,1){12}}
+ \put(10,-2){\line(-1,1){12}}
+ \put(90,0){\line(1,0){8}} \put(90,8){\line(1,0){8}}
+ \put(90,0){\line(0,1){8}} \put(98,0){\line(0,1){8}}
+ \put(102,0){Nein}
+ \end{picture}
+}}
+\newcommand{\jaNein}{\vspace{-4.5mm}\newline{\setlength{\unitlength}{1pt}
+ \begin{picture}(124,10)
+ \put(0,0){\line(1,0){8}} \put(0,8){\line(1,0){8}}
+ \put(0,0){\line(0,1){8}} \put(8,0){\line(0,1){8}}
+ \put(12,0){Ja}
+ \put(88,-2){\line(1,1){12}}
+ \put(100,-2){\line(-1,1){12}}
+ \put(90,0){\line(1,0){8}} \put(90,8){\line(1,0){8}}
+ \put(90,0){\line(0,1){8}} \put(98,0){\line(0,1){8}}
+ \put(102,0){Nein}
+ \end{picture}
+}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quiz
+
+\newcounter{quizCounter}
+\setcounter{quizCounter}{0}
+
+\newcommand{\richtig}{true}
+\newcommand{\falsch}{false}
+\newcommand{\beide}{both}
+
+\newenvironment{quiz}
+ %{\vspace{3mm}\noindent{\Large\bf Quiz}\\[-6mm]%
+ {\refstepcounter{QNumber}
+  \vspace{3mm}\noindent{\Large\bf Quiz 
+  \ifnum \value{QNumber}>1000 {} \else {\arabic{UeBlatt}.\arabic{QNumber}}\fi }\\[-6mm]%
+  \setlength{\tabcolsep}{1.5mm}%
+  \begin{tabular}{@{}lp{12.5cm}p{12mm}p{8mm}}%
+  & &  \multicolumn{2}{c}{\underline{\bf Answer}}\\[-2mm]}
+ {\end{tabular}\setcounter{quizCounter}{0}}
+
+\newcommand{\quizAufgabe}[2][\beide]{\\[1mm]%
+  \addtocounter{quizCounter}{1}%
+  {\bf{\arabic{quizCounter}.}}%
+  &\textnormal{#2}%
+  &\ifthenelse{\equal{#1}{\beide}}{{\bf true}&{\bf false}}%
+   {\ifthenelse{\equal{#1}{\richtig}}{{\bf true}}%
+   {\ifthenelse{\equal{#1}{\falsch}}{&{\bf false}}%
+   {#1}}}}

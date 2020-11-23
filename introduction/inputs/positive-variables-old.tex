@@ -1,0 +1,145 @@
+\begin{Uebung}{(Positive Logic Programs with Variables)}%
+Determine the Herbrand models of the following positive logic programs with variables
+and decide which Herbrand models are stable.
+
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{fish}(\mathit{blinky})        \\
+    \mathit{bird}(\mathit{tweety})      \\
+%     \mathit{bird}(X)  & \mathit{sparrow}(X) \\
+%     \mathit{bird}(X)  & \mathit{penguin}(X) \\
+%     \mathit{bird}(X)  & \mathit{vulture}(X) \\
+    \mathit{flies}(X) & \mathit{bird}(X) % , \naf{\mathit{penguin}(X)}
+\end{array}
+\right\}
+\)
+\item 
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,0) \\
+    \mathit{even}(0)  \\
+    \mathit{even}(Y) & \mathit{next}(X,Y), \mathit{odd}(X)  \\
+    \mathit{odd}(Y)  & \mathit{next}(X,Y), \mathit{even}(X)
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{friend}(\mathit{alice},\mathit{bob})  \\
+    \mathit{friend}(\mathit{bob},\mathit{alice})  \\
+    \mathit{friend}(\mathit{eve},\mathit{alice})  \\
+    \mathit{invite}(\mathit{alice})  \\
+%     \mathit{invite}(X) & \naf{\mathit{refuse}(X)} \\
+%     \mathit{refuse}(X) & \naf{\mathit{invite}(X)} \\
+    \mathit{invite}(Y) & \mathit{invite}(X), \mathit{friend}(X,Y)
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+    \mathit{next}(0,1) \\
+    \mathit{next}(1,2) \\
+    \mathit{before}(X)   & \mathit{next}(X,Y) \\
+    \mathit{between}(Y)  & \mathit{next}(X,Y), \mathit{before}(Y)
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}\textnormal{%
+\begin{UList}
+\item
+Herbrand Models:
+\begin{itemize}
+\item $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety})\}$
+\item $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety}),\mathit{flies}(\mathit{blinky})\}$
+\item $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety}),\mathit{fish}(\mathit{tweety})\}$
+\item $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety}),\mathit{fish}(\mathit{tweety}),\mathit{flies}(\mathit{blinky})\}$
+\item $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety}),\mathit{bird}(\mathit{blinky}),\mathit{flies}(\mathit{blinky})\}$
+\item $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety}),\mathit{bird}(\mathit{blinky}),\mathit{flies}(\mathit{blinky}),\mathit{fish}(\mathit{tweety})\}$
+\end{itemize}
+Stable Herbrand Model: $\{\mathit{fish}(\mathit{blinky}),\mathit{bird}(\mathit{tweety}),\mathit{flies}(\mathit{tweety})\}$
+%
+\item
+Herbrand Models:
+\begin{itemize}
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1)\}$
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1),\mathit{even}(1),\mathit{odd}(0)\}$
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1),\mathit{even}(1),\mathit{odd}(0),\mathit{next}(0,0)\}$
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1),\mathit{even}(1),\mathit{odd}(0),\mathit{next}(1,1)\}$
+\item $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1),\mathit{even}(1),\mathit{odd}(0),\mathit{next}(0,0),\mathit{next}(1,1)\}$
+\end{itemize}
+Stable Herbrand Model: $\{\mathit{next}(0,1),\mathit{next}(1,0),\mathit{even}(0),\mathit{odd}(1)\}$
+%
+\item
+Stable Herbrand Model: \[X = \left\{\begin{array}{@{}l@{}}\mathit{friend}(\mathit{alice},\mathit{bob}),\mathit{friend}(\mathit{bob},\mathit{alice}),\mathit{friend}(\mathit{eve},\mathit{alice}),{}\\\mathit{invite}(\mathit{alice}),\mathit{invite}(\mathit{bob})\end{array}\right\}\]
+We can construct 80 different Herbrand models $Y\supseteq X$ of~$P$ by
+extending the stable Herbrand model~$X$ as described in the following.
+There are 16 subsets
+\[Z\subseteq\{\mathit{friend}(\mathit{alice},\mathit{alice}),\mathit{friend}(\mathit{bob},\mathit{bob}),
+              \mathit{friend}(\mathit{eve},\mathit{eve}),\mathit{friend}(\mathit{eve},\mathit{bob})\}\]
+for which
+$Y=X\cup Z$,
+$Y=X\cup Z\cup\{\mathit{invite}(\mathit{eve})\}$,
+$Y=X\cup Z\cup\{\mathit{invite}(\mathit{eve}),\linebreak[1]\mathit{friend}(\mathit{alice},\mathit{eve})\}$,
+$Y=X\cup Z\cup\{\mathit{invite}(\mathit{eve}),\linebreak[1]\mathit{friend}(\mathit{bob},\mathit{eve})\}$, and
+$Y=X\cup Z\cup\{\mathit{invite}(\mathit{eve}),\linebreak[1]\mathit{friend}(\mathit{alice},\mathit{eve}),\linebreak[1]\mathit{friend}(\mathit{bob},\mathit{eve})\}$
+are Herbrand models of~$P$, which amount to 80 Herbrand models $Y\supseteq X$ in total.
+%
+\item
+Stable Herbrand Model: \[X = \left\{\mathit{next}(0,1),\mathit{next}(1,2),\mathit{before}(0),\mathit{before}(1),\mathit{between}(1)\right\}\]
+We can construct 184 different Herbrand models $Y\supseteq X$ of~$P$ by
+extending the stable Herbrand model~$X$ as described in the following.
+There are 4 subsets
+\[Z\subseteq\{\mathit{next}(0,2),\mathit{next}(1,1)\}\]
+for which
+\begin{enumerate}
+\item $Y_1=X\cup Z$,
+\item $Y_2=X\cup Z\cup\{\mathit{between}(2)\}$,
+\item $Y_3=X\cup Z\cup\{\mathit{between}(0)\}$,
+\item $Y_4=X\cup Z\cup\{\mathit{between}(2),\mathit{between}(0)\}$,
+\item $Y_5=X\cup Z\cup\{\mathit{between}(2),\mathit{before}(2)\}$, and
+\item $Y_6=X\cup Z\cup\{\mathit{between}(2),\mathit{before}(2),\mathit{between}(0)\}$
+\end{enumerate}
+are Herbrand models of~$P$.
+Each of these Herbrand models~$Y_i$ can be joined with any subset~$A$ of a corresponding set~$A_i$ of atoms
+such that $Y=Y_i\cup A$ is a Herbrand model of~$P$, where $A_i$ is as follows for $1\leq i\leq 6$:
+\begin{enumerate}
+\item $A_1=\emptyset$,
+\item $A_2=\emptyset$,
+\item $A_3=\{\mathit{next}(0,0),\mathit{next}(1,0)\}$,
+\item $A_4=\{\mathit{next}(0,0),\mathit{next}(1,0)\}$,
+\item $A_5=\{\mathit{next}(2,1),\mathit{next}(2,2)\}$, and
+\item $A_6=\{\mathit{next}(0,0),\mathit{next}(1,0),\mathit{next}(2,0),\mathit{next}(2,1),\mathit{next}(2,2)\}$.
+\end{enumerate}
+Now the total number of Herbrand models $Y\supseteq X$ can be calculated as follows:
+\[
+\begin{array}{r@{}c@{}l}
+ 4*(2^{|A_1|}+2^{|A_2|}+2^{|A_3|}+2^{|A_4|}+2^{|A_5|}+2^{|A_6|}) & {} = {} \\
+ 4*(2^0+2^0+2^2+2^2+2^2+2^5) & {} = {} \\
+ 4*(1+1+4+4+4+32) & {} = {} \\
+ 4*46 & {} = {} & 184
+ \mbox{.}
+\end{array}
+\]
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise01"
+%%% End: 

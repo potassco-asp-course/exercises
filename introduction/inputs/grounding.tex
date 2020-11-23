@@ -1,0 +1,435 @@
+\begin{Uebung}{(Grounding)}%
+Determine the ground instantiations of the logic program
+\[
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\{\mathit{cycle}(X,Y) : \mathit{edge}(X,Y)\} = 1 & \mathit{node}(X)
+\\
+\mathit{reach}(Y) & \mathit{cycle}(1,Y)
+\\
+\mathit{reach}(Y) & \mathit{reach}(X), \mathit{cycle}(X,Y), X \neq 1
+\\
+& \mathit{node}(Y), \naf{\mathit{reach}(Y)}
+\end{array}
+\right\}
+\]
+with respect to the following sets $F$ of facts along with the stable models of $P\cup F$.
+%
+\begin{UList}
+\item 
+\(
+F =
+\left\{
+\begin{array}{r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}}}
+\mathit{node}(1) &
+\mathit{node}(2) &
+\mathit{node}(3)
+\\
+\mathit{edge}(1,2) &
+\mathit{edge}(2,3) &
+\mathit{edge}(3,1) &
+\mathit{edge}(3,2)
+\end{array}
+\right\}
+\)
+\item
+\(
+F =
+\left\{
+\begin{array}{r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}}}
+\mathit{node}(1) &
+\mathit{node}(2) &
+\mathit{node}(3) &
+\mathit{node}(4)
+\\
+\mathit{edge}(1,2) &
+\mathit{edge}(1,3) &
+\mathit{edge}(2,3) &
+\mathit{edge}(2,4)
+\\
+\mathit{edge}(3,2) &
+\mathit{edge}(3,4) &
+\mathit{edge}(4,1) &
+\mathit{edge}(4,2)
+\end{array}
+\right\}
+\)
+\item 
+\(
+F =
+\left\{
+\begin{array}{r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}}}
+\mathit{node}(1) &
+\mathit{node}(2) &
+\mathit{node}(3) &
+\mathit{node}(4)
+\\
+\mathit{node}(5)
+\\
+\mathit{edge}(1,2) &
+\mathit{edge}(1,3) &
+\mathit{edge}(1,4) &
+\mathit{edge}(2,1)
+\\
+\mathit{edge}(2,3) &
+\mathit{edge}(2,4) &
+\mathit{edge}(3,1) &
+\mathit{edge}(3,2)
+\\
+\mathit{edge}(3,4) &
+\mathit{edge}(3,5) &
+\mathit{edge}(4,1) &
+\mathit{edge}(4,2)
+\\
+\mathit{edge}(4,3) &
+\mathit{edge}(4,5) &
+\mathit{edge}(5,3) &
+\mathit{edge}(5,4)
+\end{array}
+\right\}
+\)
+\item 
+\(
+F =
+\left\{
+\begin{array}{r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}\qquad}r@{{}\leftarrow{}}}
+\mathit{node}(1) &
+\mathit{node}(2) &
+\mathit{node}(3) &
+\mathit{node}(4)
+\\
+\mathit{node}(5) &
+\mathit{node}(6)
+\\
+\mathit{edge}(1,2) &
+\mathit{edge}(1,3) &
+\mathit{edge}(1,4) &
+\mathit{edge}(2,4)
+\\
+\mathit{edge}(2,5) &
+\mathit{edge}(2,6) &
+\mathit{edge}(3,1) &
+\mathit{edge}(3,4)
+\\
+\mathit{edge}(3,5) &
+\mathit{edge}(4,1) &
+\mathit{edge}(4,2) &
+\mathit{edge}(5,3)
+\\
+\mathit{edge}(5,4) &
+\mathit{edge}(5,6) &
+\mathit{edge}(6,2) &
+\mathit{edge}(6,3)
+\\
+\mathit{edge}(6,5)
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}\textnormal{%
+\begin{UList}
+\item
+Ground instantiation:
+\[
+F \cup
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\{\mathit{cycle}(1,2)\} = 1 & \mathit{node}(1)
+\\
+\{\mathit{cycle}(2,3)\} = 1 & \mathit{node}(2)
+\\
+\{\mathit{cycle}(3,1),\mathit{cycle}(3,2)\} = 1 & \mathit{node}(3)
+\\
+\mathit{reach}(2) & \mathit{cycle}(1,2)
+\\
+\mathit{reach}(3) & \mathit{reach}(2), \mathit{cycle}(2,3)
+\\
+\mathit{reach}(1) & \mathit{reach}(3), \mathit{cycle}(3,1)
+\\
+\mathit{reach}(2) & \mathit{reach}(3), \mathit{cycle}(3,2)
+\\
+& \mathit{node}(1), \naf{\mathit{reach}(1)}
+\\
+& \mathit{node}(2), \naf{\mathit{reach}(2)}
+\\
+& \mathit{node}(3), \naf{\mathit{reach}(3)}
+\end{array}
+\right\}
+\]
+Stable Models:
+\begin{itemize}
+\item $F\cup\{\mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{cycle}(1,2),\mathit{cycle}(2,3),\mathit{cycle}(3,1)\}$
+\end{itemize}
+%
+\item
+Ground instantiation:
+\[
+F \cup
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\{\mathit{cycle}(1,2),\mathit{cycle}(1,3)\} = 1 & \mathit{node}(1)
+\\
+\{\mathit{cycle}(2,3),\mathit{cycle}(2,4)\} = 1 & \mathit{node}(2)
+\\
+\{\mathit{cycle}(3,2),\mathit{cycle}(3,4)\} = 1 & \mathit{node}(3)
+\\
+\{\mathit{cycle}(4,1),\mathit{cycle}(4,2)\} = 1 & \mathit{node}(4)
+\\
+\mathit{reach}(2) & \mathit{cycle}(1,2)
+\\
+\mathit{reach}(3) & \mathit{cycle}(1,3)
+\\
+\mathit{reach}(3) & \mathit{reach}(2), \mathit{cycle}(2,3)
+\\
+\mathit{reach}(4) & \mathit{reach}(2), \mathit{cycle}(2,4)
+\\
+\mathit{reach}(2) & \mathit{reach}(3), \mathit{cycle}(3,2)
+\\
+\mathit{reach}(4) & \mathit{reach}(3), \mathit{cycle}(3,4)
+\\
+\mathit{reach}(1) & \mathit{reach}(4), \mathit{cycle}(4,1)
+\\
+\mathit{reach}(2) & \mathit{reach}(4), \mathit{cycle}(4,2)
+\\
+& \mathit{node}(1), \naf{\mathit{reach}(1)}
+\\
+& \mathit{node}(2), \naf{\mathit{reach}(2)}
+\\
+& \mathit{node}(3), \naf{\mathit{reach}(3)}
+\\
+& \mathit{node}(4), \naf{\mathit{reach}(4)}
+\end{array}
+\right\}
+\]
+Stable Models:
+\begin{itemize}
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4), {}
+            \\
+            \mathit{cycle}(1,2),\mathit{cycle}(2,3),\mathit{cycle}(3,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4), {}
+            \\
+            \mathit{cycle}(1,3),\mathit{cycle}(3,2),\mathit{cycle}(2,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\end{itemize}
+%
+\item
+Ground instantiation:
+\[
+\hspace*{-8mm}
+F \cup
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\{\mathit{cycle}(1,2),\mathit{cycle}(1,3),\mathit{cycle}(1,4)\} = 1 & \mathit{node}(1)
+\\
+\{\mathit{cycle}(2,1),\mathit{cycle}(2,3),\mathit{cycle}(2,4)\} = 1 & \mathit{node}(2)
+\\
+\{\mathit{cycle}(3,1),\mathit{cycle}(3,2),\mathit{cycle}(3,4),\mathit{cycle}(3,5)\} = 1 & \mathit{node}(3)
+\\
+\{\mathit{cycle}(4,1),\mathit{cycle}(4,2),\mathit{cycle}(4,3),\mathit{cycle}(4,5)\} = 1 & \mathit{node}(4)
+\\
+\{\mathit{cycle}(5,3),\mathit{cycle}(5,4)\} = 1 & \mathit{node}(5)
+\\
+\mathit{reach}(2) & \mathit{cycle}(1,2)
+\\
+\mathit{reach}(3) & \mathit{cycle}(1,3)
+\\
+\mathit{reach}(4) & \mathit{cycle}(1,4)
+\\
+\mathit{reach}(1) & \mathit{reach}(2), \mathit{cycle}(2,1)
+\\
+\mathit{reach}(3) & \mathit{reach}(2), \mathit{cycle}(2,3)
+\\
+\mathit{reach}(4) & \mathit{reach}(2), \mathit{cycle}(2,4)
+\\
+\mathit{reach}(1) & \mathit{reach}(3), \mathit{cycle}(3,1)
+\\
+\mathit{reach}(2) & \mathit{reach}(3), \mathit{cycle}(3,2)
+\\
+\mathit{reach}(4) & \mathit{reach}(3), \mathit{cycle}(3,4)
+\\
+\mathit{reach}(5) & \mathit{reach}(3), \mathit{cycle}(3,5)
+\\
+\mathit{reach}(1) & \mathit{reach}(4), \mathit{cycle}(4,1)
+\\
+\mathit{reach}(2) & \mathit{reach}(4), \mathit{cycle}(4,2)
+\\
+\mathit{reach}(3) & \mathit{reach}(4), \mathit{cycle}(4,3)
+\\
+\mathit{reach}(5) & \mathit{reach}(4), \mathit{cycle}(4,5)
+\\
+\mathit{reach}(3) & \mathit{reach}(5), \mathit{cycle}(5,3)
+\\
+\mathit{reach}(4) & \mathit{reach}(5), \mathit{cycle}(5,4)
+\\
+& \mathit{node}(1), \naf{\mathit{reach}(1)}
+\\
+& \mathit{node}(2), \naf{\mathit{reach}(2)}
+\\
+& \mathit{node}(3), \naf{\mathit{reach}(3)}
+\\
+& \mathit{node}(4), \naf{\mathit{reach}(4)}
+\\
+& \mathit{node}(5), \naf{\mathit{reach}(5)}
+\end{array}
+\right\}
+\]
+Stable Models:
+\begin{itemize}
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5), {}
+            \\
+            \mathit{cycle}(1,2),\mathit{cycle}(2,3),\mathit{cycle}(3,5),\mathit{cycle}(5,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5), {}
+            \\
+            \mathit{cycle}(1,2),\mathit{cycle}(2,4),\mathit{cycle}(4,5),\mathit{cycle}(5,3),\mathit{cycle}(3,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5), {}
+            \\
+            \mathit{cycle}(1,3),\mathit{cycle}(3,5),\mathit{cycle}(5,4),\mathit{cycle}(4,2),\mathit{cycle}(2,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5), {}
+            \\
+            \mathit{cycle}(1,4),\mathit{cycle}(4,5),\mathit{cycle}(5,3),\mathit{cycle}(3,2),\mathit{cycle}(2,1)
+            \end{array}
+            \right\}$
+\end{itemize}
+%
+\item
+Ground instantiation:
+\[
+F \cup
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\{\mathit{cycle}(1,2),\mathit{cycle}(1,3),\mathit{cycle}(1,4)\} = 1 & \mathit{node}(1)
+\\
+\{\mathit{cycle}(2,4),\mathit{cycle}(2,5),\mathit{cycle}(2,6)\} = 1 & \mathit{node}(2)
+\\
+\{\mathit{cycle}(3,1),\mathit{cycle}(3,4),\mathit{cycle}(3,5)\} = 1 & \mathit{node}(3)
+\\
+\{\mathit{cycle}(4,1),\mathit{cycle}(4,2)\} = 1 & \mathit{node}(4)
+\\
+\{\mathit{cycle}(5,3),\mathit{cycle}(5,4),\mathit{cycle}(5,6)\} = 1 & \mathit{node}(5)
+\\
+\{\mathit{cycle}(6,2),\mathit{cycle}(6,3),\mathit{cycle}(6,5)\} = 1 & \mathit{node}(6)
+\\
+\mathit{reach}(2) & \mathit{cycle}(1,2)
+\\
+\mathit{reach}(3) & \mathit{cycle}(1,3)
+\\
+\mathit{reach}(4) & \mathit{cycle}(1,4)
+\\
+\mathit{reach}(4) & \mathit{reach}(2), \mathit{cycle}(2,4)
+\\
+\mathit{reach}(5) & \mathit{reach}(2), \mathit{cycle}(2,5)
+\\
+\mathit{reach}(6) & \mathit{reach}(2), \mathit{cycle}(2,6)
+\\
+\mathit{reach}(1) & \mathit{reach}(3), \mathit{cycle}(3,1)
+\\
+\mathit{reach}(4) & \mathit{reach}(3), \mathit{cycle}(3,4)
+\\
+\mathit{reach}(5) & \mathit{reach}(3), \mathit{cycle}(3,5)
+\\
+\mathit{reach}(1) & \mathit{reach}(4), \mathit{cycle}(4,1)
+\\
+\mathit{reach}(2) & \mathit{reach}(4), \mathit{cycle}(4,2)
+\\
+\mathit{reach}(3) & \mathit{reach}(5), \mathit{cycle}(5,3)
+\\
+\mathit{reach}(4) & \mathit{reach}(5), \mathit{cycle}(5,4)
+\\
+\mathit{reach}(6) & \mathit{reach}(5), \mathit{cycle}(5,6)
+\\
+\mathit{reach}(2) & \mathit{reach}(6), \mathit{cycle}(6,2)
+\\
+\mathit{reach}(3) & \mathit{reach}(6), \mathit{cycle}(6,3)
+\\
+\mathit{reach}(5) & \mathit{reach}(6), \mathit{cycle}(6,5)
+\\
+& \mathit{node}(1), \naf{\mathit{reach}(1)}
+\\
+& \mathit{node}(2), \naf{\mathit{reach}(2)}
+\\
+& \mathit{node}(3), \naf{\mathit{reach}(3)}
+\\
+& \mathit{node}(4), \naf{\mathit{reach}(4)}
+\\
+& \mathit{node}(5), \naf{\mathit{reach}(5)}
+\\
+& \mathit{node}(6), \naf{\mathit{reach}(6)}
+\end{array}
+\right\}
+\]
+Stable Models:
+\begin{itemize}
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5),\mathit{reach}(6), {}
+            \\
+            \mathit{cycle}(1,2),\mathit{cycle}(2,5),\mathit{cycle}(5,6),\mathit{cycle}(6,3),\mathit{cycle}(3,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5),\mathit{reach}(6), {}
+            \\
+            \mathit{cycle}(1,2),\mathit{cycle}(2,6),\mathit{cycle}(6,3),\mathit{cycle}(3,5),\mathit{cycle}(5,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5),\mathit{reach}(6), {}
+            \\
+            \mathit{cycle}(1,2),\mathit{cycle}(2,6),\mathit{cycle}(6,5),\mathit{cycle}(5,3),\mathit{cycle}(3,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5),\mathit{reach}(6), {}
+            \\
+            \mathit{cycle}(1,3),\mathit{cycle}(3,5),\mathit{cycle}(5,6),\mathit{cycle}(6,2),\mathit{cycle}(2,4),\mathit{cycle}(4,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5),\mathit{reach}(6), {}
+            \\
+            \mathit{cycle}(1,4),\mathit{cycle}(4,2),\mathit{cycle}(2,5),\mathit{cycle}(5,6),\mathit{cycle}(6,3),\mathit{cycle}(3,1)
+            \end{array}
+            \right\}$
+\item $F\cup\left\{
+            \begin{array}{@{}l@{}}
+            \mathit{reach}(1),\mathit{reach}(2),\mathit{reach}(3),\mathit{reach}(4),\mathit{reach}(5),\mathit{reach}(6), {}
+            \\
+            \mathit{cycle}(1,4),\mathit{cycle}(4,2),\mathit{cycle}(2,6),\mathit{cycle}(6,5),\mathit{cycle}(5,3),\mathit{cycle}(3,1)
+            \end{array}
+            \right\}$
+\end{itemize}
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise01"
+%%% End: 
