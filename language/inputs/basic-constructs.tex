@@ -1,0 +1,135 @@
+\begin{Uebung}{(Basic language constructs)}%
+%
+Consider the following logic program $P$:
+\begin{itemize}
+\item[]
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\{ \mathit{a} \} &
+\\
+\{ \mathit{b} \} & a
+\\
+\mathit{d}      & 2 \{ \mathit{a}, \mathit{b}, \neg\mathit{c} \}
+\\
+& \neg\mathit{d}
+\end{array}
+\right\}
+\)
+\end{itemize}
+\begin{UList}
+\item
+Compile~$P$ into a normal logic program~$P'$ 
+using the translations from the lecture slides.
+%
+In particular, use the
+$\mathit{x}(i,j)$ construction to translate the cardinality rule
+of the program.
+\item
+Determine the stable models of~$P$ and the corresponding stable models of~$P'$.
+\end{UList}
+\end{Uebung}
+
+%a^*
+%a :-  a^*, \neg a'.
+%a' :-    \neg a.
+%b' :- a.
+%b :-  b', \neg b''.
+%b'' :-    \neg b.
+%d :- x(1,2).
+%d' :- not d', not d.x
+
+
+\begin{Loesung}%
+\rm
+\begin{UList}
+\item $P':{}$
+\begin{equation*}
+\begin{array}[t]{r@{{}\leftarrow{}}l@{\qquad}r@{{}\leftarrow{}}l@{\quad}r@{{}\leftarrow{}}l@{\quad}r@{{}\leftarrow{}}l}
+%\multicolumn{2}{l}
+a & \neg a'. %& \mathit{x}(1,1).
+&
+\mathit{x}(1,0) & \mathit{x}(2,0).
+&
+\mathit{x}(2,0) & \mathit{x}(3,0).
+&
+\mathit{x}(3,0) & \mathit{x}(4,0).
+\\
+a' & \neg{a}.
+&
+\mathit{x}(1,1) & \mathit{x}(2,0), a.
+&
+\mathit{x}(2,1) & \mathit{x}(3,0), b.
+&
+\mathit{x}(3,1) & \mathit{x}(4,0), \neg c.
+\\
+b^* & a.
+&
+\mathit{x}(1,1) & \mathit{x}(2,1).
+&
+\mathit{x}(2,1) & \mathit{x}(3,1).
+&
+[\mathit{x}(3,1) & \mathit{x}(4,1).]
+\\
+b & b^*, \neg b'.
+&
+\mathit{x}(1,2) & \mathit{x}(2,1), a.
+&
+\mathit{x}(2,2) & \mathit{x}(3,1), b.
+&
+[\mathit{x}(3,2) & \mathit{x}(4,1), \neg c.]
+\\
+b' &    \neg b. 
+&
+\mathit{x}(1,2) & \mathit{x}(2,2).
+&
+[\mathit{x}(2,2) & \mathit{x}(3,2).]
+&
+
+[\mathit{x}(3,2) & \mathit{x}(4,2).]
+\\
+d & x(1,2). 
+%\multicolumn{5}{@{}l}{\phantom{[}\mathit{x}(4,0).}
+& \multicolumn{5}{r@{{}\leftarrow{}}}{x(4,0)} & .%{\mathit{x}(1,3)} & \mathit{x}(2,2),a.
+%& 
+%[\mathit{x}(2,3) & \mathit{x}(3,2),b.]
+\\
+d' & \neg d', \neg d.
+%\multicolumn{3}{r@{{}\leftarrow{}}}{
+%[\mathit{x}(1,3) & \mathit{x}(2,3).]
+%&
+%[\mathit{x}(2,3) & \mathit{x}(3,3).]
+%&
+%\multicolumn{2}{@{}l}{\phantom{[}\mathit{x}(4,0).}
+\end{array}
+\end{equation*}
+
+%b'' :-    \neg b.
+%d :- x(1,2).
+%d' :- not d', not d.x
+
+\item
+\begin{equation*}
+\begin{array}{l|l}
+\multicolumn{1}{c|}{P} & \multicolumn{1}{c}{P'}
+\\\hline
+\{a,d\}
+&
+\{a,d,b^*,b',\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),
+\mathit{x}(3,1),\mathit{x}(1,2)\}
+\\
+\{a,b,d\}
+&
+\{a,b,d,b^*,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),
+\mathit{x}(3,1),\mathit{x}(1,2),\mathit{x}(2,2)\}
+\end{array}
+\end{equation*}
+\end{UList}
+\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise03"
+%%% End: 
