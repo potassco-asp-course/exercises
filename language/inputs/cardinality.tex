@@ -1,0 +1,134 @@
+\begin{Uebung}{(Cardinality constraints as heads)}%
+%
+Consider the following cardinality constraint in the head of a rule: 
+\(
+1\,\{a,b,c\}\,2.
+\)
+
+\begin{UList}
+\item
+Compile the cardinality constraint into cardinality rules of the form
+\[
+a_0\leftarrow l\,\{a_1,\dots,a_m,\naf a_{m+1},\dots,\naf a_n\}.
+\]
+along with normal and choice rules as well as integrity constraints.
+\item
+Compile the logic program~$P$ resulting from the previous subtask into a
+program~$P'$ with normal and choice rules
+as well as integrity constraints only,
+using the $\mathit{x}(i,j)$ construction from the lecture slides.
+\item
+Determine the stable models of~$P$ and the corresponding stable models of~$P'$.
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\rm
+\begin{UList}
+\item $P:{}$
+\begin{equation*}
+\begin{array}[t]{r@{{}\leftarrow{}}l}
+\multicolumn{2}{l}{\{a,b,c\}.}
+\\
+x & 1\,\{a,b,c\}.
+\\
+y & 3\,\{a,b,c\}.
+\\
+z & x,\naf y.
+\\
+& \naf z.
+\end{array}
+\end{equation*}
+\item $P':{}$
+\begin{equation*}
+\begin{array}[t]{r@{{}\leftarrow{}}l@{\qquad}r@{{}\leftarrow{}}l@{\quad}r@{{}\leftarrow{}}l@{\quad}r@{{}\leftarrow{}}l}
+\multicolumn{2}{l}{\{a,b,c\}.}
+&
+\mathit{x}(1,0) & \mathit{x}(2,0).
+&
+\mathit{x}(2,0) & \mathit{x}(3,0).
+&
+\mathit{x}(3,0) & \mathit{x}(4,0).
+\\
+x & \mathit{x}(1,1).
+&
+\mathit{x}(1,1) & \mathit{x}(2,0), a.
+&
+\mathit{x}(2,1) & \mathit{x}(3,0), b.
+&
+\mathit{x}(3,1) & \mathit{x}(4,0), c.
+\\
+y & \mathit{x}(1,3).
+&
+\mathit{x}(1,1) & \mathit{x}(2,1).
+&
+\mathit{x}(2,1) & \mathit{x}(3,1).
+&
+[\mathit{x}(3,1) & \mathit{x}(4,1).]
+\\
+z & x,\naf y.
+&
+\mathit{x}(1,2) & \mathit{x}(2,1), a.
+&
+\mathit{x}(2,2) & \mathit{x}(3,1), b.
+&
+\multicolumn{2}{l}{\dots}
+\\
+& \naf z.
+&
+\mathit{x}(1,2) & \mathit{x}(2,2).
+&
+[\mathit{x}(2,2) & \mathit{x}(3,2).]
+&
+
+[\mathit{x}(3,3) & \mathit{x}(4,3).]
+\\
+\multicolumn{3}{r@{{}\leftarrow{}}}{\mathit{x}(1,3)} & \mathit{x}(2,2),a.
+& 
+[\mathit{x}(2,3) & \mathit{x}(3,2),b.]
+\\
+\multicolumn{3}{r@{{}\leftarrow{}}}{[\mathit{x}(1,3)} & \mathit{x}(2,3).]
+&
+[\mathit{x}(2,3) & \mathit{x}(3,3).]
+&
+\multicolumn{2}{@{}l}{\phantom{[}\mathit{x}(4,0).}
+\end{array}
+\end{equation*}
+\item
+\begin{equation*}
+\begin{array}{l|l}
+\multicolumn{1}{c|}{P} & \multicolumn{1}{c}{P'}
+\\\hline
+\{a\}
+&
+\{a,x,z,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1)\}
+\\
+\{b\}
+&
+\{b,x,z,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1)\}
+\\
+\{c\}
+&
+\{c,x,z,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),\mathit{x}(3,1)\}
+\\
+\{a,b\}
+&
+\{a,b,x,z,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),\mathit{x}(1,2)\}
+\\
+\{a,c\}
+&
+\{a,c,x,z,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),\mathit{x}(3,1),\mathit{x}(1,2)\}
+\\
+\{b,c\}
+&
+\{b,c,x,z,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),\mathit{x}(3,1),\mathit{x}(1,2),\mathit{x}(2,2)\}
+\end{array}
+\end{equation*}
+\end{UList}
+\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise03"
+%%% End: 
