@@ -63,56 +63,63 @@
 \def\Veranstalter#1{\def\@veranst{#1}} \def\@veranst{}
 \def\Semester#1{\def\@semester{#1}} \def\@semester{}
 
-\newenvironment{UebungsBlatt}[2]%
+\newenvironment{UebungsBlatt}[1]%
+%\newenvironment{UebungsBlatt}[2]%
  {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
   \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
-  \setcounter{UeBlatt}{#1}
-  \markboth{Exercise \arabic{UeBlatt}}{\@vorlesung}
+  \setcounter{UeBlatt}{0}
+%  \setcounter{UeBlatt}{#1}
+  \markboth{#1 Exercises}{\@vorlesung}
+%  \markboth{Exercise \arabic{UeBlatt}}{\@vorlesung}
   \noindent
   {\setlength{\unitlength}{1mm}
    \begin{picture}(159,17)
     \put(0,18){\parbox[l]{\textwidth}{
      \begin{center}
-      {\scriptsize Exercises}                   \medskip\\
+      {\scriptsize #1 Exercises}                   \medskip\\
       {\LARGE\bf   \@vorlesung}                             \medskip\\
       {\scriptsize \@veranst}                                       \\
-      {\scriptsize \@universitaet\ --- \@semester}                  \\
-      {\scriptsize Exercise \arabic{UeBlatt} #2}     \\
+      {\scriptsize \@universitaet\ --- \@semester}                  %\\
+%      {\scriptsize #1}     \\
      \end{center} }}
-    \multiput(0,1)(0,0.5){2}{\line(1,0){160}}
+    \multiput(0,3)(0,0.5){2}{\line(1,0){160}}
    \end{picture}
   }\par
  }%
  { \newpage }
 
 % allow many quizs, and number them
-\newenvironment{UebungsBlattManyQuizs}[2]%
+\newenvironment{UebungsBlattManyQuizs}[1]%
  {\setcounter{StoreQNumber}{1}\setcounter{QNumber}{0}
-  \begin{UebungsBlatt}{#1}{#2}}
+  \begin{UebungsBlatt}{#1}}
  {\end{UebungsBlatt}}
 
 \newenvironment{Uebung}[1]{%
  \refstepcounter{UeNumber}
- \bigskip\par\noindent{\large\bf Exercise \arabic{UeBlatt}.\arabic{UeNumber}}
+ %\bigskip\par\noindent{\large\bf Exercise \arabic{UeBlatt}.\arabic{UeNumber}}
+ \bigskip\par\noindent{\large\bf Exercise \arabic{UeNumber}}
  {\small #1\ }\par\noindent\ignorespaces
  }{}
 
 \newenvironment{SelbstUebung}[1]{%
  \refstepcounter{UeNumber}
- \bigskip\par\noindent{\large\bf Exercise \arabic{UeBlatt}.\arabic{UeNumber}$^{\displaystyle\ast}$}
+ %\bigskip\par\noindent{\large\bf Exercise \arabic{UeBlatt}.\arabic{UeNumber}$^{\displaystyle\ast}$}
+ \bigskip\par\noindent{\large\bf Exercise \arabic{UeNumber}$^{\displaystyle\ast}$}
  {\small #1\ }\par\noindent\ignorespaces
  }{}
 
 \newenvironment{SonderUebung}[1]{%
  \bigskip\par\noindent\refstepcounter{UeNumber}%
- {\large\bf Additional Task \arabic{UeBlatt}.\arabic{UeNumber}} #1 
+ %{\large\bf Additional Task \arabic{UeBlatt}.\arabic{UeNumber}} #1 
+ {\large\bf Additional Task \arabic{UeNumber}} #1 
  \par\noindent\ignorespaces
  }{}
 
 %------------------------------------------------------------------------------
 \newenvironment{LoesungsBlatt}%
  {\newpage \setcounter{page}{1}  \setcounter{UeNumber}{0}
-  \markboth{Solution \arabic{UeBlatt}}{\@vorlesung}
+  %\markboth{Solution \arabic{UeBlatt}}{\@vorlesung}
+  \markboth{Solution}{\@vorlesung}
  }%
  { \newpage }
 
@@ -134,7 +141,8 @@
   \setcounter{UeBlatt}{#1}  \setcounter{UeNumber}{#2}  %\setcounter{page}{1}
   \setcounter{QNumber}{#3}  \addtocounter{QNumber}{-1} % added for numbering quizs
   \bigskip\par\noindent\large\bf Solution% #1.#2.\arabic{QNumber} \normalsize\noindent }%
-    \ifnum \value{StoreQNumber}=\value{QNumber} {#1.#2} \else {} \fi 
+    %\ifnum \value{StoreQNumber}=\value{QNumber} {#1.#2} \else {} \fi 
+    \ifnum \value{StoreQNumber}=\value{QNumber} {#2} \else {} \fi 
     \setcounter{StoreQNumber}{\value{QNumber}}
   \normalsize\noindent }
 
@@ -143,6 +151,7 @@
 \outer\def\Loesung{\par\medbreak\end{Loesung}
   \immediate\write\SolFile{}
   %\immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}}
+  %%%%%%\immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}{\arabic{QNumber}}}
   \immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}{\arabic{QNumber}}}
   \CopyLines}
 \def\CopyLines{\begingroup\setupcopy\copyans}
@@ -160,20 +169,23 @@
 %------------------------------------------------------------------------------
 \newenvironment{AnhangsBlatt}%
  {\newpage \setcounter{page}{1}
-  \markboth{Appendix \arabic{UeBlatt}}{\@vorlesung}
+  %\markboth{Appendix \arabic{UeBlatt}}{\@vorlesung}
+  \markboth{Appendix}{\@vorlesung}
   \setcounter{UeNumber}{0}
  }%
  { \newpage }
 
 \newenvironment{Anhang}[1]{
  \bigskip\par\noindent\refstepcounter{UeNumber}
- {\large\bf Appendix \arabic{UeBlatt}.\arabic{UeNumber}}
+ %{\large\bf Appendix \arabic{UeBlatt}.\arabic{UeNumber}}
+ {\large\bf Appendix \arabic{UeNumber}}
  {\small #1\ } \par\noindent
  }{}
 
 \newenvironment{Definition}{
  \bigskip\par\noindent
- {\large\bf Definition \arabic{UeBlatt}.\arabic{UeDef}}
+ %{\large\bf Definition \arabic{UeBlatt}.\arabic{UeDef}}
+ {\large\bf Definition \arabic{UeDef}}
  \refstepcounter{UeDef}\par\noindent
  }{}
 
@@ -335,7 +347,8 @@
 \newenvironment{UList}%
  {\begin{list}%
   {\makebox[\labelwidth][l]
-   {\arabic{UeBlatt}.\arabic{UeNumber}--\alph{UeItemI}}}%
+   %{\arabic{UeBlatt}.\arabic{UeNumber}--\alph{UeItemI}}}%
+   {\arabic{UeNumber}--\alph{UeItemI}}}%
   {\usecounter{UeItemI}
    \setlength{\leftmargin}{16mm}
    \setlength{\labelwidth}{14mm}
@@ -347,7 +360,8 @@
 \newenvironment{SelbstUList}%
  {\begin{list}%
   {\makebox[\labelwidth][l]
-   {\arabic{UeBlatt}.\arabic{UeNumber}--\alph{SelbstUeItemI}$^{\textstyle\ast}$}}%
+   %{\arabic{UeBlatt}.\arabic{UeNumber}--\alph{SelbstUeItemI}$^{\textstyle\ast}$}}%
+   {\arabic{UeNumber}--\alph{SelbstUeItemI}$^{\textstyle\ast}$}}%
   {\usecounter{SelbstUeItemI}\setcounter{SelbstUeItemI}{\value{UeItemI}}
    \setlength{\leftmargin}{16mm}
    \setlength{\labelwidth}{14mm}
@@ -528,7 +542,8 @@
  %{\vspace{3mm}\noindent{\Large\bf Quiz}\\[-6mm]%
  {\refstepcounter{QNumber}
   \vspace{3mm}\noindent{\Large\bf Quiz 
-  \ifnum \value{QNumber}>1000 {} \else {\arabic{UeBlatt}.\arabic{QNumber}}\fi }\\[-6mm]%
+  %\ifnum \value{QNumber}>1000 {} \else {\arabic{UeBlatt}.\arabic{QNumber}}\fi }\\[-6mm]%
+  \ifnum \value{QNumber}>1000 {} \else {\arabic{QNumber}}\fi }\\[-6mm]%
   \setlength{\tabcolsep}{1.5mm}%
   \begin{tabular}{@{}lp{12.5cm}p{12mm}p{8mm}}%
   & &  \multicolumn{2}{c}{\underline{\bf Answer}}\\[-2mm]}
