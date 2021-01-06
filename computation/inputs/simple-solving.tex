@@ -1,0 +1,281 @@
+\begin{Uebung}{(Simple solving)} 
+Determine the stable models of the following normal logic programs
+using the simplistic solving algorithm of the lecture,
+and specify the sets $L$ and $U$ that are generated at each iteration
+inside the $expand_P$ procedure. % at the propagation step of the algorithm.
+\begin{UList}
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{sprinkler} & \naf{\mathit{rain}}
+\\
+\mathit{rain}      & \naf{\mathit{sprinkler}}
+\\
+\mathit{wet}       & \mathit{rain}
+\\
+\mathit{wet}       & \mathit{sprinkler}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{diet}   & \naf{\mathit{sugar}}
+\\
+\mathit{coffee} & \naf{\mathit{tea}}
+\\
+\mathit{lemon}  & \mathit{tea}
+\\
+\mathit{sugar}  & \mathit{coffee}
+\\
+\mathit{milk}   & \mathit{coffee}, \mathit{sugar}
+\\
+\mathit{tea}    & \mathit{lemon}
+\\
+\mathit{tea}    & \mathit{diet}
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{dress}    & \naf{\mathit{shirt}}
+\\
+\mathit{shirt}    & \naf{\mathit{dress}}
+\\
+\mathit{shirt}  & {\mathit{sandals}}
+\\
+\mathit{sandals} & \naf{\mathit{sneakers}}
+\\
+\mathit{sandals}    & \mathit{dress}
+\\
+\mathit{sneakers}  & \mathit{shirt}
+%head(1,dr). body(1,neg,sh).
+%head(2,sh). body(2,neg,dr).
+%head(3,sh). body(3,pos,sa).
+%head(4,sa). body(4,neg,sn).
+%head(5,sa). body(5,pos,dr).
+%head(6,sn). body(6,pos,sh).
+\end{array}
+\right\}
+\)
+\item
+\(
+P =
+\left\{
+\begin{array}{r@{{}\leftarrow{}}l}
+\mathit{asparagus} & \naf{\mathit{cabbage}}
+\\
+\mathit{cabbage}   & \naf{\mathit{asparagus}}
+\\
+\mathit{red}       & \naf{\mathit{white}}
+\\
+\mathit{meat}      & \mathit{cabbage}
+\\
+\mathit{meat}      & \mathit{red}
+\\
+\mathit{fish}      & \mathit{asparagus}
+\\
+\mathit{asparagus} & \mathit{fish}, \mathit{white}
+\\
+\mathit{white}     & \mathit{fish} % \mathit{asparagus}, \mathit{fish}
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+
+\begin{Loesung}{\normalfont
+\newline\newline
+We represent the atoms of the programs by their initial letters.
+\begin{UList}
+\item
+The algorithm $solve_P(\emptyset, \{r,s,w\})$ 
+first applies the procedure $expand_P$ and
+generates the pair $(\emptyset, \{r,s,w\})$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \emptyset & \emptyset & \{r,s,w\} & \{r,s,w\} & \{r,s,w\} \\ 
+\end{array}
+\]
+
+At this point it can choose any element in $\{r,s,w\}$.
+We assume that it chooses $r$.
+Then it calls $solve_P(\{r\},\{r,s,w\})$ and $solve_P(\{\},\{s,w\})$.
+
+In $solve_P(\{r\},\{r,s,w\})$ 
+the procedure $expand_P$ generates the pair
+$(\{r,w\},\{r,w\})$ 
+and returns the stable model $\{r,w\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \{r\} & \emptyset & \{r\} & \{r,s,w\} & \{r,w\} & \{r,w\} \\ 
+2 & \{r\} & \{r,w\} & \{r,w\} & \{r,w\} & \{r,w\} & \{r,w\} \\ 
+3 & \{r,w\} & \{r,w\} & \{r,w\} & \{r,w\} & \{r,w\} & \{r,w\} \\ 
+\end{array}
+\]
+
+In $solve_P(\{\},\{s,w\})$
+the procedure $expand_P$ generates the pair
+$(\{s,w\},\{s,w\})$
+and returns the stable model
+$\{s,w\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \{s,w\} & \{s,w\} & \{s,w\} & \{r,s,w\} & \{s,w\} \\ 
+2 & \{s,w\} & \{s,w\} & \{s,w\} & \{s,w\} & \{s,w\} & \{s,w\} \\ 
+\end{array}
+\]
+%
+
+\item
+The algorithm $solve_P(\emptyset, \{c,d,l,m,s,t\})$ 
+first applies the procedure $expand_P$ and
+generates the pair $(\emptyset, \{c,d,l,m,s,t\})$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \emptyset & \emptyset & \{c,d,l,m,s,t\} & \{c,d,l,m,s,t\} & \{c,d,l,m,s,t\} \\ 
+\end{array}
+\]
+
+At this point it can choose any element in $\{c,d,l,m,s,t\}$.
+We assume that it chooses $s$.
+Then it calls $solve_P(\{s\},\{c,d,l,m,s,t\})$ and $solve_P(\{\},\{c,d,l,m,t\})$.
+
+In $solve_P(\{s\},\{c,d,l,m,s,t\})$ 
+the procedure $expand_P$ generates the pair
+\\
+$(\{c,m,s\},\{c,m,s\})$ 
+and returns the stable model $\{c,m,s\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \{s\} & \emptyset & \{s\} & \{c,d,l,m,s,t\} & \{c,m,s\} & \{c,m,s\} \\ 
+2 & \{s\} & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} \\ 
+3 & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} & \{c,m,s\} \\ 
+\end{array}
+\]
+
+In $solve_P(\{\},\{c,d,l,m,t\})$ 
+the procedure $expand_P$ generates the pair
+$(\{d,l,t\},\{d,l,t\})$ 
+and returns the stable model $\{d,l,t\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \{d,l,t\} & \{d,l,t\} & \{c,d,l,m,t\} & \{c,d,l,m,s,t\} & \{c,d,l,m,t\} \\ 
+2 & \{d,l,t\} & \{d,l,t\} & \{d,l,t\} & \{c,d,l,m,t\} & \{d,l,t\} & \{d,l,t\} \\ 
+3 & \{d,l,t\} & \{d,l,t\} & \{d,l,t\} & \{d,l,t\} & \{d,l,t\} & \{d,l,t\} \\ 
+\end{array}
+\]
+
+%
+\item
+The algorithm $solve_P(\emptyset, \{dr,sa,sh,sn\})$ 
+first applies the procedure $expand_P$ and
+generates the pair $(\emptyset, \{dr,sa,sh,sn\})$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \emptyset & \emptyset & \{dr,sa,sh,sn\} & \{dr,sa,sh,sn\} & \{dr,sa,sh,sn\} \\ 
+\end{array}
+\]
+
+At this point it can choose any element in $\{dr,sa,sh,sn\}$.
+We assume that it chooses $sh$.
+Then it calls $solve_P(\{sh\},\{dr,sa,sh,sn\})$ and $solve_P(\emptyset,\{dr,sa,sn\})$.
+
+In $solve_P(\{sh\},\{dr,sa,sh,sn\})$ 
+the procedure $expand_P$ generates the pair
+\\
+$(\{sh,sn\},\{sh,sn\})$ 
+and returns the stable model $\{sh,sn\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \{sh\} & \emptyset & \{sh\} & \{dr,sa,sh,sn\} & \{sa,sh,sn\} & \{sa,sh,sn\} \\ 
+2 & \{sh\} & \{sh,sn\} & \{sh,sn\} & \{sa,sh,sn\} & \{sa,sh,sn\} & \{sa,sh,sn\} \\ 
+3 & \{sh,sn\} & \{sh,sn\} & \{sh,sn\} & \{sa,sh,sn\} & \{sh,sn\} & \{sh,sn\} \\ 
+4 & \{sh,sn\} & \{sh,sn\} & \{sh,sn\} & \{sh,sn\} & \{sh,sn\} & \{sh,sn\} \\ 
+\end{array}
+\]
+
+In $solve_P(\emptyset,\{dr,sa,sn\})$ 
+the procedure $expand_P$ generates the pair
+\\$(\{dr,sa,sh,sn\},\{dr,sa,sn\})$ 
+and fails:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \{dr,sa,sh,sn\} & \{dr,sa,sh,sn\} & \{dr,sa,sn\} & \{dr,sa,sh,sn\} & \{dr,sa,sn\} \\ 
+\end{array}
+\]
+
+%
+\item
+The algorithm $solve_P(\emptyset, \{a,c,f,m,r,w\})$
+first applies the procedure $expand_P$ and
+generates the pair $(\{\}, \{a,c,f,m,r,w\})$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \emptyset & \emptyset & \{a,c,f,m,r,w\} & \{a,c,f,m,r,w\} & \{a,c,f,m,r,w\} \\ 
+\end{array}
+\]
+
+At this point it can choose any element in $\{a,c,f,m,r,w\}$.
+We assume that it chooses $c$.
+Then it calls $solve_P(\{c\},\{a,c,f,m,r,w\})$ and $solve_P(\emptyset,\{a,f,m,r,w\})$.
+
+In $solve_P(\{c\},\{a,c,f,m,r,w\})$ 
+the procedure $expand_P$ generates the pair
+\\
+$(\{c,m,r\},\{c,m,r\})$
+and returns the stable model $\{c,m,r\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \{c\} & \emptyset & \{c\} & \{a,c,f,m,r,w\} & \{c,m,r\} & \{c,m,r\} \\ 
+2 & \{c\} & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} \\ 
+3 & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} & \{c,m,r\} \\ 
+\end{array}
+\]
+
+In $solve_P(\emptyset,\{a,f,m,r,w\})$ 
+the procedure $expand_P$ generates the pair
+$(\{a,f,w\},\{a,f,w\})$ 
+and returns the stable model $\{a,f,w\}$:
+\[
+\begin{array}{c@{\hspace{10pt}}llllll}
+& L' & \mathit{Cn}(P^{U'}) & L
+& U' & \mathit{Cn}(P^{L'}) & U \\\hline\\[-3mm]
+1 & \emptyset & \{a,f,w\} & \{a,f,w\} & \{a,f,m,r,w\} & \{a,c,f,m,r,w\} & \{a,f,m,r,w\} \\ 
+2 & \{a,f,w\} & \{a,f,w\} & \{a,f,w\} & \{a,f,m,r,w\} & \{a,f,w\} & \{a,f,w\} \\ 
+3 & \{a,f,w\} & \{a,f,w\} & \{a,f,w\} & \{a,f,w\} & \{a,f,w\} & \{a,f,w\} \\ 
+\end{array}
+\]
+
+\end{UList}}
+\end{Loesung}
