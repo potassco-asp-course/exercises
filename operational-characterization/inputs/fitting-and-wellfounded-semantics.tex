@@ -1,0 +1,574 @@
+\begin{Uebung}{(Fitting and Wellfounded Semantics)}
+For the following logic programs~$\Pi$, 
+find the Fitting Semantics and the Wellfounded Semantics.
+%the positive dependency graph $\G{\Pi}$,
+%the loops in $\Loop{\Pi}$,
+%the loop formulas in $\LF{\Pi}$,
+%the models of $\Comp{\Pi}$ and %,
+%the stable models of~$\Pi$.
+% die keine Stable Models von~$\Pi$ sind, an. %,
+% alle Modelle von $\Comp{\Pi}$ sowie
+% alle Stable Models von~$\Pi$ an.
+%
+\begin{UList}
+\item
+\(
+  \Pi 
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l@{\hspace{16mm}}r@{}c@{}l@{\hspace{16mm}}r@{}c@{}l}
+    a & {} \leftarrow {} & b,\naf{e} &
+    b & {} \leftarrow {} & \naf{c}   &   
+    c & {} \leftarrow {} & \naf{a}   
+    \\
+    a & {} \leftarrow {} & \naf{d}   & 
+    c & {} \leftarrow {} & d,\naf{e} &   
+    d & {} \leftarrow {} &     
+  \end{array}
+  \right\}
+\)
+%
+\item
+\(
+  \Pi 
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l@{\hspace{15.5mm}}r@{}c@{}l@{\hspace{15.7mm}}r@{}c@{}l}
+    a & {} \leftarrow {} & b,\naf{f} &
+    b & {} \leftarrow {} & a,c              &   
+    d & {} \leftarrow {} & \naf{f}   
+    \\
+    a & {} \leftarrow {} & e                & 
+    c & {} \leftarrow {} & d,\naf{e} &   
+    e & {} \leftarrow {} & f     
+  \end{array}
+  \right\}
+\)
+\item
+\(
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{15.3mm}}r@{}c@{}l@{\hspace{19.5mm}}r@{}c@{}l}
+a & {} \leftarrow {} & &
+b & {} \leftarrow {} & \naf{a} &
+b & {} \leftarrow {} & c,d
+\\
+c & {} \leftarrow {} & a,\naf{e} &
+d & {} \leftarrow {} & b,c &
+d & {} \leftarrow {} & e,\naf{a}
+\end{array}
+\right\}
+\)
+\item
+\(
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{11.5mm}}r@{}c@{}l@{\hspace{16mm}}r@{}c@{}l}
+a & {} \leftarrow {} & b,f &
+b & {} \leftarrow {} & c,\naf{e} & 
+c & {} \leftarrow {} & a,b
+\\
+a & {} \leftarrow {} & \naf{c},\naf{e} &
+b & {} \leftarrow {} & \naf{d} &
+c & {} \leftarrow {} & e
+\\
+d & {} \leftarrow {} & \naf{e} &
+e & {} \leftarrow {} & \naf{d} &
+f & {} \leftarrow {} & a,\naf{g} 
+\end{array}
+\right\}
+\)
+\item
+\(
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{13.8mm}}r@{}c@{}l@{\hspace{11.6mm}}r@{}c@{}l}
+a & {} \leftarrow {} & d,\naf{f} &
+b & {} \leftarrow {} & \naf{e},\naf{f} &
+d & {} \leftarrow {} & g,\naf{c} 
+\\
+e & {} \leftarrow {} & a,h &
+f & {} \leftarrow {} & b,\naf{d} &
+f & {} \leftarrow {} & c,\naf{h} 
+\\
+g & {} \leftarrow {} & &
+h & {} \leftarrow {} & d,\naf{a} &
+h & {} \leftarrow {} & e,\naf{b}
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+%\textnormal{%
+\begin{UList}%
+%
+% a
+\item 
+\begin{description}
+
+ \item[Fitting Semantics:] ~\\
+   \(
+   \begin{array}[t]{rcrcrcl}
+     \Fi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+     \langle\emptyset,\emptyset\rangle \\
+     \Fi{1}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{0}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\emptyset} & = & 
+     \langle\{d\},\{e\}\rangle \\
+     \Fi{2}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{1}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{d\},\{e\}} & = & 
+     \langle\{c,d\},\{e\}\rangle \\
+     \Fi{3}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{2}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{c,d\},\{e\}} & = & 
+     \langle\{c,d\},\{b,e\}\rangle \\
+     \Fi{4}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{3}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{c,d\},\{b,e\}} & = & 
+     \langle\{c,d\},\{a,b,e\}\rangle \\
+     \Fi{5}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{4}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{c,d\},\{a,b,e\}} & = & 
+     \langle\{c,d\},\{a,b,e\}\rangle \\[2mm]
+     \underset{i\geq 0}{\bigsqcup}\Fi{i}{\Pi}{\emptyset,\emptyset} 
+     & & & & & = & \underline{\langle\{c,d\},\{a,b,e\}\rangle}
+   \end{array}
+   \)
+
+\item[Wellfounded Semantics:] ~\\
+  \(
+  \begin{array}[t]{rcrcrcl}
+    \Wi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+    \langle\emptyset,\emptyset\rangle \\
+    \Wi{1}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{0}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\emptyset} & = & 
+    \langle\{d\},\{e\}\rangle \\
+    \Wi{2}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{1}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{d\},\{e\}} & = & 
+    \langle\{c,d\},\{e\}\rangle \\
+    \Wi{3}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{2}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{c,d\},\{e\}} & = & 
+    \langle\{c,d\},\{a,b,e\}\rangle \\
+    \Wi{4}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{3}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{c,d\},\{a,b,e\}} & = & 
+    \langle\{c,d\},\{a,b,e\}\rangle \\[2mm]
+    \underset{i\geq 0}{\bigsqcup}\Wi{i}{\Pi}{\emptyset,\emptyset} 
+    & & & & & = & \underline{\langle\{c,d\},\{a,b,e\}\rangle}
+  \end{array}
+  \)
+%%
+%\item[Positive dependency graph:] ~\\
+%$\G{\Pi}=\big(\{a,b,c,d,e\},\{(b,a),(d,c)\}\big)$
+%%
+%\item[Loops:] ~\\
+%$\Loop{\Pi}=\emptyset$
+%%
+%\item[Loop formulas:] ~\\
+%$\LF{\Pi}=\emptyset$
+%%
+%\item[Clark's Completion:] ~\\
+%\(
+%  \Comp{\Pi}
+%  = 
+%  \left\{
+%  \begin{array}{r@{}c@{}l@{\hspace{16mm}}r@{}c@{}l@{\hspace{16mm}}r@{}c@{}l}
+%    a & {} \leftrightarrow {} & (b\wedge \neg e) \vee \neg d &
+%    b & {} \leftrightarrow {} & \neg c   &   
+%    c & {} \leftrightarrow {} & \neg a \vee (d\wedge\neg e) 
+%    \\
+%    d & {} \leftrightarrow {} & \top &
+%    e & {} \leftrightarrow {} & \bot
+%  \end{array}
+%  \right\}
+%\)
+%%
+%\item[Supported Models:] %~\\
+%$\{c,d\}$
+%%
+%\item[Stable Models:] %~\\
+%$\{c,d\}$
+%
+\end{description}
+%
+% b
+\item 
+\begin{description}
+
+ \item[Fitting Semantics:] ~\\
+   \(
+   \begin{array}[t]{rcrcrcl}
+     \Fi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+     \langle\emptyset,\emptyset\rangle \\
+     \Fi{1}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{0}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\emptyset} & = & 
+     \langle\emptyset,\{f\}\rangle \\
+     \Fi{2}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{1}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\{f\}} & = & 
+     \langle\{d\},\{e,f\}\rangle \\
+     \Fi{3}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{2}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{d\},\{e,f\}} & = & 
+     \langle\{c,d\},\{e,f\}\rangle \\
+     \Fi{4}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{3}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{c,d\},\{e,f\}} & = & 
+     \langle\{c,d\},\{e,f\}\rangle \\[2mm]
+     \underset{i\geq 0}{\bigsqcup}\Fi{i}{\Pi}{\emptyset,\emptyset} 
+     & & & & & = & \underline{\langle\{c,d\},\{e,f\}\rangle}
+   \end{array}
+   \)
+
+\item[Wellfounded Semantics:] ~\\
+  \(
+  \begin{array}[t]{rcrcrcl}
+    \Wi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+    \langle\emptyset,\emptyset\rangle \\
+    \Wi{1}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{0}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\emptyset} & = & 
+    \langle\emptyset,\{a,b,e,f\}\rangle \\
+    \Wi{2}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{1}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\{a,b,e,f\}} & = & 
+    \langle\{d\},\{a,b,e,f\}\rangle \\
+    \Wi{3}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{2}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{d\},\{a,b,e,f\}} & = & 
+    \langle\{c,d\},\{a,b,e,f\}\rangle \\
+    \Wi{4}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{3}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{c,d\},\{a,b,e,f\}} & = & 
+    \langle\{c,d\},\{a,b,e,f\}\rangle \\[2mm]
+    \underset{i\geq 0}{\bigsqcup}\Wi{i}{\Pi}{\emptyset,\emptyset} 
+    & & & & & = & \underline{\langle\{c,d\},\{a,b,e,f\}\rangle}
+  \end{array}
+  \)
+%
+%\item[Positive dependency graph:] ~\\
+%$\G{\Pi}=\big(\{a,b,c,d,e,f\},\{(a,b),(b,a),(c,b),(d,c),(e,a),(f,e)\}\big)$
+%%
+%\item[Loops:] ~\\
+%$\Loop{\Pi}=\big\{\{a,b\}\big\}$
+%%
+%\item[Loop formulas:] ~\\
+%$\LF{\Pi}=\big\{a\vee b\rightarrow e\big\}$
+%%
+%\item[Clark's Completion:] ~\\
+%\(
+%  \Comp{\Pi}
+%  = 
+%  \left\{
+%  \begin{array}{r@{}c@{}l@{\hspace{15.5mm}}r@{}c@{}l@{\hspace{15.7mm}}r@{}c@{}l}
+%    a & {} \leftrightarrow {} & (b\wedge\neg f)\vee e &
+%    b & {} \leftrightarrow {} & a\wedge c              &   
+%    c & {} \leftrightarrow {} & d\wedge\neg e 
+%    \\
+%    d & {} \leftrightarrow {} & \neg f &
+%    e & {} \leftrightarrow {} & f      &
+%    f & {} \leftrightarrow {} & \bot
+%  \end{array}
+%  \right\}
+%\)
+%%
+%\item[Supported Models:] %~\\
+%$\{c,d\}$, $\{a,b,c,d\}$
+%%
+%\item[Stable Models:] %~\\
+%$\{c,d\}$
+%
+\end{description}\newpage
+%
+% c
+\item
+\begin{description}
+
+ \item[Fitting Semantics:] ~\\
+   \(
+   \begin{array}[t]{rcrcrcl}
+     \Fi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+     \langle\emptyset,\emptyset\rangle \\
+     \Fi{1}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{0}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\emptyset} & = & 
+     \langle\{a\},\{e\}\rangle \\
+     \Fi{2}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{1}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{a\},\{e\}} & = & 
+     \langle\{a,c\},\{e\}\rangle \\
+     \Fi{3}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{2}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{a,c\},\{e\}} & = & 
+     \langle\{a,c\},\{e\}\rangle \\[2mm]
+     \underset{i\geq 0}{\bigsqcup}\Fi{i}{\Pi}{\emptyset,\emptyset} 
+     & & & & & = & \underline{\langle\{a,c\},\{e\}\rangle}
+   \end{array}
+   \)
+
+\item[Wellfounded Semantics:] ~\\
+  \(
+  \begin{array}[t]{rcrcrcl}
+    \Wi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+    \langle\emptyset,\emptyset\rangle \\
+    \Wi{1}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{0}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\emptyset} & = & 
+    \langle\{a\},\{e\}\rangle \\
+    \Wi{2}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{1}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{a\},\{e\}} & = & 
+    \langle\{a,c\},\{b,d,e\}\rangle \\
+    \Wi{3}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{2}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{a,c\},\{b,d,e\}} & = & 
+    \langle\{a,c\},\{b,d,e\}\rangle \\[2mm]
+    \underset{i\geq 0}{\bigsqcup}\Wi{i}{\Pi}{\emptyset,\emptyset} 
+    & & & & & = & \underline{\langle\{a,c\},\{b,d,e\}\rangle}
+  \end{array}
+  \)
+%
+%\item[Positive dependency graph:] ~\\
+%$\G{\Pi}=\big(\{a,b,c,d,e\},\{(a,c),(b,d),(c,b),(c,d),(d,b),(e,d)\}\big)$
+%%
+%\item[Loops:] ~\\
+%$\Loop{\Pi}=\big\{\{b,d\}\big\}$
+%%
+%\item[Loop formulas:] ~\\
+%$\LF{\Pi}=\big\{b\vee d\rightarrow \neg a\vee (e\wedge\neg a)\big\}$
+%%
+%\item[Clark's Completion:] ~\\
+%\hspace*{-15mm}
+%\(
+%\Comp{\Pi} =
+%\left\{
+%\begin{array}{r@{}c@{}l@{\hspace{15.3mm}}r@{}c@{}l@{\hspace{19.5mm}}r@{}c@{}l}
+%a & {} \leftrightarrow {} & \top &
+%b & {} \leftrightarrow {} & \neg a \vee (c\wedge d) &
+%c & {} \leftrightarrow {} & a\wedge\neg e 
+%\\
+%d & {} \leftrightarrow {} & (b\wedge c) \vee (e\wedge\neg a) &
+%e & {} \leftrightarrow {} & \bot
+%\end{array}
+%\right\}
+%\)
+%%
+%\item[Supported Models:] %~\\
+%$\{a,c\}$, $\{a,b,c,d\}$
+%%
+%\item[Stable Models:] %~\\
+%$\{a,c\}$
+%%
+\end{description}
+%
+% d
+\item
+\begin{description}
+
+ \item[Fitting Semantics:] ~\\
+   \(
+   \begin{array}{rcrcrcl}
+     \Fi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+     \langle\emptyset,\emptyset\rangle \\
+     \Fi{1}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{0}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\emptyset} & = & 
+     \langle\emptyset,\{g\}\rangle \\
+     \Fi{2}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{1}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\{g\}} & = & 
+     \langle\emptyset,\{g\}\rangle \\[2mm]
+     \underset{i\geq 0}{\bigsqcup}\Fi{i}{\Pi}{\emptyset,\emptyset} 
+     & & & & & = & \underline{\langle\emptyset,\{g\}\rangle}
+   \end{array}
+   \)
+
+\item[Wellfounded Semantics:] ~\\
+  \(
+  \begin{array}{rcrcrcl}
+    \Wi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+    \langle\emptyset,\emptyset\rangle \\
+    \Wi{1}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{0}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\emptyset} & = & 
+    \langle\emptyset,\{g\}\rangle \\
+    \Wi{2}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{1}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\{g\}} & = & 
+    \langle\emptyset,\{g\}\rangle \\[2mm]
+    \underset{i\geq 0}{\bigsqcup}\Wi{i}{\Pi}{\emptyset,\emptyset} 
+    & & & & & = & \underline{\langle\emptyset,\{g\}\rangle}
+  \end{array}
+  \)
+%
+%\item[Positive dependency graph:] ~\\
+%$\G{\Pi}=\big(\{a,b,c,d,e,f,g\},\{(a,c),(a,f),(b,a),(b,c),(c,b),(e,c),(f,a)\}\big)$
+%%
+%\item[Loops:] ~\\
+%$\Loop{\Pi}=\big\{\{b,c\},\{a,b,c\},\{a,f\},\{a,b,c,f\}\big\}$
+%%
+%\item[Loop formulas:] ~\\
+%$\LF{\Pi}=
+%\left\{
+%  \begin{array}{r@{{}\rightarrow{}}l}
+%    b \vee c & \neg d \vee e
+%  \\
+%    a \vee b \vee c & (\neg c\wedge\neg e) \vee \neg d \vee e
+%  \\
+%    a \vee f & \neg c\wedge\neg e
+%  \\
+%    a \vee b \vee c \vee f & (\neg c\wedge\neg e) \vee \neg d \vee e
+%  \end{array}
+%\right\}$
+%%
+%\item[Clark's Completion:] ~\\
+%\hspace*{-15mm}
+%\(
+%\Comp{\Pi} =
+%\left\{
+%\begin{array}{r@{}c@{}l@{\hspace{13.8mm}}r@{}c@{}l@{\hspace{13.8mm}}r@{}c@{}l}
+%a & {} \leftrightarrow {} & (b\wedge f)\vee (\neg c\wedge\neg e) &
+%b & {} \leftrightarrow {} & (c\wedge \neg e)\vee \neg d & 
+%c & {} \leftrightarrow {} & (a\wedge b)\vee e
+%\\
+%d & {} \leftrightarrow {} & \neg e &
+%e & {} \leftrightarrow {} & \neg d &
+%f & {} \leftrightarrow {} & a\wedge\neg g
+%\\
+%g & {} \leftrightarrow {} & \bot 
+%\end{array}
+%\right\}
+%\)
+%%
+%\item[Supported Models:] %~\\
+%$\{a,b,c,d,f\}$, $\{a,d,f\}$, $\{a,b,c,e,f\}$, $\{b,c,e\}$
+%%
+%\item[Stable Models:] %~\\
+%$\{a,d,f\}$, $\{b,c,e\}$
+%
+\end{description}\newpage
+%
+% e
+\item
+\begin{description}
+
+ \item[Fitting Semantics:] ~\\
+   \(
+   \begin{array}{rcrcrcl}
+     \Fi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+     \langle\emptyset,\emptyset\rangle \\
+     \Fi{1}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{0}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\emptyset,\emptyset} & = & 
+     \langle\{g\},\{c\}\rangle \\
+     \Fi{2}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{1}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{g\},\{c\}} & = & 
+     \langle\{d,g\},\{c\}\rangle \\
+     \Fi{3}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{2}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{d,g\},\{c\}} & = & 
+     \langle\{d,g\},\{c,f\}\rangle \\
+     \Fi{4}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{3}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{d,g\},\{c,f\}} & = & 
+     \langle\{a,d,g\},\{c,f\}\rangle \\
+     \Fi{5}{\Pi}{\emptyset,\emptyset} & = & 
+     \FiPi{\Pi}\Fi{4}{\Pi}{\emptyset,\emptyset} & = &
+     \FiO{\Pi}{\{a,d,g\},\{c,f\}} & = & 
+     \langle\{a,d,g\},\{c,f\}\rangle \\[2mm]
+     \underset{i\geq 0}{\bigsqcup}\Fi{i}{\Pi}{\emptyset,\emptyset} 
+     & & & & & = & \underline{\langle\{a,d,g\},\{c,f\}\rangle}
+   \end{array}
+   \)
+
+\item[Wellfounded Semantics:] ~\\
+\hspace*{-6mm}
+  \(
+  \begin{array}{@{}rcrcrcl}
+    \Wi{0}{\Pi}{\emptyset,\emptyset} & & & & & = &
+    \langle\emptyset,\emptyset\rangle \\
+    \Wi{1}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{0}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\emptyset,\emptyset} & = & 
+    \langle\{g\},\{c\}\rangle \\
+    \Wi{2}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{1}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{g\},\{c\}} & = & 
+    \langle\{d,g\},\{c\}\rangle \\
+    \Wi{3}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{2}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{d,g\},\{c\}} & = & 
+    \langle\{d,g\},\{c,f\}\rangle \\
+    \Wi{4}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{3}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{d,g\},\{c,f\}} & = & 
+    \langle\{a,d,g\},\{c,f\}\rangle \\
+    \Wi{5}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{4}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{a,d,g\},\{c,f\}} & = & 
+    \langle\{a,d,g\},\{c,e,f,h\}\rangle \\
+    \Wi{6}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{5}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{a,d,g\},\{c,e,f,h\}} & = & 
+    \langle\{a,b,d,g\},\{c,e,f,h\}\rangle \\
+    \Wi{7}{\Pi}{\emptyset,\emptyset} & = & 
+    \WiPi{\Pi}\Wi{6}{\Pi}{\emptyset,\emptyset} & = &
+    \WiO{\Pi}{\{a,b,d,g\},\{c,e,f,h\}} & = & 
+    \langle\{a,b,d,g\},\{c,e,f,h\}\rangle \\[2mm]
+    \underset{i\geq 0}{\bigsqcup}\Wi{i}{\Pi}{\emptyset,\emptyset} 
+    & & & & & = & \underline{\langle\{a,b,d,g\},\{c,e,f,h\}\rangle}
+  \end{array}
+  \)
+%
+%\item[Positive dependency graph:] ~\\
+%$\G{\Pi}=\big(\{a,b,c,d,e,f,g,h\},\{(a,e),(b,f),(c,f),(d,a),(d,h),(e,h),(g,d),(h,e)\}\big)$
+%%
+%\item[Loops:] ~\\
+%$\Loop{\Pi}=\big\{\{e,h\}\big\}$
+%%
+%\item[Loop formulas:] ~\\
+%$\LF{\Pi}=\big\{e\vee h\rightarrow d\wedge\neg a\big\}$
+%%
+%\item[Clark's Completion:] ~\\
+%\hspace*{-15mm}
+%\(
+%\Comp{\Pi} =
+%\left\{
+%\begin{array}{r@{}c@{}l@{\hspace{13.8mm}}r@{}c@{}l@{\hspace{13.8mm}}r@{}c@{}l}
+%a & {} \leftrightarrow {} & d\wedge \neg f &
+%b & {} \leftrightarrow {} & \neg e\wedge\neg f &
+%c & {} \leftrightarrow {} & \bot
+%\\
+%d & {} \leftrightarrow {} & g\wedge\neg c &
+%e & {} \leftrightarrow {} & a\wedge h &
+%f & {} \leftrightarrow {} & (b\wedge\neg d) \vee (c\wedge\neg h)
+%\\
+%g & {} \leftrightarrow {} & \top &
+%h & {} \leftrightarrow {} & (d\wedge\neg a) \vee (e\wedge\neg b)
+%\end{array}
+%\right\}
+%\)
+%%
+%\item[Supported Models:] %~\\
+%$\{a,b,d,g\}$, $\{a,d,e,g,h\}$
+%%
+%\item[Stable Models:] %~\\
+%$\{a,b,d,g\}$
+%
+\end{description}
+\end{UList}
+%}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung05"
+%%% End: 

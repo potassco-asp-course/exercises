@@ -1,0 +1,208 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quizaufgaben
+
+\begin{quiz}
+\quizAufgabe{For every normal logic program program~$P$ and every partial interpretation~$\langle T,F \rangle$
+             there is at least one unfounded set of~$P$ with respect to~$\langle T, F \rangle$.}
+\quizAufgabe{Let~$P$ be a normal program and~$\langle T,F\rangle$ be
+             a partial interpretation.
+             If \nolinebreak a set $U\subseteq\atom{P}$ is unfounded for~$P$ wrt~$\langle T,F \rangle$,
+             then $(U\setminus F)$ is also    unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe{Let~$P$ be a normal program and~$\langle T,F \rangle\sqsubseteq\langle T',F' \rangle$
+             be a partial interpretations.
+             If \nolinebreak a set $U\subseteq\atom{P}$ is unfounded for~$P$ wrt~$\langle T ,F  \rangle$,
+             then $U$ is also                 unfounded for~$P$ wrt~$\langle T',F' \rangle$.}
+\quizAufgabe{Let~$P$ be a normal program and~$\langle T,F\rangle$
+             be a partial interpretation.
+             If \nolinebreak two sets $U_1,U_2\subseteq\atom{P}$ are unfounded for~$P$ wrt~$\langle T,F \rangle$,
+             then \mbox{$(U_1\cap U_2)$} is also               unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe{Let~$P$ be a normal program and~$\langle T,F\rangle$
+             be a partial interpretation.
+             If \nolinebreak two sets $U_1,U_2\subseteq\atom{P}$ are unfounded for~$P$ wrt~$\langle T,F \rangle$,
+             then \mbox{$(U_1\cup U_2)$} is also               unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe{Let~$P$ be a normal program and $X$ be a set of atoms.
+             If \nolinebreak $(\atom{P}\setminus X)$ is an unfounded set of~$P$ wrt~$\langle X,\emptyset \rangle$, 
+             then $X$ is a model of $P$.}
+%\quizAufgabe{Let~$P$ be a normal program and~$\langle T,F\rangle$
+%             be a partial interpretation.
+%             The set $\Cn{\{\head{r}\leftarrow\pbody{r}\mid
+%                            r\in P,
+%                            (\pbody{r}\cap F)\cup(\nbody{r}\cap T)=\emptyset\}}$
+%             is unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe{Let~$P$ be a normal program.
+             For every partial interpretation~$\langle T,F \rangle$, if
+             $\WiPi{P}\langle T,F \rangle=\langle T',F' \rangle$ then
+             $T'\cap F'=\emptyset$.}
+%\quizAufgabe{Let~$P$ be a normal program and~$X$ be a model of $\Comp{\Pi}$.
+%             For every sets $T\subseteq X,F\subseteq (\atom{\Pi}\setminus X)$,
+%             if $\langle T',F' \rangle=\FiPi{\Pi}{\langle T,F \rangle}$,
+%             then it holds that
+%             $T'\subseteq X,F'\subseteq (\atom{\Pi}\setminus\nolinebreak X)$.}
+\end{quiz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lösungen
+
+\begin{Loesung}
+\begin{quiz}
+\quizAufgabe[true]{For every normal logic program program~$P$ and every partial interpretation~$\langle T,F \rangle$
+             there is at least one unfounded set of~$P$ with respect to~$\langle T, F \rangle$.}
+\quizAufgabe[true]{Let~$P$ be a normal program and~$\langle T,F\rangle$ be
+             a partial interpretation.
+             If \nolinebreak a set $U\subseteq\atom{P}$ is unfounded for~$P$ wrt~$\langle T,F \rangle$,
+             then $(U\setminus F)$ is also    unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe[true]{Let~$P$ be a normal program and~$\langle T,F \rangle\sqsubseteq\langle T',F' \rangle$
+             be a partial interpretations.
+             If \nolinebreak a set $U\subseteq\atom{P}$ is unfounded for~$P$ wrt~$\langle T ,F  \rangle$,
+             then $U$ is also                 unfounded for~$P$ wrt~$\langle T',F' \rangle$.}
+\quizAufgabe[false]{Let~$P$ be a normal program and~$\langle T,F\rangle$
+             be a partial interpretation.
+             If \nolinebreak two sets $U_1,U_2\subseteq\atom{P}$ are unfounded for~$P$ wrt~$\langle T,F \rangle$,
+             then \mbox{$(U_1\cap U_2)$} is also               unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe[true]{Let~$P$ be a normal program and~$\langle T,F\rangle$
+             be a partial interpretation.
+             If \nolinebreak two sets $U_1,U_2\subseteq\atom{P}$ are unfounded for~$P$ wrt~$\langle T,F \rangle$,
+             then \mbox{$(U_1\cup U_2)$} is also               unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe[true]{Let~$P$ be a normal program and $X$ be a set of atoms.
+             If \nolinebreak $(\atom{P}\setminus X)$ is an unfounded set of~$P$ wrt~$\langle X,\emptyset \rangle$, 
+             then $X$ is a model of $P$.}
+%\quizAufgabe[false]{Let~$P$ be a normal program and~$\langle T,F\rangle$
+%             be a partial interpretation.
+%             The set $\Cn{\{\head{r}\leftarrow\pbody{r}\mid
+%                            r\in P,
+%                            (\pbody{r}\cap F)\cup(\nbody{r}\cap T)=\emptyset\}}$
+%             is unfounded for~$P$ wrt~$\langle T,F \rangle$.}
+\quizAufgabe[false]{Let~$P$ be a normal program.
+             For every partial interpretation~$\langle T,F \rangle$, if
+             $\WiPi{P}\langle T,F \rangle=\langle T',F' \rangle$ then
+             $T'\cap F'=\emptyset$.}
+%\quizAufgabe[true]{Let~$P$ be a normal program and~$X$ be a model of $\Comp{\Pi}$.
+%             For every sets $T\subseteq X,F\subseteq (\atom{\Pi}\setminus X)$,
+%             if $\langle T',F' \rangle=\FiPi{\Pi}{\langle T,F \rangle}$,
+%             then it holds that
+%             $T'\subseteq X,F'\subseteq (\atom{\Pi}\setminus\nolinebreak X)$.}
+\end{quiz}
+\end{Loesung}
+
+%%% Solutions in German
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Lösungen
+%%%
+%%%\begin{Loesung}
+%%%\begin{quiz}
+%%%\quizAufgabe[richtig]{Die leere Menge~$\emptyset$ ist unfundiert,
+%%%                      da $\head{r}\notin\emptyset$ f\"ur jede Regel
+%%%                      $r\in P$.}
+%%%% \quizAufgabe[richtig]{Wenn eine Menge $U\subseteq\atom{P}$ f\"ur $\langle T,F\rangle$ 
+%%%%                       unfundiert ist, dann erf\"ullt
+%%%%                       jede Regel $r\in P$ mindestens eine der folgenden drei
+%%%%                       Bedingungen:
+%%%%                       \begin{enumerate}\addtolength{\itemsep}{-3mm}
+%%%%                       \item $\head{r}\notin U$
+%%%%                       \item $(\pbody{r}\cap F)\cup(\nbody{r}\cap T)\neq\emptyset$
+%%%%                       \item $\pbody{r}\cap U\neq\emptyset$
+%%%%                       \end{enumerate}
+%%%%                       Wenn die erste Bedingung zutrifft, dann gilt $\head{r}\notin(U\setminus F)$,
+%%%%                       und die zweite Bedingung ist unabh\"angig von $U$ bzw.\ $(U\setminus F)$.
+%%%%                       Weiterhin folgt aus der dritten Bedingung,
+%%%%                       dass $\pbody{r}\cap (U\setminus F)\neq\emptyset$ oder 
+%%%%                       $\pbody{r}\cap (U\cap F)\neq\emptyset$, d.h.\
+%%%%                       $\pbody{r}\cap (U\setminus F)\neq\emptyset$ oder 
+%%%%                       $\pbody{r}\cap F\neq\nolinebreak\emptyset$ gilt.
+%%%%                       Wir haben somit gezeigt, dass mindestens eine der folgenden Bedingungen
+%%%%                       f\"ur jede Regel $r\in P$ zutrifft, wenn $U$ f\"ur $\langle T,F\rangle$ 
+%%%%                       unfundiert ist:
+%%%%                       \begin{enumerate}\addtolength{\itemsep}{-3mm}\renewcommand{\labelenumi}{\arabic{enumi}\rlap{$^\ast$}.}
+%%%%                       \item $\head{r}\notin (U\setminus F)$\renewcommand{\labelenumi}{\arabic{enumi}.}
+%%%%                       \item $(\pbody{r}\cap F)\cup(\nbody{r}\cap T)\neq\emptyset$\renewcommand{\labelenumi}{\arabic{enumi}\rlap{$^\ast$}.}
+%%%%                       \item $\pbody{r}\cap (U\setminus F)\neq\emptyset$
+%%%%                       \end{enumerate}
+%%%%                       Das bedeutet, dass $(U\setminus F)$ eine unfundierte Menge f\"ur $\langle T,F\rangle$ ist.}
+%%%% \quizAufgabe[richtig]{Falls eine Regel $r\in\Pi$ Bedingung 2\footnotemark[1] 
+%%%%                       f\"ur $\langle T,F \rangle$ erf\"ullt,
+%%%%                       dann erf\"ullt~$r$ diese auch bez\"uglich $\langle T',F' \rangle$,
+%%%%                       da $T\subseteq T'$ und $F\subseteq F'$.
+%%%%                       Ob Bedingung 1\footnotemark[2]
+%%%%                       oder 3\footnotemark[3]\ gilt (bzw.\ nicht gilt), h\"angt nicht von
+%%%%                       $\langle T,F \rangle$ bzw.\ $\langle T',F' \rangle$ ab.
+%%%%                       D.h.\ wenn Bedingung 1, 2 oder 3 f\"ur eine Regel $r\in\Pi$
+%%%%                       bez\"uglich $\langle T,F \rangle$ gilt,
+%%%%                       dann gilt diese Bedingung
+%%%%                       auch bez\"uglich $\langle T',F' \rangle$.
+%%%%                       Falls $U$ f\"ur $\langle T,F \rangle$ unfundiert ist,                      
+%%%%                       dann ist $U$ folglich auch f\"ur $\langle T',F' \rangle$ unfundiert.}
+%%%\quizAufgabe[falsch]{Wir geben ein Gegenbeispiel an:
+%%%                      Bez\"uglich $P=\{a\leftarrow b,c\}$ sind
+%%%                      die Mengen $U_1=\{a,b\}$ und $U_2=\{a,c\}$ unfundiert f\"ur
+%%%                      $\langle\emptyset,\emptyset\rangle$,
+%%%                      aber $(U_1\cap U_2)=\{a\}$ ist nicht unfundiert f\"ur
+%%%                      $\langle\emptyset,\emptyset\rangle$.}
+%%%\quizAufgabe[richtig]{Wenn $U_1$ und $U_2$ beide unfundiert f\"ur $\langle T,F \rangle$ sind,
+%%%                      muss f\"ur jede Regel $r\in P$,
+%%%                      sodass $\head{r}\in(U_1\cup U_2)$ und $\pbody{r}\cap(U_1\cup U_2)=\emptyset$,
+%%%                      $(\pbody{r}\cap F)\cup(\nbody{r}\cap T)\neq\emptyset$ gelten.
+%%%                      Das bedeutet, dass $(U_1\cup U_2)$ unfundiert f\"ur $\langle T,F \rangle$ ist.}
+%%%\quizAufgabe[richtig]{Die folgenden Aussagen sind \"aquivalent zueinander:
+%%%                      \begin{itemize}\addtolength{\itemsep}{-3mm}
+%%%                      \item Die Menge $X$ von Atomen ist ein Modell von $P$.
+%%%                      \item F\"ur jede Regel $r\in P$ gilt mindestens eine der Bedingungen                           
+%%%                            $\head{r}\in X$, $\pbody{r}\not\subseteq X$ oder $\nbody{r}\cap X\neq\emptyset$.
+%%%                      \item F\"ur jede Regel $r\in P$ gilt mindestens eine der Bedingungen                           
+%%%                            $\head{r}\notin (\atom{P}\setminus X)$, $\pbody{r}\cap (\atom{P}\setminus X)\neq\emptyset$ oder $\nbody{r}\cap X\neq\emptyset$.
+%%%                      \item Die Menge $(\atom{P}\setminus X)$ ist unfundiert f\"ur % die partielle Interpretation
+%%%                            $\langle X,\emptyset \rangle$.
+%%%                      \end{itemize}}
+%%%\quizAufgabe[falsch]{Sei
+%%%                     $X=\Cn{\{\head{r}\leftarrow\pbody{r}\mid
+%%%                              r\in P,
+%%%                              (\pbody{r}\cap F)\cup(\nbody{r}\cap T)=\emptyset\}}$.
+%%%                     Falls $X$
+%%%                     nicht leer ist, ist f\"ur jede Menge $U\subseteq\atom{P}$,
+%%%                     sodass $U\cap X\neq\emptyset$,
+%%%                     das Komplement $\atom{P}\setminus U$ kein Modell von 
+%%%                     $\{\head{r}\leftarrow\pbody{r}\mid
+%%%                              r\in P,
+%%%                              (\pbody{r}\cap F)\cup(\nbody{r}\cap T)=\emptyset\}$.
+%%%                     Das bedeutet,
+%%%                     dass es eine Regel $r\in P$ gibt,
+%%%                     f\"ur die $\head{r}\in U$,
+%%%                     $(\pbody{r}\cap F)\cup(\nbody{r}\cap T)=\emptyset$ und
+%%%                     $\pbody{r}\subseteq \atom{P}\setminus U$, d.h.\ $\pbody{r}\cap U=\emptyset$, gilt.
+%%%                     Folglich sind alle Mengen $U\subseteq\atom{P}$,
+%%%                     sodass $U\cap X\neq\emptyset$, insbesondere $X$ selbst,
+%%%                     nicht unfundiert f\"ur $\langle T,F \rangle$.}
+%%%\quizAufgabe[falsch]{Gegenbeispiel: F\"ur $P=\{a\leftarrow a\}$ und
+%%%                     $\langle T,F \rangle=\langle \{a\},\emptyset \rangle$
+%%%                     gilt $\WiPi{P}\langle \{a\},\emptyset \rangle=\langle \{a\},\{a\} \rangle$.}
+%%%% \quizAufgabe[richtig]{%
+%%%%   F\"ur jedes Atom $x\in T'$ gibt es (mindestens) eine Regel $r\in\Pi$,
+%%%%   sodass $x=\head{r}$, $\pbody{r}\subseteq T\subseteq X$ und
+%%%%   $\nbody{r}\subseteq F\subseteq (\atom{\Pi}\setminus X)$,
+%%%%   d.h.
+%%%%   $X\models (
+%%%%     \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+%%%%     \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)
+%%%%   $
+%%%%   gilt.
+%%%%   Da $X$ ein Modell von $\Comp{\Pi}$ ist,
+%%%%   folgt daraus $x\in X$.\newline
+%%%%   F\"ur jedes Atom $x\in F'$ und jede Regel $r\in\Pi$,
+%%%%   sodass $x=\head{r}$, 
+%%%%   gilt $\pbody{r}\cap F\subseteq\pbody{r}\cap (\atom{\Pi}\setminus X)\neq\emptyset$ oder
+%%%%   $\nbody{r}\cap T\subseteq\nbody{r}\cap X\neq\emptyset$,
+%%%%   d.h.
+%%%%   $X\not\models (
+%%%%     \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+%%%%     \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)
+%%%%   $
+%%%%   gilt.
+%%%%   Da $X$ ein Modell von $\Comp{\Pi}$ ist,
+%%%%   folgt daraus $x\notin X$.
+%%%% }
+%%%\end{quiz}
+%%%% \footnotetext[1]{$(\pbody{r}\cap F)\cup(\nbody{r}\cap T)\neq\emptyset$}
+%%%% \footnotetext[2]{$\head{r}\notin U$}
+%%%% \footnotetext[3]{$\pbody{r}\cap U\neq\emptyset$}
+%%%\end{Loesung}
+%%%

@@ -1,0 +1,88 @@
+\begin{Uebung}{(Unfounded Sets)}%
+For the following normal programs~$\Pi$ and the partial interpretation
+$\langle\{a\},\{b\}\rangle$,
+find all unfounded sets $U$ and their loop formulas $\LFP{\Pi}{U}$.
+\begin{UList}
+\item
+\(
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l@{\hspace{16.5mm}}r@{}c@{}l}
+a & {} \leftarrow {} & c &
+b & {} \leftarrow {} & d,\naf{c} &
+d & {} \leftarrow {} & \naf{a}
+\\
+a & {} \leftarrow {} & \naf{b} &
+c & {} \leftarrow {} & a,d &
+d & {} \leftarrow {} & c
+\end{array}
+\right\}
+\)
+%
+\item
+\(
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{15.5mm}}r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l}
+a & {} \leftarrow {} & \naf{d} &
+b & {} \leftarrow {} & \naf{a} &
+b & {} \leftarrow {} & d,e
+\\
+c & {} \leftarrow {} & a,\naf{e} &
+d & {} \leftarrow {} & b,c &
+e & {} \leftarrow {} & d,\naf{c}
+\end{array}
+\right\}
+\)
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\textnormal{%
+\begin{UList}
+\item
+\begin{tabular}{|c|r@{${}\rightarrow{}$}l|}
+\hline
+$U$ &
+\multicolumn{2}{c|}{$\LFP{\Pi}{U}$}
+\\\hline
+$\emptyset$ &
+$\bot$ & $\bot$
+\\
+$\{c,d\}$ &
+$c\vee d$ & $\neg a$
+\\
+$\{b,c,d\}$ &
+$b\vee c\vee d$ & $\neg a$
+\\\hline
+\end{tabular}
+%
+\item
+\begin{tabular}{|c|r@{${}\rightarrow{}$}l|}
+\hline
+$U$ &
+\multicolumn{2}{c|}{$\LFP{\Pi}{U}$}
+\\\hline
+$\emptyset$ &
+$\bot$ & $\bot$
+\\
+$\{d\}$ &
+$d$ & $b\wedge c$
+\\
+$\{b,d\}$ &
+$b\vee d$ & $\neg a$
+\\
+$\{d,e\}$ &
+$d\vee e$ & $b\wedge c$
+\\
+$\{b,d,e\}$ &
+$b\vee d\vee e$ & $\neg a$
+\\\hline
+\end{tabular}
+\end{UList}}\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung05"
+%%% End: 
