@@ -1,0 +1,116 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quizaufgaben
+
+\begin{quiz}
+\quizAufgabe{%
+The sets of nogoods $\Delta_\Pi$ and $\Lambda_\Pi$ are the 
+input of the (deterministic) propagation inside
+\textsf{CDNL-ASP($\Pi$)}.
+}
+\quizAufgabe{%
+If a normal program~$\Pi$ is ``tight'', 
+then the sets of nogoods 
+$\Delta_\Pi$ and $\Delta_\Pi\cup\Lambda_\Pi$ 
+have the same solutions.%
+}
+\quizAufgabe{%
+If a normal program~$\Pi$ has no stable models, 
+then the nogoods in 
+$\Delta_\Pi\cup\Lambda_\Pi$
+imply the empty nogood
+$\emptyset$.%
+}
+\quizAufgabe{%
+If a normal program~$\Pi$ has no stable models, 
+then \textsf{CDNL-ASP($\Pi$)}
+is not guaranteed to terminate.% 
+}
+\quizAufgabe{%
+If the dynamic nogoods that are not ``asserting''
+(ie., those that do not imply any literal of the current assignment)
+are removed from~$\nabla$, 
+then \textsf{CDNL-ASP($\Pi$)}
+is not guaranteed to terminate.% 
+}
+% \quizAufgabe{%
+% Für ein gegebenes normales Programm~$\Pi$ generiert 
+% \textsf{CDNL-ASP($\Pi$)} die Menge
+% $\Delta_\Pi\cup\Lambda_\Pi$ von Nogoods.}
+% \quizAufgabe{%
+% Nach der Behandlung eines Konflikts wird innerhalb von
+% \textsf{CDNL-ASP}
+% nicht notwendigerweise das letzte (heuristisch bestimmte)
+% Entscheidungsliteral gedreht.}
+%\quizAufgabe[true]{A Unique Implication Point (UIP) of a decision level
+%             along with literals assigned at smaller decision levels
+%             lead to a conflict by propagation.}
+%\quizAufgabe[true]{Each decision level beyond~$0$ at which a conflict occurs has
+%             some UIP.}
+\end{quiz}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lösungen
+
+\begin{Loesung}
+\begin{quiz}
+\quizAufgabe[false]{%
+The (deterministic) propagation within 
+\textsf{CDNL-ASP($\Pi$)}
+is based on the completion nogoods in~$\Delta_\Pi$.
+The loop nogoods  
+in~$\Lambda_\Pi$
+are determined and recorded on demand, 
+when they are needed to falsify an unfounded set~$U$. 
+}
+\quizAufgabe[true]{%
+In general, the solutions of $\Delta_P\cup\Lambda_P$ correspond to the stable models of $P$,
+and the solutions of $\Delta_P$ correspond to the supported models of $P$.
+If $P$ is ``tight'', then the stable models and the supported models of $P$ coincide.
+Hence, in this case the solutions of $\Delta_P$ and $\Delta_P\cup\Lambda_P$ are the same.
+}
+\quizAufgabe[true]{%
+If $\Pi$ has no stable models, 
+then
+$\Delta_\Pi\cup\Lambda_\Pi$ has no solutions.
+That means that every set of literals is a nogood 
+(because it does not hold in any solution).
+This holds in particular for the empty nogood $\emptyset$.%
+}
+\quizAufgabe[false]{%
+For every conflict at a decision level~$\mathit{dl}>0$,
+a nogood~$\delta$, 
+that implies (at least) one literal at decision level~$k<\mathit{dl}$,
+is added to the set $\nabla$ of dynamic nogoods.
+After backjumping to~$k$,
+the number of assigned literals at~$k$ is increased.
+Given that the number of literals is finite, 
+at decision level~$k$ it is not possible to assign an arbitrary number of literals, 
+so sooner or later a conflict at~$k$ 
+(or at a decision level $\mathit{dl}<k$) must occur. 
+This holds, in particular, at decision level~$0$, where a conflict indicates
+the absence of stable models.%
+}
+\quizAufgabe[false]{%
+The argument of the previous quiz task applies also here, 
+for the case where (after backjumping) some nogoods~$\delta$, 
+that do not imply any literal of the current assignment, 
+are removed from~$\nabla$.
+Note that a nogood~$\delta$ determined in the conflict analysis
+is ``asserting'' after the backjump to a decision level~$k$, 
+so it must be kept in~$\nabla$ until the decision level~$k$ is 
+taken back (by another backjump).
+}
+%\quizAufgabe[true]{A Unique Implication Point (UIP) of a decision level
+%             along with literals assigned at smaller decision levels
+%             lead to a conflict by propagation.}
+%\quizAufgabe[true]{Each decision level beyond~$0$ at which a conflict occurs has
+%             some UIP.}
+\end{quiz}
+%\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung08"
+%%% End: 

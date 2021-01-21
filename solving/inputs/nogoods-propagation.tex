@@ -1,0 +1,142 @@
+\begin{Uebung}{(Nogoods and Propagation)}
+Consider the following logic program~$\Pi$:
+\[
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l}
+a & {} \leftarrow {} & c &
+b & {} \leftarrow {} & d,\naf c &
+d & {} \leftarrow {} & \naf a
+\\
+a & {} \leftarrow {} & \naf b &
+c & {} \leftarrow {} & a,d &
+d & {} \leftarrow {} & c
+\end{array}
+\right\}
+\]
+Find the sets of nogoods $\Delta_\Pi$ and $\Lambda_\Pi$
+and all solutions for $\Delta_\Pi\cup\Lambda_\Pi$.
+Then, determine all unit-resulting or violated nogoods from 
+$\Delta_\Pi\cup\Lambda_\Pi$ w.r.t.\ the following assignments~$A$.
+\begin{UList}
+\item
+$A=\left(\right)$
+\item
+$A=\left(\mathbf{T}c\right)$
+\item
+$A=\left(\mathbf{T}\{d,\naf c\}\right)$
+\item
+$A=\left(\mathbf{F}c,\mathbf{F}\{d,\naf c\}\right)$
+\item
+$A=\left(\mathbf{T}a,\mathbf{F}\{\naf a\},\mathbf{T}d\right)$
+\item
+$A=\left(\mathbf{T}a,\mathbf{F}\{\naf a\},\mathbf{F}d,\mathbf{F}\{a,d\},\mathbf{F}c,\mathbf{F}\{c\},\mathbf{F}\{d,\naf c\},\mathbf{F}b,\mathbf{T}\{\naf b\}\right)$
+% \item
+% $A=\left(\mathbf{T}a,\mathbf{F}\{\naf a\},\mathbf{T}\{\naf b\},\mathbf{F}b,\mathbf{F}\{d,\naf c\},\mathbf{T}c,\mathbf{T}\{c\},\mathbf{T}d,\mathbf{T}\{a,d\}\right)$
+\item
+$A=\left(\mathbf{F}a,\mathbf{T}\{\naf a\},\mathbf{T}d,\mathbf{F}\{a,d\},\mathbf{F}c,\mathbf{F}\{c\},\mathbf{T}\{d,\naf c\},\mathbf{T}b,\mathbf{F}\{\naf b\}\right)$
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\noindent\textnormal{%
+The set of completion nogoods is as follows:
+\begin{align*}
+  \Delta_\Pi = \big\{ &    
+  \{\mathbf{F}a,\mathbf{T}\{c\}\},\{\mathbf{F}a,\mathbf{T}\{\naf b\}\},
+  \{\mathbf{T}a,\mathbf{F}\{c\},\mathbf{F}\{\naf b\}\},
+  {} \\ &
+  \{\mathbf{F}b,\mathbf{T}\{d,\naf c\}\},\{\mathbf{T}b,\mathbf{F}\{d,\naf c\}\},
+  {} \\ &
+  \{\mathbf{F}c,\mathbf{T}\{a,d\}\},\{\mathbf{T}c,\mathbf{F}\{a,d\}\},
+  {} \\ &
+  \{\mathbf{F}d,\mathbf{T}\{\naf a\}\},\{\mathbf{F}d,\mathbf{T}\{c\}\},
+  \{\mathbf{T}d,\mathbf{F}\{\naf a\},\mathbf{F}\{c\}\},
+  {} \\[1mm] &
+  \{\mathbf{T}\{c\},\mathbf{F}c\},
+  \{\mathbf{F}\{c\},\mathbf{T}c\},
+  {} \\ &
+  \{\mathbf{T}\{\naf b\},\mathbf{T}b\},
+  \{\mathbf{F}\{\naf b\},\mathbf{F}b\},
+  {} \\ &
+  \{\mathbf{T}\{d,\naf c\},\mathbf{F}d\},
+  \{\mathbf{T}\{d,\naf c\},\mathbf{T}c\},
+  \{\mathbf{F}\{d,\naf c\},\mathbf{T}d,\mathbf{F}c\},
+  {} \\ &
+  \{\mathbf{T}\{a,d\},\mathbf{F}a\},
+  \{\mathbf{T}\{a,d\},\mathbf{F}d\},
+  \{\mathbf{F}\{a,d\},\mathbf{T}a,\mathbf{T}d\},
+  {} \\ &
+  \{\mathbf{T}\{\naf a\},\mathbf{T}a\},
+  \{\mathbf{F}\{\naf a\},\mathbf{F}a\}
+  \big\}
+\end{align*}
+The loops of $\Pi$ are $\Loop{\Pi}=\{\{a,c\},\{c,d\},\{a,c,d\}\}$.
+We obtain the following set of (relevant) loop nogoods:
+\begin{align*}
+  \Lambda_\Pi^{\Loop{\Pi}} = \big\{ &    
+  \{\mathbf{T}a,\mathbf{F}\{\naf b\}\},
+  \{\mathbf{T}c,\mathbf{F}\{\naf b\}\},
+  {} \\[1mm] &  
+  \{\mathbf{T}c,\mathbf{F}\{\naf a\}\},
+  \{\mathbf{T}d,\mathbf{F}\{\naf a\}\},
+  {} \\[1mm] &  
+  \{\mathbf{T}a,\mathbf{F}\{\naf a\},\mathbf{F}\{\naf b\}\},
+  {} \\ &
+  \{\mathbf{T}c,\mathbf{F}\{\naf a\},\mathbf{F}\{\naf b\}\},
+  {} \\ &
+  \{\mathbf{T}d,\mathbf{F}\{\naf a\},\mathbf{F}\{\naf b\}\}
+  \big\}
+\end{align*}
+The solutions
+$\{\mathbf{T}a,\mathbf{F}b,\mathbf{F}c,\mathbf{F}d,
+   \mathbf{F}\{c\},\mathbf{T}\{\naf b\},\mathbf{F}\{d,\naf c\},\mathbf{F}\{a,d\},\mathbf{F}\{\naf a\}\}$
+and\linebreak[4]%
+$\{\mathbf{F}a,\mathbf{T}b,\mathbf{F}c,\mathbf{T}d,
+   \mathbf{F}\{c\},\mathbf{F}\{\naf b\},\mathbf{T}\{d,\naf c\},\mathbf{F}\{a,d\},\mathbf{T}\{\naf a\}\}$
+for $\Delta_\Pi\cup\Lambda_\Pi^{\Loop{\Pi}}$
+correspond to the solutions of 
+$\Delta_\Pi\cup\Lambda_\Pi$, 
+and they represent the stable models $\{a\}$ and $\{b,d\}$ of~$\Pi$.
+\begin{UList}
+\item no unit-resulting or violated nogoods in $\Delta_\Pi\cup\Lambda_\Pi$
+\item $\{\mathbf{F}\{c\},\mathbf{T}c\}=\delta(\{c\})$,\newline
+      $\{\mathbf{T}\{d,\naf c\},\mathbf{T}c\}\in\Delta(\{d,\naf c\})$,\newline
+      $\{\mathbf{T}c,\mathbf{F}\{a,d\}\}=\delta(c)$
+      \begin{description}
+      \item[Remark:]
+      In addition, the following loop nogoods from $\Lambda_\Pi$ are unit-resulting w.r.t.~$A$
+      (but they are not applied by nogood propagation):\newline
+      $\{\mathbf{T}c,\mathbf{F}\{\naf b\}\}=\lambda(c,\{a,c\})$,\newline
+      $\{\mathbf{T}c,\mathbf{F}\{\naf a\}\}=\lambda(c,\{b,c,d\})=\lambda(c,\{c,d\})$
+      \end{description}
+\item $\{\mathbf{T}\{d,\naf c\},\mathbf{F}d\}\in\Delta(\{d,\naf c\})$,\newline
+      $\{\mathbf{T}\{d,\naf c\},\mathbf{T}c\}\in\Delta(\{d,\naf c\})$,\newline
+      $\{\mathbf{F}b,\mathbf{T}\{d,\naf c\}\}\in\Delta(b)$
+\item $\{\mathbf{T}\{c\},\mathbf{F}c\}\in\Delta(\{c\})$,\newline
+      $\{\mathbf{F}c,\mathbf{T}\{a,d\}\}\in\Delta(c)$,\newline
+      $\{\mathbf{T}b,\mathbf{F}\{d,\naf c\}\}=\delta(b)$,\newline
+      $\{\mathbf{F}\{d,\naf c\},\mathbf{T}d,\mathbf{F}c\}=\delta(\{d,\naf c\})$
+\item $\{\mathbf{F}\{a,d\},\mathbf{T}a,\mathbf{T}d\}=\delta(\{a,d\})$,\newline
+      $\{\mathbf{T}d,\mathbf{F}\{\naf a\},\mathbf{F}\{c\}\}=\delta(d)$,\newline
+      $\{\mathbf{T}b,\mathbf{F}\{\naf a\}\}=\lambda(b,\{b,c,d\})$,\newline
+      $\{\mathbf{T}c,\mathbf{F}\{\naf a\}\}=\lambda(c,\{b,c,d\})=\lambda(c,\{c,d\})$,\newline
+      $\{\mathbf{T}d,\mathbf{F}\{\naf a\}\}=\lambda(d,\{b,c,d\})=\lambda(d,\{c,d\})$
+      \begin{description}
+      \item[Remark:]
+      In addition, the following loop nogoods from $\Lambda_\Pi$ are unit-resulting w.r.t.~$A$
+      (but they are not applied by nogood propagation):\newline
+      $\{\mathbf{T}a,\mathbf{F}\{\naf b\}\}=\lambda(a,\{a,c\})$,\newline
+      $\{\mathbf{T}a,\mathbf{F}\{\naf a\},\mathbf{F}\{\naf b\}\}=\lambda(a,\{a,b,c,d\})=\lambda(a,\{a,c,d\})$,\newline
+      $\{\mathbf{T}d,\mathbf{F}\{\naf a\},\mathbf{F}\{\naf b\}\}=\lambda(d,\{a,b,c,d\})=\lambda(d,\{a,c,d\})$
+      \end{description}
+\item no unit-resulting or violated nogoods in $\Delta_\Pi\cup\Lambda_\Pi$
+% \item
+\item no unit-resulting or violated nogoods in $\Delta_\Pi\cup\Lambda_\Pi$
+\end{UList}}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "exercise05"
+%%% End: 

@@ -1,0 +1,153 @@
+\begin{Uebung}{(Conflict Analysis)}
+Let~$\Pi$ be the following logic program:
+\[
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l}
+a & {} \leftarrow {} & \naf b, \naf e &
+a & {} \leftarrow {} & f, \naf c &
+b & {} \leftarrow {} & d, \naf c
+\\
+c & {} \leftarrow {} & a, \naf e &
+d & {} \leftarrow {} & \naf b, \naf g &
+e & {} \leftarrow {} & \naf c
+\\
+f & {} \leftarrow {} & a, \naf d &
+f & {} \leftarrow {} & \naf b, \naf g &
+g & {} \leftarrow {} & a, e
+\end{array}
+\right\}
+\]
+The following table represents an assignment~$A$ with the decision level $\mathit{dl}$ of every literal.
+Decision literals are placed under $\sigma_d$,
+and literals under $\overline{\sigma}$ are implied by a noogod~$\delta\in\Delta_\Pi\cup\Lambda_\Pi$:
+
+\noindent
+\begin{tabular}{c@{\hspace{5mm}}|@{\hspace{5mm}}c@{\hspace{5mm}}@{\hspace{5mm}}c@{\hspace{5mm}}|@{\hspace{5mm}}l}
+$\mathit{dl}$ & $\sigma_d$ & $\overline{\sigma}$ & $\delta$
+\\\hline\hline
+$1$ & $\mathbf{F}c$ & &
+\\
+    & & $\mathbf{F}\{a, \naf e\}$ & $\{\mathbf{F}c,\mathbf{T}\{a,\naf e\}\}$
+\\
+    & & $\mathbf{T}\{\naf c\}$ & $\{\mathbf{F}\{\naf c\},\mathbf{F}c\}$
+\\
+    & & $\mathbf{T}e$ & $\{\mathbf{F}e,\mathbf{T}\{\naf c\}\}$
+\\
+    & & $\mathbf{F}\{\naf b, \naf e\}$ & $\{\mathbf{T}\{\naf b, \naf e\},\mathbf{T}e\}$
+\\\hline
+$2$ & $\mathbf{T}\{f,\naf c\}$ & &
+\\
+    & & $\mathbf{T}a$ & $\{\mathbf{F}a,\mathbf{T}\{f,\naf c\}\}$
+\\
+    & & $\mathbf{T}\{a,e\}$ & $\{\mathbf{F}\{a,e\},\mathbf{T}a,\mathbf{T}e\}$
+\\
+    & & $\mathbf{T}f$ & $\{\mathbf{T}\{f,\naf c\},\mathbf{F}f\}$
+\\
+    & & $\mathbf{T}g$ & $\{\mathbf{F}g,\mathbf{T}\{a,e\}\}$
+\\
+    & & $\mathbf{F}\{\naf b, \naf g\}$ & $\{\mathbf{T}\{\naf b, \naf g\},\mathbf{T}g\}$
+\\
+    & & $\mathbf{F}d$ & $\{\mathbf{T}d,\mathbf{F}\{\naf b, \naf g\}\}$
+\\
+    & & $\mathbf{F}\{d,\naf c\}$ & $\{\mathbf{T}\{d, \naf c\},\mathbf{F}d\}$
+\\
+    & & $\mathbf{F}b$ & $\{\mathbf{T}b,\mathbf{F}\{d, \naf c\}\}$
+\\
+    & & $\mathbf{T}\{a,\naf d\}$ & $\{\mathbf{T}f,\mathbf{F}\{a,\naf d\},\mathbf{F}\{\naf b, \naf g\}\}$
+\\
+    & & \lightning & $\{\mathbf{T}a,\mathbf{F}\{\naf b, \naf e\},\mathbf{F}\{\naf b, \naf g\}\}$
+\end{tabular}
+
+\begin{UList}
+\item
+Derive a conflict nogood~$\delta$ with the FirstUIP method, starting from the violated nogood
+%\vspace*{-2mm}
+\(
+%\varepsilon=
+\{\mathbf{T}a,\mathbf{F}\{\naf b, \naf e\},\mathbf{F}\{\naf b, \naf g\}\}\).
+%\vspace*{-4mm}%
+\item
+Find the assignment of \textsf{CDNL-ASP($\Pi$)}
+after conflict analysis.
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\begin{UList}
+\item[]\vspace{-4ex}\textnormal{%
+\item
+% \noindent
+Conflict analysis starts from the conflict nogood 
+$
+\varepsilon=\{\mathbf{T}a,\linebreak[1]\mathbf{F}\{\naf b, \naf e\},\linebreak[1]\mathbf{F}\{\naf b, \naf g\}\}$.
+This is resolved iteratively in inverse chronological order 
+with the nogoods that implied the literals in the assignment~$A$.
+In more detail, at every resolution step we obtain a new conflict nogood, 
+and we resolve it with the latest nogood that implied
+one of the literals in the current conflict nogood.
+The process stops once a nogood~$\delta$ with exactly one literal of the current decision level ($2$ in this case) is obtained.
+In the following table we underline the literals at decision level~$2$:}
+
+%\hspace{-20mm}
+\begin{tabular}[t]{c@{\hspace{2mm}}|@{\hspace{2mm}}c@{\hspace{2mm}}|@{\hspace{2mm}}c}
+$\delta$ & $\varepsilon$ & $\delta'$ 
+\\\hline
+$\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\underline{\mathbf{F}\{\naf b, \naf g\}}\}$
+&
+$\{\mathbf{T}\{\naf b, \naf g\},\underline{\mathbf{T}g}\}$
+&
+$\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\underline{\mathbf{T}g}\}$
+\\
+$\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\underline{\mathbf{T}g}\}$
+&
+$\{\mathbf{F}g,\underline{\mathbf{T}\{a,e\}}\}$
+&
+$\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\underline{\mathbf{T}\{a,e\}}\}$
+\\
+$\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\underline{\mathbf{T}\{a,e\}}\}$
+&
+$\{\mathbf{F}\{a,e\},\underline{\mathbf{T}a},\mathbf{T}e\}$
+&
+$\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\mathbf{T}e\}$
+\\
+$\uuline{\{\underline{\mathbf{T}a},\mathbf{F}\{\naf b, \naf e\},\mathbf{T}e\}}$
+&&
+\end{tabular}
+\textnormal{%
+\item
+After conflict analysis, 
+backjumping returns to the highest decision level of the literals in the conflict nogood
+$\delta=\{\mathbf{T}a,\mathbf{F}\{\naf b, \naf e\},\mathbf{T}e\}$
+(without taking the UIP~$\mathbf{T}a$ into account).
+After backjumping, at decision level~$1$ 
+(to which $\mathbf{F}\{\naf b, \naf e\}$
+and $\mathbf{T}e$ belong)
+$\delta$ implies the complement~$\mathbf{F}a$ of the UIP, 
+so we obtain the following assignment:}
+
+\begin{tabular}{c@{\hspace{5mm}}|@{\hspace{5mm}}c@{\hspace{5mm}}@{\hspace{5mm}}c@{\hspace{5mm}}|@{\hspace{5mm}}l}
+$\mathit{dl}$ & $\sigma_d$ & $\overline{\sigma}$ & $\delta$
+\\\hline\hline
+$1$ & $\mathbf{F}c$ & &
+\\
+    & & $\mathbf{F}\{a, \naf e\}$ & $\{\mathbf{F}c,\mathbf{T}\{a,\naf e\}\}$
+\\
+    & & $\mathbf{T}\{\naf c\}$ & $\{\mathbf{F}\{\naf c\},\mathbf{F}c\}$
+\\
+    & & $\mathbf{T}e$ & $\{\mathbf{F}e,\mathbf{T}\{\naf c\}\}$
+\\
+    & & $\mathbf{F}\{\naf b, \naf e\}$ & $\{\mathbf{T}\{\naf b, \naf e\},\mathbf{T}e\}$
+\\
+    & & $\mathbf{F}a$ & $\{\mathbf{T}a,\mathbf{F}\{\naf b, \naf e\},\mathbf{T}e\}$
+\\  & & \textnormal{$\vdots$} &
+%\\[-4mm]
+\end{tabular}
+\end{UList}
+\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung08"
+%%% End: 

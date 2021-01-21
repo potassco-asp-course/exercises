@@ -1,0 +1,135 @@
+\begin{Uebung}{(\textsf{CDNL-ASP})}
+Let~$\Pi$ be the following logic program:
+\[
+\Pi =
+\left\{
+\begin{array}{r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l@{\hspace{20mm}}r@{}c@{}l}
+a & {} \leftarrow {} & b,c &
+a & {} \leftarrow {} & e,f &
+b & {} \leftarrow {} & c,\naf e
+\\
+c & {} \leftarrow {} & \naf a, \naf e &
+c & {} \leftarrow {} & \naf f &
+d & {} \leftarrow {} & \naf b,\naf c
+\\
+e & {} \leftarrow {} & f,\naf b &
+f & {} \leftarrow {} & d &
+f & {} \leftarrow {} & e
+\end{array}
+\right\}
+\]
+\noindent
+The following table represents an assignment~$A$ with the decision level $\mathit{dl}$ of every literal.
+Decision literals are placed under $\sigma_d$,
+and literals under $\overline{\sigma}$ are implied by a noogod~$\delta\in\Delta_\Pi\cup\Lambda_\Pi$:
+
+\begin{tabular}{c@{\hspace{5mm}}|@{\hspace{5mm}}c@{\hspace{5mm}}@{\hspace{5mm}}c@{\hspace{5mm}}|@{\hspace{5mm}}l}
+$\mathit{dl}$ & $\sigma_d$ & $\overline{\sigma}$ & $\delta$
+\\\hline\hline
+$1$ & $\mathbf{F}\{b,c\}$ & & 
+\\\hline
+$2$ & $\mathbf{F}a$ & & 
+\\
+& & $\mathbf{F}\{e,f\}$ & $\{\mathbf{F}a,\mathbf{T}\{e,f\}\}$
+\\\hline
+$3$ & $\mathbf{F}d$ & & 
+\end{tabular}
+
+\begin{UList}
+\item
+Find 
+a conflict nogood~$\varepsilon$
+with \textsf{NogoodPropagation($\Pi$,$\emptyset$,$A$)}.
+\item
+Derive a conflict nogood~$\delta$ with the FirstUIP method starting from~$\varepsilon$.
+\item
+Find the assignment of \textsf{CDNL-ASP($\Pi$)}
+after conflict analysis.
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\textnormal{%
+\begin{UList}
+\item
+\begin{tabular}[t]{c@{\hspace{5mm}}|@{\hspace{5mm}}c@{\hspace{5mm}}@{\hspace{5mm}}c@{\hspace{5mm}}|@{\hspace{5mm}}l}
+$\mathit{dl}$ & $\sigma_d$ & $\overline{\sigma}$ & $\delta$
+\\\hline\hline
+$1$ & $\mathbf{F}\{b,c\}$ & & 
+\\\hline
+$2$ & $\mathbf{F}a$ & & 
+\\
+& & $\mathbf{F}\{e,f\}$ & $\{\mathbf{F}a,\mathbf{T}\{e,f\}\}$
+\\\hline
+$3$ & $\mathbf{F}d$ & & 
+\\
+& & $\mathbf{F}\{\naf b,\naf c\}$ & $\{\mathbf{F}d,\mathbf{T}\{\naf b,\naf c\}\}$
+\\
+& & $\mathbf{F}\{d\}$ & $\{\mathbf{T}\{d\},\mathbf{F}d\}$
+\\
+& & $\mathbf{F}e$ & $\{\mathbf{T}e,\mathbf{F}\{d\}\}=\lambda(e,\{e,f\})$
+\\
+& & $\mathbf{F}\{e\}$ & $\{\mathbf{T}\{e\},\mathbf{F}e\}$
+\\
+& & $\mathbf{F}f$ & $\{\mathbf{T}f,\mathbf{F}\{d\},\mathbf{F}\{e\}\}$
+\\
+& & $\mathbf{T}\{\naf f\}$ & $\{\mathbf{F}\{\naf f\},\mathbf{F}f\}$
+\\
+& & $\mathbf{T}c$ & $\{\mathbf{F}c,\mathbf{T}\{\naf f\}\}$
+\\
+& & $\mathbf{T}\{c,\naf e\}$ & $\{\mathbf{F}\{c,\naf e\},\mathbf{T}c,\mathbf{F}e\}$
+\\
+& & $\mathbf{T}b$ & $\{\mathbf{F}b,\mathbf{T}\{c,\naf e\}\}$
+\\
+& & \lightning & $\{\mathbf{F}\{b,c\},\mathbf{T}b,\mathbf{T}c\}$
+\end{tabular}
+\item
+\begin{tabular}[t]{c@{\hspace{2mm}}|@{\hspace{2mm}}c@{\hspace{2mm}}|@{\hspace{2mm}}c}
+$\delta$ & $\varepsilon$ & $\delta'$ 
+\\\hline
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{T}b},\underline{\mathbf{T}c}\}$ &
+$\{\mathbf{F}b,\underline{\mathbf{T}\{c,\naf e\}\}}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{T}c},\underline{\mathbf{T}\{c,\naf e\}}\}$
+\\
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{T}c},\underline{\mathbf{T}\{c,\naf e\}}\}$ &
+$\{\mathbf{F}\{c,\naf e\},\underline{\mathbf{T}c},\underline{\mathbf{F}e}\}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{T}c},\underline{\mathbf{F}e}\}$
+\\
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{T}c},\underline{\mathbf{F}e}\}$ &
+$\{\mathbf{F}c,\underline{\mathbf{T}\{\naf f\}}\}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{T}\{\naf f\}}\}$
+\\
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{T}\{\naf f\}}\}$ &
+$\{\mathbf{F}\{\naf f\},\underline{\mathbf{F}f}\}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{F}f}\}$
+\\
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{F}f}\}$ &
+$\{\mathbf{T}f,\underline{\mathbf{F}\{d\}},\underline{\mathbf{F}\{e\}}\}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{F}\{d\}},\underline{\mathbf{F}\{e\}}\}$
+\\
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{F}\{d\}},\underline{\mathbf{F}\{e\}}\}$ &
+$\{\mathbf{T}\{e\},\underline{\mathbf{F}e}\}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{F}\{d\}}\}$
+\\
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}e},\underline{\mathbf{F}\{d\}}\}$ &
+$\{\mathbf{T}e,\underline{\mathbf{F}\{d\}}\}$ &
+$\{\mathbf{F}\{b,c\},\underline{\mathbf{F}\{d\}}\}$
+\\
+$\uuline{\{\mathbf{F}\{b,c\},\underline{\mathbf{F}\{d\}}\}}$ &
+\end{tabular}
+\item
+\begin{tabular}[t]{c@{\hspace{5mm}}|@{\hspace{5mm}}c@{\hspace{5mm}}@{\hspace{5mm}}c@{\hspace{5mm}}|@{\hspace{5mm}}l}
+$\mathit{dl}$ & $\sigma_d$ & $\overline{\sigma}$ & $\delta$
+\\\hline\hline
+$1$ & $\mathbf{F}\{b,c\}$ & & 
+\\
+$1$ & & $\mathbf{T}\{d\}$ & $\{\mathbf{F}\{b,c\},\mathbf{F}\{d\}\}$
+\\  & & \textnormal{$\vdots$} &
+\end{tabular}
+\end{UList}}\newpage
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung07"
+%%% End: 
