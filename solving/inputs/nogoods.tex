@@ -1,6 +1,7 @@
 \begin{Uebung}{(Nogoods from Logic Programs)}
 For the following normal logic program~$\Pi$,
-find the sets of nogoods $\Delta_\Pi$ and $\Lambda_\Pi$
+find the sets of completion nogoods $\Delta_\Pi$ and
+relevant loop nogoods $\Lambda_\Pi$,
 and all solutions for $\Delta_\Pi\cup\Lambda_\Pi$.
 %\begin{UList}
 %\item 
@@ -34,7 +35,7 @@ d & {} \leftarrow {} & a, \naf c
 
 \begin{Loesung}
 \noindent\textnormal{%
-The sets of nogoods $\Delta_\Pi$ and $\Lambda_\Pi$ can be defined as follows:
+The sets of completion nogoods $\Delta_\Pi$ and relevant loop nogoods $\Lambda_\Pi$ can be defined as follows:
 {\small
 \begin{align*}
   \Delta_\Pi = {} &  
@@ -72,8 +73,9 @@ The sets of nogoods $\Delta_\Pi$ and $\Lambda_\Pi$ can be defined as follows:
   B\in \body{\Pi},B=\{p_1,\dots,p_m,\naf p_{m+1},\dots,\naf p_n\}  
   \big\}
 \\[2mm]
-  \Lambda_\Pi = {} & 
-  \textnormal{$\bigcup$}_{\emptyset\subset U\subseteq\atom{\Pi}}
+  \Lambda_\Pi = {} &   
+  %\textnormal{$\bigcup$}_{\emptyset\subset U\subseteq\atom{\Pi}}
+  \textnormal{$\bigcup$}_{U\in\Loop{\Pi}}
   \big\{  
   \{\mathbf{T}p,\mathbf{F}B_1,\dots,\mathbf{F}B_k\}
   \mid
@@ -83,12 +85,12 @@ The sets of nogoods $\Delta_\Pi$ and $\Lambda_\Pi$ can be defined as follows:
   \{B_1,\dots,B_k\}
   \big\}
 \end{align*}}%
-In the following, when we specify $\Lambda_\Pi$ 
-we will constrain the loop nogoods to sets $U\subseteq\atom{\Pi}$
-that are loops of~$\Pi$ (formally, $U\in\Loop{\Pi}$).
-Given~$\Delta_\Pi$ all the other nogoods in $\Lambda_\Pi$ are
-``redundant'', and therefore they are not necessary
-for the solutions of $\Delta_\Pi\cup\Lambda_\Pi$ to correspond to stable models of~$\Pi$.
+%In the following, when we specify $\Lambda_\Pi$ 
+%we will constrain the loop nogoods to sets $U\subseteq\atom{\Pi}$
+%that are loops of~$\Pi$ (formally, $U\in\Loop{\Pi}$).
+%Given~$\Delta_\Pi$ all the other nogoods in $\Lambda_\Pi$ are
+%``redundant'', and therefore they are not necessary
+%for the solutions of $\Delta_\Pi\cup\Lambda_\Pi$ to correspond to stable models of~$\Pi$.
 %\begin{UList}
 %\item 
 \newline
@@ -116,13 +118,17 @@ The set of completion nogoods of $\Pi$ is as follows:
   \{\mathbf{F}\{a,\naf c\},\mathbf{T}a,\mathbf{F}c\}
   \big\}
 \end{align*}
-Given that the program~$\Pi$ is tight, 
-the solutions of $\Delta_\Pi$
-correspond to those of $\Delta_\Pi\cup\Lambda_\Pi$.
+Given that the program~$\Pi$ is tight,
+the set of relevant loop nogoods~$\Lambda_\Pi$ is empty.
+Then the solutions of $\Delta_\Pi$
+are the same as the solutions of $\Delta_\Pi\cup\Lambda_\Pi$, and
+they correspond to the stable models of~$\Pi$.
+%
 The solutions
 $\{\mathbf{T}a,\mathbf{F}b,\mathbf{T}c,\mathbf{F}d,
-   \mathbf{T}\emptyset,\mathbf{T}\{\naf b,\naf d\},\mathbf{F}\{a,\naf c\}\}$
-and\linebreak[4]
+   \mathbf{T}\emptyset,\mathbf{T}\{\naf b,\naf d\},$
+$\mathbf{F}\{a,\naf c\}\}$
+and
 $\{\mathbf{T}a,\mathbf{F}b,\mathbf{F}c,\mathbf{T}d,
    \mathbf{T}\emptyset,\mathbf{F}\{\naf b,\naf d\},\mathbf{T}\{a,\naf c\}\}$
 for $\Delta_\Pi$
