@@ -48,7 +48,7 @@ Determine the stable models of~$P$ and the corresponding stable models of~$P'$.
 \begin{equation*}
 \begin{array}[t]{r@{{}\leftarrow{}}l@{\qquad}r@{{}\leftarrow{}}l@{\quad}r@{{}\leftarrow{}}l@{\quad}r@{{}\leftarrow{}}l}
 %\multicolumn{2}{l}
-a & \neg a'. %& \mathit{x}(1,1).
+a^* &
 &
 \mathit{x}(1,0) & \mathit{x}(2,0).
 &
@@ -56,7 +56,7 @@ a & \neg a'. %& \mathit{x}(1,1).
 &
 \mathit{x}(3,0) & \mathit{x}(4,0).
 \\
-a' & \neg{a}.
+a & a^*, \neg a'. %& \mathit{x}(1,1).
 &
 \mathit{x}(1,1) & \mathit{x}(2,0), a.
 &
@@ -64,7 +64,7 @@ a' & \neg{a}.
 &
 \mathit{x}(3,1) & \mathit{x}(4,0), \neg c.
 \\
-b^* & a.
+a' & \neg{a}.
 &
 \mathit{x}(1,1) & \mathit{x}(2,1).
 &
@@ -72,7 +72,7 @@ b^* & a.
 &
 [\mathit{x}(3,1) & \mathit{x}(4,1).]
 \\
-b & b^*, \neg b'.
+b^* & a.
 &
 \mathit{x}(1,2) & \mathit{x}(2,1), a.
 &
@@ -80,7 +80,7 @@ b & b^*, \neg b'.
 &
 [\mathit{x}(3,2) & \mathit{x}(4,1), \neg c.]
 \\
-b' &    \neg b. 
+b & b^*, \neg b'.
 &
 \mathit{x}(1,2) & \mathit{x}(2,2).
 &
@@ -89,11 +89,13 @@ b' &    \neg b.
 
 [\mathit{x}(3,2) & \mathit{x}(4,2).]
 \\
-d & x(1,2). 
+b' &    \neg b. 
 %\multicolumn{5}{@{}l}{\phantom{[}\mathit{x}(4,0).}
 & \multicolumn{5}{r@{{}\leftarrow{}}}{x(4,0)} & .%{\mathit{x}(1,3)} & \mathit{x}(2,2),a.
 %& 
 %[\mathit{x}(2,3) & \mathit{x}(3,2),b.]
+\\
+d & x(1,2). 
 \\
 d' & \neg d', \neg d.
 %\multicolumn{3}{r@{{}\leftarrow{}}}{
@@ -116,12 +118,12 @@ d' & \neg d', \neg d.
 \\\hline
 \{a,d\}
 &
-\{a,d,b^*,b',\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),
+\{a,d,a^*,b^*,b',\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),
 \mathit{x}(3,1),\mathit{x}(1,2)\}
 \\
 \{a,b,d\}
 &
-\{a,b,d,b^*,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),
+\{a,b,d,a^*,b^*,\mathit{x}(1,0),\mathit{x}(2,0),\mathit{x}(3,0),\mathit{x}(4,0),\mathit{x}(1,1),\mathit{x}(2,1),
 \mathit{x}(3,1),\mathit{x}(1,2),\mathit{x}(2,2)\}
 \end{array}
 \end{equation*}
