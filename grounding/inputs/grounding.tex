@@ -1,0 +1,679 @@
+\begin{Uebung}{(Grounding)}
+For the following logic programs~$\Pi$ and sets of facts~$I$:
+\begin{itemize}
+\item Find the dependency graph $G_{\Pi}$,
+      the positive dependency graph $G_{\Pi}^+$,
+      and one topological order $L_{\Pi}$.
+\item %For every rule $r$ occurring in a component $C$ of 
+      Given $L_{\Pi}$,
+      determine the set of atoms $R_r$ for every rule $r \in P$.\footnote{%
+      Atom $a \in R_r$ iff (i) $a \in \nbody{r}$ and (ii)
+      the predicate of $a$ occurs in the head of some rule
+      that belongs either to the component $C$ of $L_{\Pi}$ such that $r \in C$, or
+      to some other component that occurs after $C$ in $L_{\Pi}$.
+      Note that if $r$ is not involved in a cycle containing negative edges, then $R_r$ is empty.
+      On the other hand, if $r$ is involved in a cycle containing negative edges, then $R_r$ can either be empty or not.}
+\item Find the ground instantiation of~$\Pi$ and~$I$.\footnote{%
+      You can check this with \texttt{clingo} 
+      using the command \texttt{clingo --text program.lp facts.lp}.}
+      Start by initializing the sets of true atoms~$F$ and possible atoms $D$ to~$I$.
+      Then, ground successively the components of $L_{\Pi}$ applying on-the-fly simplifications.
+      For this, use the sets $F$, $D$ and $R_r$,
+      and update~$F$ and~$D$ after grounding each component.
+\end{itemize}
+
+%
+\begin{UList}
+\item
+\(
+%\begin{array}{l@{\hspace{4mm}}l}
+  \Pi 
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l}
+    select(X) & {} \leftarrow {} & vertex(X),\naf{nselect(X)} \\
+    nselect(X) & {} \leftarrow {} & vertex(X),\naf{select(X)} \\
+      & {} \leftarrow {} & edge(X,Y), select(X), select(Y)
+  \end{array}
+  \right\}
+\)
+
+% &
+\(
+  I 
+  = 
+  \left\{
+  \begin{array}{r@{}c}
+    vertex(1..3) & {} \leftarrow \\
+    edge(1,2) & {} \leftarrow \\
+    edge(2,3) & {} \leftarrow \\
+    edge(3,4) & {} \leftarrow \\
+    select(1) & {} \leftarrow
+  \end{array}
+  \right\}
+%\end{array}
+\)
+%
+\vspace{5mm}
+\item
+\(
+%\begin{array}{l@{\hspace{4mm}}l}
+  \Pi\text{\footnotemark}
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l}
+    select(X) & {} \leftarrow {} & element(S,X), \naf{nselect(X)} \\
+    nselect(X) & {} \leftarrow {} & element(S,X), \naf{select(X)} \\
+    & {} \leftarrow {} & set(S), element(S,X1), select(X1), \\
+    & {}            {} & element(S,X2), select(X2), X1 \neq X2\\
+    hit(S) & {} \leftarrow {} & element(S,X), select(X) \\
+    & {} \leftarrow {} & set(S), \naf{hit(S)}
+  \end{array}
+  \right\}
+\) % &
+
+\(
+  I 
+  = 
+  \left\{
+  \begin{array}{r@{}c}
+    set(1..3) & {} \leftarrow \\
+    element(1,a) & {} \leftarrow \\
+    element(2,b) & {} \leftarrow \\
+    element(2,c) & {} \leftarrow \\
+    element(3,b) & {} \leftarrow \\
+    nselect(a) & {} \leftarrow
+  \end{array}
+  \right\}
+% \end{array}
+\)
+\footnotetext{Comparison literals are completely evaluated during grounding.}
+%
+\newpage 
+\item
+\(
+\begin{array}{l@{\hspace{2mm}}l}
+  \Pi\text{\footnotemark}
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l}
+    \{ select(X) \}& {} \leftarrow {} & vertex(X) \\
+    covered(X,Y) & {} \leftarrow {} & edge(X,Y), select(X) \\
+    covered(X,Y) & {} \leftarrow {} & edge(X,Y), select(Y) \\
+    & {} \leftarrow {} & edge(X,Y), \naf{covered(X,Y)}
+  \end{array}
+  \right\}
+&
+  I 
+  = 
+  \left\{
+  \begin{array}{r@{}c}
+    vertex(1..4) & {} \leftarrow \\
+    edge(1,2) & {} \leftarrow \\
+    edge(2,3) & {} \leftarrow \\
+    edge(3,1) & {} \leftarrow \\
+    select(1) & {} \leftarrow
+  \end{array}
+  \right\}
+\end{array}
+\)
+\footnotetext{Choice rules are handled analogously to normal rules,
+except that they never contribute true atoms to the set $F$.}
+%\phantom{A\footnote{x}}
+%
+\vspace{5mm}
+\item
+\(
+\begin{array}{l@{\hspace{4mm}}l}
+  \Pi 
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l}
+    dominated(X) & {} \leftarrow {} & select(X) \\
+    dominated(X) & {} \leftarrow {} & edge(X,Y), select(Y) \\
+    dominated(X) & {} \leftarrow {} & edge(Y,X), select(Y) \\
+    incorrect & {} \leftarrow {} & vertex(X), \naf{dominated(X)} \\
+    correct & {} \leftarrow {} & \naf{incorrect}
+  \end{array}
+  \right\}
+&
+  I 
+  = 
+  \left\{
+  \begin{array}{r@{}c}
+    vertex(1..4) & {} \leftarrow \\
+    edge(1,2) & {} \leftarrow \\
+    edge(2,3) & {} \leftarrow \\
+    edge(3,4) & {} \leftarrow \\
+    select(1) & {} \leftarrow  \\
+    select(4) & {} \leftarrow
+  \end{array}
+  \right\}
+\end{array}
+\)
+%
+\vspace{5mm}
+\item
+\(
+% \begin{array}{l@{\hspace{4mm}}l}
+  \Pi 
+  = 
+  \left\{
+  \begin{array}{r@{}c@{}l}
+    holds(V1,A) & {} \leftarrow {} & atom(A), opp(V1,V2), \\
+                & {}            {} & \naf{holds(V2,A)} \\
+    satisfied(C) & {} \leftarrow {} & literal(C,V,A), holds(V,A) \\
+    & {} \leftarrow {} & clause(C), \naf{satisfied(C)}
+  \end{array}
+  \right\}
+% &
+\)
+
+\(
+  I 
+  = 
+  \left\{
+  \begin{array}{r@{}c}
+    atom(a;b;c) & {} \leftarrow \\
+    clause(1..3) & {} \leftarrow \\
+    literal(1,pos,a) & {} \leftarrow \\
+    literal(2,neg,a) & {} \leftarrow \\
+    literal(2,pos,b) & {} \leftarrow \\
+    literal(3,neg,b) & {} \leftarrow \\
+    literal(3,pos,c) & {} \leftarrow \\
+    opp(neg,pos) & {} \leftarrow \\
+    opp(pos,neg) & {} \leftarrow \\
+    holds(pos,a) & {} \leftarrow  \\
+  \end{array}
+  \right\}
+% \end{array}
+\)
+%
+\end{UList}
+\end{Uebung}
+
+\begin{Loesung}%
+\textnormal{%
+\begin{itemize}
+\item
+For each program $\Pi$,
+we refer by $r_1$ to the first written rule,
+by $r_2$ to the second written rule, and so on\ldots
+\item
+For every program $\Pi$ and set of facts $I$,
+the ground instantiation of $\Pi$ and $I$
+is the result of joining the ground instantiations of all components in $L_{\Pi}$.
+\end{itemize}
+}
+\begin{UList}%
+%
+% a
+\item 
+\begin{description}
+%
+\item[Dependency Graph:] ~\\
+\(
+  G_{\Pi} = \big( \Pi, \{(r_1,r_2), (r_2,r_1), (r_1,r_3)\} \big)
+\)
+%
+\item[Positive Dependency Graph:] ~\\
+\(
+  G_{\Pi}^+ = \big( \Pi, \{(r_1,r_3)\} \big)
+\)
+%
+\item[Topological orders:] ~\\
+\textnormal{%
+The topological orders are
+\begin{itemize}
+\item 
+$(\{r_1\},\{r_2\},\{r_3\})$, and
+\item 
+$(\{r_2\},\{r_1\},\{r_3\})$.
+\end{itemize}
+In the exercise we only need to find one,
+and in our case we choose \\ $L_{\Pi}=(\{r_1\},\{r_2\},\{r_3\})$.
+}
+%
+\item[Sets $R_r$ for $r \in \Pi$:] ~\\
+\textnormal{%
+$R_{r_1}=\{{nselect(X)}\}$, $R_{r_2}=\emptyset$, and $R_{r_3}=\emptyset$.
+}
+%
+\item[Grounding:] ~\
+\textnormal{%
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+  \item Initialization: $F = I$, $D = I$
+  \item Ground instantiation of component $\{r_1\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    select(2) & {} \leftarrow {} & \naf{nselect(2)} \\
+    select(3) & {} \leftarrow {} & \naf{nselect(3)}
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(2), select(3) \}$
+  \item Ground instantiation of component $\{r_2\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    nselect(2) & {} \leftarrow {} & \naf{select(2)} \\
+    nselect(3) & {} \leftarrow {} & \naf{select(3)}
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(2), select(3), nselect(2), nselect(3) \}$
+  \item Ground instantiation of component $\{r_3\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    & {} \leftarrow {} & select(2) \\
+    & {} \leftarrow {} & select(2), select(3)
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(2), select(3), nselect(2), nselect(3) \}$
+\end{enumerate}
+}
+%
+\end{description}
+%
+% b
+\item 
+\begin{description}
+%
+\item[Dependency Graph:] ~\\
+\(
+  G_{\Pi} = \big( \Pi, \{(r_1,r_2), (r_2,r_1), (r_1,r_3), (r_1,r_4), (r_4,r_5)\} \big)
+\)
+%
+\item[Positive Dependency Graph:] ~\\
+\(
+  G_{\Pi}^+ = \big( \Pi, \{(r_1,r_3), (r_1,r_4)\} \big)
+\)
+%
+\item[Topological orders:] ~\\
+\textnormal{%
+The topological orders are:
+\begin{itemize}
+\item
+$(\{r_1\},\{r_2\},\{r_3\},\{r_4\},\{r_5\})$,
+\item
+$(\{r_1\},\{r_2\},\{r_4\},\{r_5\},\{r_3\})$,
+\item
+$(\{r_1\},\{r_2\},\{r_4\},\{r_3\},\{r_5\})$,
+\item
+$(\{r_2\},\{r_1\},\{r_3\},\{r_4\},\{r_5\})$,
+\item
+$(\{r_2\},\{r_1\},\{r_4\},\{r_5\},\{r_3\})$, and
+\item
+$(\{r_2\},\{r_1\},\{r_4\},\{r_3\},\{r_5\})$.
+\end{itemize}
+In the exercise we only need to find one,
+and in our case we choose \\ $L_{\Pi}=(\{r_1\},\{r_2\},\{r_3\},\{r_4\},\{r_5\})$.
+}
+%
+\item[Sets $R_r$ for $r \in \Pi$:] ~\\
+\textnormal{%
+$R_{r_1}=\{{nselect(X)}\}$ and $R_{r_i}=\emptyset$ for $i \in \{2, \ldots, 5\}$.
+}
+%
+\item[Grounding:] ~\
+\textnormal{%
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+  \item Initialization: $F = I$, $D = I$
+  \item Ground instantiation of component $\{r_1\}$:\footnote{%
+  In this case, the grounder generates the same rule twice.\label{fnlabel}}
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    select(b) & {} \leftarrow {} & \naf{nselect(b)} \\
+    select(c) & {} \leftarrow {} & \naf{nselect(c)} \\
+    select(b) & {} \leftarrow {} & \naf{nselect(b)}
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(b), select(c) \}$
+  \item Ground instantiation of component $\{r_2\}$:\footref{fnlabel}
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    nselect(b) & {} \leftarrow {} & \naf{select(b)} \\
+    nselect(c) & {} \leftarrow {} & \naf{select(c)} \\
+    nselect(b) & {} \leftarrow {} & \naf{select(b)} \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$
+  \\
+  $D = I \cup \{ select(b), select(c), nselect(b), nselect(c) \}$
+  \item Ground instantiation of component $\{r_3\}$:\footref{fnlabel}
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    & {} \leftarrow {} & select(b), select(c) \\
+    & {} \leftarrow {} & select(c), select(b)
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$
+  \\
+  $D = I \cup \{ select(b), select(c), nselect(b), nselect(c) \}$
+  \item Ground instantiation of component $\{r_4\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    hit(2) & {} \leftarrow {} & select(b)\\
+    hit(2) & {} \leftarrow {} & select(c)\\
+    hit(3) & {} \leftarrow {} & select(b)
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(b), select(c), nselect(b), nselect(c), hit(2), hit(3) \}$
+  \item Ground instantiation of component $\{r_5\}$:\footnote{%
+  The grounder generates the empty integrity constraint, 
+  and in this way it proves that the program is unsatisfiable.}
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    & {} \leftarrow {} & \\
+    & {} \leftarrow {} & \naf{hit(2)}\\
+    & {} \leftarrow {} & \naf{hit(3)}\\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(b), select(c), nselect(b), nselect(c), hit(2), hit(3) \}$
+\end{enumerate}
+}
+%
+\end{description}
+%
+% c
+\item 
+\begin{description}
+%
+\item[Dependency Graph:] ~\\
+\(
+  G_{\Pi} = \big( \Pi, \{(r_1,r_2), (r_1,r_3), (r_2,r_4), (r_3,r_4)\} \big)
+\)
+%
+\item[Positive Dependency Graph:] ~\\
+\(
+  G_{\Pi}^+ = \big( \Pi, \{(r_1,r_2), (r_1,r_3)\} \big)
+\)
+%
+\item[Topological orders:] ~\\
+\textnormal{%
+The topological orders are:
+\begin{itemize}
+\item
+$(\{r_1\},\{r_2\},\{r_3\},\{r_4\})$, and
+\item
+$(\{r_1\},\{r_3\},\{r_2\},\{r_4\})$.
+\end{itemize}
+In the exercise we only need to find one,
+and in our case we choose \\ $L_{\Pi}=(\{r_1\},\{r_2\},\{r_3\},\{r_4\})$.
+}
+%
+\item[Sets $R_r$ for $r \in \Pi$:] ~\\
+\textnormal{%
+$R_{r_i}=\emptyset$ for $i \in \{1, \ldots, 4\}$.
+}
+%
+\item[Grounding:] ~\
+\textnormal{%
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+  \item Initialization: $F = I$, $D = I$
+  \item Ground instantiation of component $\{r_1\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    \{ select(2) \} & {} \leftarrow {} & \\
+    \{ select(3) \} & {} \leftarrow {} & \\
+    \{ select(4) \} & {} \leftarrow {} & \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ select(2..4) \}$
+  \item Ground instantiation of component $\{r_2\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    covered(1,2) & {} \leftarrow {} & \\
+    covered(2,3) & {} \leftarrow {} & select(2) \\
+    covered(3,1) & {} \leftarrow {} & select(3) \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{ covered(1,2) \}$
+  \\
+  $D = I \cup \{ select(2..4), covered(1,2), covered(2,3), covered(3,1) \}$
+  \item Ground instantiation of component $\{r_3\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    covered(2,3) & {} \leftarrow {} & select(3) \\
+    covered(3,1) & {} \leftarrow {} & \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{ covered(1,2), covered(3,1) \}$
+  \\
+  $D = I \cup \{ select(2..4), covered(1,2), covered(2,3), covered(3,1) \}$
+  \item Ground instantiation of component $\{r_4\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    & {} \leftarrow {} & \naf{covered(2,3)}\\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{ covered(1,2), covered(3,1) \}$
+  \\
+  $D = I \cup \{ select(2..4), covered(1,2), covered(2,3), covered(3,1) \}$
+\end{enumerate}
+}
+%
+\end{description}
+%
+% d
+\item 
+\begin{description}
+%
+\item[Dependency Graph:] ~\\
+\(
+  G_{\Pi} = \big( \Pi, \{(r_1,r_4), (r_2,r_4), (r_3,r_4), (r_4,r_5)\} \big)
+\)
+%
+\item[Positive Dependency Graph:] ~\\
+\(
+  G_{\Pi}^+ = \big( \Pi, \{\} \big)
+\)
+%
+\item[Topological orders:] ~\\
+\textnormal{%
+The topological orders are:
+\begin{itemize}
+\item
+$(\{r_1\},\{r_2\},\{r_3\},\{r_4\},\{r_5\})$,
+\item
+$(\{r_1\},\{r_3\},\{r_2\},\{r_4\},\{r_5\})$,
+\item
+$(\{r_2\},\{r_1\},\{r_3\},\{r_4\},\{r_5\})$,
+\item
+$(\{r_2\},\{r_3\},\{r_1\},\{r_4\},\{r_5\})$,
+\item
+$(\{r_3\},\{r_1\},\{r_2\},\{r_4\},\{r_5\})$, and
+\item
+$(\{r_3\},\{r_2\},\{r_1\},\{r_4\},\{r_5\})$.
+\end{itemize}
+In the exercise we only need to find one,
+and in our case we choose \\ $L_{\Pi}=(\{r_1\},\{r_2\},\{r_3\},\{r_4\},\{r_5\})$.
+}
+%
+\item[Sets $R_r$ for $r \in \Pi$:] ~\\
+\textnormal{%
+$R_{r_i}=\emptyset$ for $i \in \{1, \ldots, 5\}$.
+}
+%
+\item[Grounding:] ~\
+\textnormal{%
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+  \item Initialization: $F = I$, $D = I$
+  \item Ground instantiation of component $\{r_1\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    dominated(1) & {} \leftarrow {} & \\
+    dominated(4) & {} \leftarrow {} & \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{dominated(1), dominated(4) \}$
+  \\ 
+  $D = I \cup \{dominated(1), dominated(4) \}$
+  \item Ground instantiation of component $\{r_2\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    dominated(3) & {} \leftarrow {} & \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{dominated(1), dominated(3..4) \}$
+  \\ 
+  $D = I \cup \{dominated(1), dominated(3..4) \}$
+  \item Ground instantiation of component $\{r_3\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    dominated(2) & {} \leftarrow {} & \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{dominated(1..4) \}$
+  \\
+  $D = I \cup \{dominated(1..4) \}$
+  \item Ground instantiation of component $\{r_4\}$:
+  \( \left\{
+  \right\}
+  \)
+  \\
+  $F = I \cup \{dominated(1..4) \}$
+  \\
+  $D = I \cup \{dominated(1..4) \}$
+  \item Ground instantiation of component $\{r_5\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    correct & {} \leftarrow {} & \\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{dominated(1..4), correct \}$
+  \\
+  $D = I \cup \{dominated(1..4), correct \}$
+\end{enumerate}
+}
+%
+\end{description}
+%
+% e
+\item 
+\begin{description}
+%
+\item[Dependency Graph:] ~\\
+\(
+  G_{\Pi} = \big( \Pi, \{(r_1,r_1), (r_1,r_2), (r_2,r_3)\} \big)
+\)
+%
+\item[Positive Dependency Graph:] ~\\
+\(
+  G_{\Pi}^+ = \big( \Pi, \{(r_1,r_2)\} \big)
+\)
+%
+\item[Topological orders:] ~\\
+\textnormal{%
+The unique topological order is $L_{\Pi}=(\{r_1\},\{r_2\},\{r_3\})$.
+}
+%
+\item[Sets $R_r$ for $r \in \Pi$:] ~\\
+\textnormal{%
+$R_{r_1}=\{{holds(V2,A)}\}$ and $R_{r_i}=\emptyset$ for $i \in \{2,3\}$.
+}
+%
+\item[Grounding:] ~\
+\textnormal{%
+\begin{enumerate}
+  \setcounter{enumi}{-1}
+  \item Initialization: $F = I$, $D = I$
+  \item Ground instantiation of component $\{r_1\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+  holds(neg,b) & {} \leftarrow {} & \naf{holds(pos,b)} \\
+  holds(neg,c) & {} \leftarrow {} & \naf{holds(pos,c)} \\
+  holds(pos,b) & {} \leftarrow {} & \naf{holds(neg,b)} \\
+  holds(pos,c) & {} \leftarrow {} & \naf{holds(neg,c)}
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I$ 
+  \\ 
+  $D = I \cup \{ holds(neg,b), holds(neg,c), holds(pos,b), holds(pos,c) \}$
+  \item Ground instantiation of component $\{r_2\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    satisfied(1) & {} \leftarrow {} & \\
+    satisfied(2) & {} \leftarrow {} & {holds(pos,b)}\\
+    satisfied(3) & {} \leftarrow {} & {holds(neg,b)}\\
+    satisfied(3) & {} \leftarrow {} & {holds(pos,c)}\\
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{ satisfied(1) \}$ 
+  \\ 
+  $D = I \cup \{ holds(neg,b), holds(neg,c), holds(pos,b), holds(pos,c), satisfied(1..3) \}$
+  \item Ground instantiation of component $\{r_3\}$:
+  \( \left\{
+  \begin{array}{r@{}c@{}l}
+    & {} \leftarrow {} & \naf{satisfied(2)} \\
+    & {} \leftarrow {} & \naf{satisfied(3)}
+  \end{array}
+  \right\}
+  \)
+  \\
+  $F = I \cup \{ satisfied(1) \}$ 
+  \\ 
+  $D = I \cup \{ holds(neg,b), holds(neg,c), holds(pos,b), holds(pos,c), satisfied(1..3) \}$
+\end{enumerate}
+}
+%
+\end{description}
+\end{UList}
+%}
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung04"
+%%% End: 

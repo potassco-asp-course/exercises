@@ -1,0 +1,247 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quizaufgaben
+
+\begin{quiz}
+\quizAufgabe{%Sei~$\Pi$ ein normales Programm und~$X$ eine Menge von Atomen.
+             If a set of atoms $X$ is a model of a normal program~$\Pi$, 
+             then $X$ is a model of $\Comp{\Pi}$.} %\footnotemark}
+\quizAufgabe{%Sei~$\Pi$ ein normales Programm und~$X$ eine Menge von Atomen.
+             Given a normal program~$\Pi$, 
+             if a set of atoms $X$ is a model of $\Comp{\Pi}$,
+             then $X$ is a model of~$\Pi$.}
+\quizAufgabe{Given a normal program~$\Pi$, if a set of atoms $X$ is a model of~$\Comp{\Pi}$, 
+             then $X$ is a stable model of~$\Pi$.}
+\quizAufgabe{%Sei~$\Pi$ ein normales Programm und~$X$ eine Menge von Atomen.
+             If $X$ is a stable model of a normal program~$\Pi$,
+             then $X$ is a model of~$\Comp{\Pi}$.}
+% \quizAufgabe{Let~$\Pi$ ein normales Programm und~$X$ ein Modell von $\Comp{\Pi}$.
+%              F\"ur alle Mengen $T\subseteq X,F\subseteq (\atom{\Pi}\setminus X)$
+%              gilt 
+%              $T'\subseteq X,F'\subseteq (\atom{\Pi}\setminus\nolinebreak X)$,
+%              wenn $\langle T',F' \rangle=\FiPi{\Pi}{\langle T,F \rangle}$.}
+% \quizAufgabe{Sei~$\Pi$ ein normales Programm.
+%              F\"ur alle Mengen $T,F$ von Atomen,
+%              sodass $T\subseteq T',F\subseteq F'$, wenn
+%              $\langle T',F' \rangle=\FiPi{\Pi}{\langle T,F \rangle}$,
+%              gibt es ein Modell~$X$ von $\Comp{\Pi}$ mit
+%              $T'\subseteq X,F'\subseteq (\atom{\Pi}\setminus X)$.}
+\quizAufgabe{% Sei~$\Pi$ ein normales Programm.
+             Given a normal program~$\Pi$, 
+             if~$\Comp{\Pi}$ has (at least) one model,
+             then $\Pi$ has (at least) one stable model.}
+%%%\quizAufgabe{The decision problem, if for a normal program~$\Pi$
+%%%             there is (at least) one model of $\Comp{\Pi}$,
+%%%             is NP-complete.}
+
+% \quizAufgabe{Sei~$\Pi$ ein normales Programm und~$\langle T,F \rangle\sqsubseteq\langle T',F' \rangle$
+%              partielle Interpretationen.
+%              Wenn eine Menge $U\subseteq\atom{\Pi}$ für $\langle T,F \rangle$ unfundiert ist,
+%              dann ist $U$ auch für $\langle T',F' \rangle$ unfundiert.}
+% \quizAufgabe{Sei~$\Pi$ ein normales Programm und~$\langle T,F \rangle$ eine
+%              partielle Interpretation.
+%              Wenn $U_1,U_2\subseteq\atom{\Pi}$ für $\langle T,F \rangle$ unfundiert sind,
+%              dann ist auch $(U_1\cap U_2)$ f\"ur $\langle T,F \rangle$ unfundiert.}
+\quizAufgabe{Let~$\Pi$ be a normal program and~$X$ a set of atoms such that~$X\models\Comp{\Pi}$.
+             If $X$ is not a stable model of~$\Pi$,
+             then there is a loop $L\in\Loop{\Pi}$
+             such that $L\subseteq X$ and $X\not\models\LFP{\Pi}{L}$.}
+\quizAufgabe{Let~$\Pi$ be a normal program and $L_1,L_2\in\Loop{\Pi}$.
+             If $(L_1\cap\nolinebreak L_2)\neq\nolinebreak\emptyset$,
+             then $(L_1\cup L_2)\in\Loop{\Pi}$.}
+\end{quiz}
+%\footnotetext{%
+%Given a normal program $\Pi$, 
+%the Clark's Completion $\Comp{\Pi}$ 
+%is the following set of propositional formulas: \
+%$\Comp{\Pi}=\big\{\;a\leftrightarrow\big(
+%    \mbox{$\bigvee$}_{r\in\Pi, \head{r} = a}(
+%    \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+%    \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)\big)\;\mid\; a\in\atom{\Pi}\;\big\}$.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lösungen
+
+\begin{Loesung}
+\begin{quiz}
+\quizAufgabe[false]{We give a counterexample:
+                     The set $X=\{a\}$ is a model of
+                     $\Pi=\{a\leftarrow\naf{a}\}$, but not of
+                     $\Comp{\Pi}=\{a\leftrightarrow\neg a\}$.}
+\quizAufgabe[true]{%
+  If~$X$ is a model of $\Comp{\Pi}$,
+  then for every atom $a\in\atom{\Pi}$ it holds that 
+  $$X\models a\leftrightarrow\big(
+    \mbox{$\bigvee$}_{r\in\Pi, \head{r} = a}(
+    \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+    \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)\big)$$
+  This implies that 
+  $$X\models (
+    \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+    \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)
+    \rightarrow \head{r}$$
+  for every rule $r\in\Pi$, so $X$ is a model of $P$.}
+\quizAufgabe[false]{%
+  We give a counterexample: 
+  Given the program $\Pi=\{a\leftarrow a\}$,
+  $X=\{a\}$ is a model of $\Comp{\Pi}=\{a\leftrightarrow a\}$,
+  while $X$ is not a stable model of~$\Pi$.}
+\quizAufgabe[true]{%
+  If~$X$ is a stable model of $\Pi$,
+  then $X$ is a model of $\Pi$, therefore\  
+  $$X\models\big(
+    \mbox{$\bigvee$}_{r\in\Pi, \head{r} = a}(
+    \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+    \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)\big)
+    \rightarrow a$$
+  holds for every atom $a\in\atom{\Pi}$.
+  Moreover, for every atom $a\in\nolinebreak X$ there is a ``supporting'' rule
+  $r\in\Pi$ with $\head{r}=a$, $\pbody{r}\subseteq\nolinebreak X$ and $\nbody{r}\cap X=\emptyset$, therefore\
+  $$X\models
+    a \rightarrow \big(
+    \mbox{$\bigvee$}_{r\in\Pi, \head{r} = a}(
+    \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+    \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)
+    \big)$$
+  holds for every atom $a\in\atom{\Pi}$, so $X$ is a model of $\Comp{\Pi}$.}
+%  sodass 
+%   $$X\models\big(x\leftrightarrow
+%     \bigvee_{r\in\Pi, \head{r} = x}(
+%     \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+%     \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)\big)\ \text{.}$$
+%   Wir unterscheiden die folgenden beiden F\"alle:
+%   \begin{enumerate}
+%   \item Wenn $x\notin X$, dann gibt es (mindestens) eine Regel $r\in\Pi$,
+%         sodass $\head{r}=x$, $\pbody{r}\subseteq X$ und $\nbody{r}\cap X=\emptyset$.
+%         F\"ur jede dieser Regeln $r\in\Pi$ gilt, dass
+%         $(x\leftarrow\pbody{r})\in\reduct{\Pi}{X}$,
+%         $\pbody{r}\subseteq X$ und $(\head{r}=x)\notin X$.
+%         Daraus schlie{\ss}en wir, dass $X$ nicht unter $\reduct{\Pi}{X}$ abgeschlossen ist,
+%         sodass $X\neq\Cn{\reduct{\Pi}{X}}$.
+%   \item Wenn $x\in X$, dann gilt
+%         $\head{r}\neq x$,
+%         $\pbody{r}\not\subseteq X$ oder $\nbody{r}\cap X\neq\emptyset$
+%         f\"ur jede Regel $r\in\Pi$.
+%         Das bedeutet, dass $\head{r}\neq x$ oder $\pbody{r}\not\subseteq X$
+%         f\"ur jede Regel $r\in\reduct{\Pi}{X}$ gilt.
+%         Wenn $X$ unter $\reduct{\Pi}{X}$ abgeschlossen ist,
+% %        (d.h.\ $\pbody{r}\subseteq X$ impliziert $\head{r}\in X$ f\"ur alle $r\in\reduct{\Pi}{X}$),
+%         dann ist auch $X\setminus\{x\}$ unter $\reduct{\Pi}{X}$ abgeschlossen,
+%         da $\pbody{r}\subseteq(X\setminus\{x\}) \subseteq X$ und $\head{r}\neq x$
+%         in diesem Fall $\head{r}\in (X\setminus\{x\})$ implizieren.
+%         Daraus schlie{\ss}en wir, dass $X\neq\Cn{\reduct{\Pi}{X}}$.
+%   \end{enumerate}
+%   Da in beiden F\"allen $X\neq\Cn{\reduct{\Pi}{X}}$ gilt,
+%   ist $X$ keine Antwortmenge von~$\Pi$.
+% }
+\quizAufgabe[false]{%
+  We give a counterexample: 
+  For the program $\Pi=\{a\leftarrow\nolinebreak a\quad\linebreak[1] a\leftarrow\nolinebreak\naf{a}\}$,
+  $X=\{a\}$ is a model of $\Comp{\Pi}=\{a\leftrightarrow (a\vee\neg a)\}$,
+  but $\Pi$ has no stable models.}
+% \quizAufgabe[richtig]{%
+%   F\"ur jedes Atom $x\in T'$ gibt es (mindestens) eine Regel $r\in\Pi$,
+%   sodass $x=\head{r}$, $\pbody{r}\subseteq T\subseteq X$ und
+%   $\nbody{r}\subseteq F\subseteq (\atom{\Pi}\setminus X)$,
+%   d.h.
+%   $X\models (
+%     \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+%     \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)
+%   $
+%   gilt.
+%   Da $X$ ein Modell von $\Comp{\Pi}$ ist,
+%   folgt daraus $x\in X$.\newline
+%   F\"ur jedes Atom $x\in F'$ und jede Regel $r\in\Pi$,
+%   sodass $x=\head{r}$, 
+%   gilt $\pbody{r}\cap F\subseteq\pbody{r}\cap (\atom{\Pi}\setminus X)\neq\emptyset$ oder
+%   $\nbody{r}\cap T\subseteq\nbody{r}\cap X\neq\emptyset$,
+%   d.h.
+%   $X\not\models (
+%     \mbox{$\bigwedge$}_{p \in \pbody{r}} p \wedge
+%     \mbox{$\bigwedge$}_{q \in \nbody{r}} \neg q)
+%   $
+%   gilt.
+%   Da $X$ ein Modell von $\Comp{\Pi}$ ist,
+%   folgt daraus $x\notin X$.
+% }
+% \quizAufgabe[falsch]{%
+%   Gegenbeispiel: F\"ur $\Pi=\{x\leftarrow\mathit{not}~x\}$
+%   gilt $\FiPi{\Pi}{\langle \emptyset,\emptyset \rangle}=\langle \emptyset,\emptyset \rangle$,
+%   aber es gibt kein Modell~$X$ von 
+%   $\Comp{\Pi}=\{x\leftrightarrow \neg x\}$
+%   (mit $\emptyset\subseteq X,\emptyset\subseteq (\atom{\Pi}\setminus X)=(\{x\}\setminus X)$).
+% }
+%%%\quizAufgabe[true]{%
+%%%  Die Grundinstanzen 
+%%%  des in den Vorlesungsfolien gegebenen Encodings der
+%%%  Drei-F\"arbung von Graphen sind ``tight''.
+%%%  F\"ur eine Grundinstanz~$\Pi$ korrespondieren die
+%%%  Antwortmengen von~$\Pi$ daher zu den Modellen von $\Comp{\Pi}$,
+%%%  und das Entscheidungsproblem, ob ein Graph eine Drei-F\"arbung hat,
+%%%  ist bekannterma{\ss}en NP-vollst\"andig.
+%%%  Das in den Vorlesungsfolien angegebene Encoding
+%%%  (zusammen mit der polynomiellen \"Ubersetzbarkeit
+%%%   von logischen Programmen mit Cardinality Constraints in normale Programme) stellt also
+%%%  eine Reduktion des NP-vollst\"andigen Problems der Drei-F\"arbbarkeit von Graphen
+%%%  auf die Frage dar, ob es f\"ur ein normales Programm~$\Pi$ (mindestens)
+%%%             ein Modell von $\Comp{\Pi}$ gibt.
+%%%  Weiterhin ist die Zugeh\"origkeit dieses Entscheidungsproblems zu der Klasse NP
+%%%  ``offensichtlich'', da es einfach (d.h.\ mit polynomiellem Zeitaufwand m\"oglich) ist,
+%%%  ein Modell von $\Comp{\Pi}$ zu verifizieren.
+%%%% auf einfache Weise verifizierbar ist.
+%%%}
+% \quizAufgabe[richtig]{Falls eine Regel $r\in\Pi$ Bedingung 1\footnotemark[1]\ f\"ur $\langle T,F \rangle$
+%                       erf\"ullt, dann erf\"ullt~$r$ Bedingung 1 auch bez\"uglich $\langle T',F' \rangle$,
+%                       da $T\subseteq T'$ und $F\subseteq F'$.
+%                       Ob Bedingung 2\footnotemark[2]\ gilt bzw.\ nicht gilt, h\"angt nicht von
+%                       $\langle T,F \rangle$ bzw.\ $\langle T',F' \rangle$ ab.
+%                       Falls $U$ f\"ur $\langle T,F \rangle$ unfundiert ist,
+%                       d.h.\ Bedingung 1 oder 2 gilt f\"ur jede Regel $r\in\Pi$
+%                       mit $\head{r}\in U$, dann gilt dieselbe Bedingung
+%                       auch bez\"uglich $\langle T',F' \rangle$.
+%                       Folglich ist $U$ auch f\"ur $\langle T',F' \rangle$ unfundiert.}
+% \quizAufgabe[falsch]{Wir geben ein Gegenbeispiel an.
+%                      Sei $\Pi=\{p\leftarrow q\quad q\leftarrow p,r\quad r\leftarrow q\}$.
+%                      Die Mengen $U_1=\{p,q\}$ und $U_2=\{q,r\}$ sind f\"ur
+%                      $\langle\emptyset,\emptyset\rangle$ unfundiert,
+%                      nicht aber $(U_1\cap U_2)=\{q\}$.
+%                      (Allerdings ist die Vereinigung $(U_1\cup U_2)$ zweier unfundierter
+%                       Mengen $U_1,U_2$ wiederum unfundiert.)}
+\quizAufgabe[true]{If $X\models\Comp{\Pi}$ is not a stable model of~$\Pi$,
+                      then it holds that $X\not\models\LF{\Pi}$,
+                      and therefore there exists $L\in\Loop{\Pi}$ with $X\not\models\LFP{\Pi}{L}$.
+                      Now, from $X\not\models\LFP{\Pi}{L}$ we deduce that
+                      $L\cap X\neq\emptyset$ and
+                      $\pbody{r}\not\subseteq X$ or $\nbody{r}\cap X\neq\emptyset$ hold
+                      for every rule
+                      $r\in\ESP{\Pi}{L}=\{r\in\Pi\mid\head{r}\in L,\pbody{r}\cap L=\emptyset\}$.
+                      Moreover, it holds that $\pbody{r}\cap(L\setminus X)\neq\emptyset$ 
+                      and then $\pbody{r}\not\subseteq X$ holds for every rule
+                      $r\in(\ESP{\Pi}{L\cap X}\setminus\ESP{\Pi}{L})$,
+                      from where we can deduce $X\not\models\LFP{\Pi}{L\cap X}$.
+                      Finally, the fact that 
+                      $X\models\Comp{\Pi}$
+                      implies the existence of a maximal loop
+                      $L'\in\Loop{\Pi}$ with $L'\subseteq(L\cap X)$, so that
+                      no atom in $(L\cap X)\setminus L'$ has an edge to an atom 
+                      in $L'$ in $\G{\Pi}$.
+                      This is equivalent to 
+                      $\ESP{\Pi}{L'}\subseteq\ESP{\Pi}{L\cap X}$,
+                      and together with $X\not\models\LFP{\Pi}{L\cap X}$,
+                      we obtain $X\not\models\LFP{\Pi}{L'}$.}
+\quizAufgabe[true]{If $p\in(L_1\cap L_2)$, then $p$ has a path to all atoms 
+                      in $(L_1\cup L_2)$ in the subgraph of $\G{\Pi}$ induced by $(L_1\cup L_2)$,
+                      $\G{\Pi}|_{(L_1\cup L_2)}$.
+                      Moreover all atoms in $(L_1\cup L_2)$ have a path to $p$
+                      in $\G{\Pi}|_{(L_1\cup L_2)}$.
+                      This implies that $\G{\Pi}|_{(L_1\cup L_2)}$ is strongly connected,
+                      and therefore $(L_1\cup L_2)\in\Loop{\Pi}$ holds.}
+\end{quiz}
+% \footnotetext[1]{$\pbody{r}\cap F\neq\emptyset$ oder $\nbody{r}\cap T\neq\emptyset$}
+% \footnotetext[2]{$\pbody{r}\cap U\neq\emptyset$}
+\newpage%\vspace*{-16mm}%
+\end{Loesung}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "uebung05"
+%%% End: 
