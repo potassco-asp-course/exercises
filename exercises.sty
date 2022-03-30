@@ -53,8 +53,7 @@
 \newcounter{UeItemI}  \setcounter{UeItemI}{0}
 \newcounter{SelbstUeItemI}  \setcounter{UeItemI}{\value{UeItemI}}
 \newcounter{UeDef}    \setcounter{UeDef}{1}
-\newcounter{QNumber}      \setcounter{QNumber}{1000}     % added for numbering Quizs
-\newcounter{StoreQNumber} \setcounter{StoreQNumber}{100}
+\newcounter{QNumber}      \setcounter{QNumber}{0}     % added for numbering Quizs
 
 \def\Universitaet#1{\def\@universitaet{#1}}
  \def\@universitaet{University of Potsdam}
@@ -68,6 +67,7 @@
  {\newpage\thispagestyle{firstfeet} \setcounter{page}{1}
   \setcounter{UeNumber}{0}  \setcounter{UeDef}{1}
   \setcounter{UeBlatt}{0}
+  \setcounter{QNumber}{0}
 %  \setcounter{UeBlatt}{#1}
   \markboth{#1 Exercises}{\@vorlesung}
 %  \markboth{Exercise \arabic{UeBlatt}}{\@vorlesung}
@@ -78,8 +78,10 @@
      \begin{center}
       {\scriptsize #1 Exercises}                   \medskip\\
       {\LARGE\bf   \@vorlesung}                             \medskip\\
-      {\scriptsize \@veranst}                                       \\
-      {\scriptsize \@universitaet\ --- \@semester}                  %\\
+%      {\scriptsize \@veranst}                                       \\
+      {\scriptsize \@universitaet }                  %\\
+%      {\scriptsize \@veranst}                                       \\
+%      {\scriptsize \@universitaet\ --- \@semester}                  %\\
 %      {\scriptsize #1}     \\
      \end{center} }}
     \multiput(0,3)(0,0.5){2}{\line(1,0){160}}
@@ -87,12 +89,6 @@
   }\par
  }%
  { \newpage }
-
-% allow many quizs, and number them
-\newenvironment{UebungsBlattManyQuizs}[1]%
- {\setcounter{StoreQNumber}{1}\setcounter{QNumber}{0}
-  \begin{UebungsBlatt}{#1}}
- {\end{UebungsBlatt}}
 
 \newenvironment{Uebung}[1]{%
  \refstepcounter{UeNumber}
@@ -119,6 +115,7 @@
 \newenvironment{LoesungsBlatt}%
  {\newpage \setcounter{page}{1}  \setcounter{UeNumber}{0}
   %\markboth{Solution \arabic{UeBlatt}}{\@vorlesung}
+  \setcounter{QNumber}{0}
   \markboth{Solution}{\@vorlesung}
  }%
  { \newpage }
@@ -139,11 +136,11 @@
 %\newcommand{\solution}[2]{
 \newcommand{\solution}[3]{
   \setcounter{UeBlatt}{#1}  \setcounter{UeNumber}{#2}  %\setcounter{page}{1}
-  \setcounter{QNumber}{#3}  \addtocounter{QNumber}{-1} % added for numbering quizs
-  \bigskip\par\noindent\large\bf Solution% #1.#2.\arabic{QNumber} \normalsize\noindent }%
-    %\ifnum \value{StoreQNumber}=\value{QNumber} {#1.#2} \else {} \fi 
-    \ifnum \value{StoreQNumber}=\value{QNumber} {#2} \else {} \fi 
-    \setcounter{StoreQNumber}{\value{QNumber}}
+  \ifnum \value{UeNumber}=0
+  { \vspace{3mm}\noindent{\large\bf Solution Quiz #3}\\[-11mm] }
+  \else 
+  {\bigskip\par\noindent\large\bf Solution Exercise #2 \\}
+  \fi 
   \normalsize\noindent }
 
 \newwrite\SolFile
@@ -151,7 +148,6 @@
 \outer\def\Loesung{\par\medbreak\end{Loesung}
   \immediate\write\SolFile{}
   %\immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}}
-  %%%%%%\immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}{\arabic{QNumber}}}
   \immediate\write\SolFile{\string\solution {\arabic{UeBlatt}}{\arabic{UeNumber}}{\arabic{QNumber}}}
   \CopyLines}
 \def\CopyLines{\begingroup\setupcopy\copyans}
@@ -541,9 +537,18 @@
 \newenvironment{quiz}
  %{\vspace{3mm}\noindent{\Large\bf Quiz}\\[-6mm]%
  {\refstepcounter{QNumber}
-  \vspace{3mm}\noindent{\Large\bf Quiz 
-  %\ifnum \value{QNumber}>1000 {} \else {\arabic{UeBlatt}.\arabic{QNumber}}\fi }\\[-6mm]%
-  \ifnum \value{QNumber}>1000 {} \else {\arabic{QNumber}}\fi }\\[-6mm]%
+  \vspace{3mm}\noindent{\Large\bf Quiz \arabic{QNumber}
+  }\\[-6mm]%
+  \setlength{\tabcolsep}{1.5mm}%
+  \begin{tabular}{@{}lp{12.5cm}p{12mm}p{8mm}}%
+  & &  \multicolumn{2}{c}{\underline{\bf Answer}}\\[-2mm]}
+ {\end{tabular}\setcounter{quizCounter}{0}}
+
+\newenvironment{quizLoesung}
+ %{\vspace{3mm}\noindent{\Large\bf Quiz}\\[-6mm]%
+ {\refstepcounter{QNumber}
+  %%%\vspace{3mm}\noindent{\Large\bf Quiz \arabic{QNumber}
+  %%%}\\[-6mm]%
   \setlength{\tabcolsep}{1.5mm}%
   \begin{tabular}{@{}lp{12.5cm}p{12mm}p{8mm}}%
   & &  \multicolumn{2}{c}{\underline{\bf Answer}}\\[-2mm]}
